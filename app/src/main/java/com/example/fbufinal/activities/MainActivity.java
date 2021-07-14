@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.example.fbufinal.R;
 import com.example.fbufinal.fragments.FeedFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.parse.ParseUser;
 
 public class MainActivity extends AppCompatActivity {
     final FragmentManager fragmentManager = getSupportFragmentManager();
@@ -53,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.action_profile:
                     Toast.makeText(MainActivity.this, "Profile", Toast.LENGTH_SHORT).show();
                     //fragment = new ProfileFragment();
+                    onLogoutButton();
                     break;
 
             }
@@ -61,4 +63,17 @@ public class MainActivity extends AppCompatActivity {
         }
 
     };
+
+    public void onLogoutButton() {
+
+        ParseUser.logOut();
+        ParseUser currentUser = ParseUser.getCurrentUser(); // this will now be null
+
+        // navigate backwards to Login screen
+        Intent i = new Intent(MainActivity.this, LoginActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // this makes sure the Back button won't work
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // same as above
+        startActivity(i);
+        finish();
+    }
 }
