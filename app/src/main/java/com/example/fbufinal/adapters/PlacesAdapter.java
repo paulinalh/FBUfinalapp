@@ -66,7 +66,6 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.ViewHolder
             tvTitle=itemView.findViewById(R.id.tvTitle);
             ivImage=itemView.findViewById(R.id.ivImage);
             tvDescription=itemView.findViewById(R.id.tvDescription);
-            btn=itemView.findViewById(R.id.btn);
         }
 
 

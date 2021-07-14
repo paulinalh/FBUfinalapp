@@ -1,4 +1,4 @@
-package com.example.fbufinal.activities;
+package com.example.fbufinal;
 
 import android.app.Application;
 
