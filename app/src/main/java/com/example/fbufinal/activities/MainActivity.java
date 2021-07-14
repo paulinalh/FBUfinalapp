@@ -4,16 +4,19 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.fbufinal.R;
+import com.example.fbufinal.fragments.FeedFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
-
+    final FragmentManager fragmentManager = getSupportFragmentManager();
     private BottomNavigationView bottomNavigation;
 
 
@@ -26,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigation = (BottomNavigationView) findViewById(R.id.bottomNavigation);
         bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         // Set default selection
-        bottomNavigation.setSelectedItemId(R.id.action_home);
+        //bottomNavigation.setSelectedItemId(R.id.action_home);
     }
 
 
@@ -34,11 +37,13 @@ public class MainActivity extends AppCompatActivity {
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            //Fragment fragment = null;
+            Fragment fragment = null;
             switch (item.getItemId()) {
                 case R.id.action_home:
                     Toast.makeText(MainActivity.this, "Home", Toast.LENGTH_SHORT).show();
-                    //fragment = new PostsFragment();
+                    fragment = new FeedFragment();
+                    /*Intent i = new Intent(MainActivity.this, PlacesActivity.class);
+                    startActivity(i);*/
                     break;
                 case R.id.action_compose:
                     Toast.makeText(MainActivity.this, "Compose", Toast.LENGTH_SHORT).show();
@@ -50,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
 
             }
-            //fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+            fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
             return true;
         }
 

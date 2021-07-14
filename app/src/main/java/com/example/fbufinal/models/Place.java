@@ -3,6 +3,7 @@ package com.example.fbufinal.models;
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 @ParseClassName("Place")
 public class Place extends ParseObject{
@@ -10,9 +11,11 @@ public class Place extends ParseObject{
     public static final String KEY_TITLE="title";
     public static final String KEY_IMAGE="image";
     public static final String KEY_DESCRIPTION="description";
+    public static final String KEY_USER="user";
     public String title;
     public ParseFile image;
     public String description;
+    public ParseUser user;
 
     public String getTitle() {
         return getString(KEY_TITLE);
@@ -36,5 +39,13 @@ public class Place extends ParseObject{
 
     public void setDescription(String description) {
         put(KEY_DESCRIPTION, description);
+    }
+
+    public ParseUser getUser() {
+        return getParseUser(KEY_USER);
+    }
+
+    public void setUser(ParseUser user) {
+        put(KEY_USER, user);
     }
 }

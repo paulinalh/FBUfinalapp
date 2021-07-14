@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,18 +28,15 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.ViewHolder
 
     public PlacesAdapter(Context context, List<Place> places){
         this.context=context;
-        if(places==null){
-            throw new IllegalArgumentException("places must not be null");
-        }
         this.places=places;
     }
 
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_place, parent, false);
-        return new ViewHolder(itemView);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.item_place, parent, false);
+        return new ViewHolder(view);
     }
 
     @Override
@@ -52,16 +50,23 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.ViewHolder
         return places.size();
     }
 
+    public void addAll(List<Place> list) {
+        places.addAll(list);
+        notifyDataSetChanged();
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder {
         private TextView tvTitle;
         private ImageView ivImage;
         private TextView tvDescription;
+        private Button btn;
 
         public ViewHolder(@NonNull  View itemView) {
             super(itemView);
             tvTitle=itemView.findViewById(R.id.tvTitle);
             ivImage=itemView.findViewById(R.id.ivImage);
             tvDescription=itemView.findViewById(R.id.tvDescription);
+            btn=itemView.findViewById(R.id.btn);
         }
 
 
@@ -72,6 +77,7 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.ViewHolder
             if(image!=null){
                 Glide.with(context).load(image.getUrl()).into(ivImage);
             }
+
 
         }
     }
