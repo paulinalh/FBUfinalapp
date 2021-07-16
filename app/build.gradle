@@ -65,4 +65,15 @@ dependencies {
     implementation "com.google.android.material:material:${designSupportVersion}"
     implementation 'jp.wasabeef:glide-transformations:4.1.0'
 
+    //Google places sdk
+    implementation 'com.google.android.libraries.places:places:2.4.0'
+    // For developers using AndroidX in their applications
+    implementation 'pub.devrel:easypermissions:3.0.0'
+
+    // For developers using the Android Support Library
+    implementation 'pub.devrel:easypermissions:2.0.1'
+
+    implementation 'com.codepath.libraries:asynchttpclient:2.0.0'
+
+
 }

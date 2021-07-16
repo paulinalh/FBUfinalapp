@@ -6,12 +6,12 @@ import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 @ParseClassName("Place")
-public class Place extends ParseObject{
+public class Place extends ParseObject {
 
-    public static final String KEY_TITLE="title";
-    public static final String KEY_IMAGE="image";
-    public static final String KEY_DESCRIPTION="description";
-    public static final String KEY_USER="user";
+    public static final String KEY_TITLE = "title";
+    public static final String KEY_IMAGE = "image";
+    public static final String KEY_DESCRIPTION = "description";
+    public static final String KEY_USER = "user";
     public String title;
     public ParseFile image;
     public String description;
