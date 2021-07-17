@@ -2,36 +2,19 @@ package com.example.fbufinal.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationManager;
-import android.provider.MediaStore;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.fbufinal.R;
 import com.example.fbufinal.fragments.FeedFragment;
-import com.example.fbufinal.models.Place;
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.libraries.places.api.model.PlaceLikelihood;
-import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest;
-import com.google.android.libraries.places.api.net.FindCurrentPlaceResponse;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.ParseUser;
-
-import java.util.Collections;
-import java.util.List;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -41,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int RC_CAMERA_AND_LOCATION = 123;
     final FragmentManager fragmentManager = getSupportFragmentManager();
     private BottomNavigationView bottomNavigation;
-    public String TAG="MainActivity";
+    public String TAG = "MainActivity";
     boolean hasLocationPermission = false;
 
     @Override
@@ -52,32 +35,14 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigation = (BottomNavigationView) findViewById(R.id.bottomNavigation);
         bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         // Set default selection
-        //bottomNavigation.setSelectedItemId(R.id.action_home);
-        //discoverPlaces();
-
+        bottomNavigation.setSelectedItemId(R.id.action_home);
     }
-
 
 
     private void discoverPlaces() {
 
     }
 
-   /* @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        if(requestCode == 100 && grantResults.length > 1){
-            if(grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED){
-                Toast.makeText(this, "permissions were granted!", Toast.LENGTH_SHORT).show();
-            }
-            else{
-                Toast.makeText(this, "Permission was denied", Toast.LENGTH_SHORT).show();
-            }
-        }
-        // Forward results to EasyPermissions
-        //EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
-    }*/
 
     @AfterPermissionGranted(RC_CAMERA_AND_LOCATION)
     private void methodRequiresTwoPermission() {
@@ -105,8 +70,7 @@ public class MainActivity extends AppCompatActivity {
             Fragment fragment = null;
             switch (item.getItemId()) {
                 case R.id.action_home:
-                        Toast.makeText(MainActivity.this, "Home", Toast.LENGTH_SHORT).show();
-                        fragment = new FeedFragment();
+                    fragment = new FeedFragment();
                     /*Intent i = new Intent(MainActivity.this, PlacesActivity.class);
                     startActivity(i);*/
 
@@ -140,7 +104,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(i);
         finish();
     }
-
 
 
 }

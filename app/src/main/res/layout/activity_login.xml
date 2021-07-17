@@ -32,12 +32,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/black"
-        android:text="Login" />
+        android:text="Login"
+        tools:text="Login" />
 
     <Button
         android:id="@+id/btnSignUp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/black"
-        android:text="SignUp" />
+        android:text="SignUp"
+        tools:text="SignUp" />
 </LinearLayout>
