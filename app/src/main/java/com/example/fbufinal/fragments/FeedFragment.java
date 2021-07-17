@@ -138,12 +138,15 @@ public class FeedFragment extends Fragment implements EasyPermissions.Permission
         RecyclerView rvPlaces = view.findViewById(R.id.rvPlaces);
 
         // rvPlaces.setLayoutManager(layout);
-
+/*
         allPlaces = new ArrayList<>();
         adapter = new PlacesAdapter(getContext(), allPlaces);
         rvPlaces.setAdapter(adapter);
+        rvPlaces.setLayoutManager(new LinearLayoutManager(getContext()));*/
+        places = new ArrayList<>();
+        places2Adapter = new Places2Adapter(getContext(), places);
+        rvPlaces.setAdapter(places2Adapter);
         rvPlaces.setLayoutManager(new LinearLayoutManager(getContext()));
-
 
 
     }
@@ -203,12 +206,12 @@ public class FeedFragment extends Fragment implements EasyPermissions.Permission
     }
 
     private void getJson() {
-        places = new ArrayList<>();
+        //places = new ArrayList<>();
 
 
         //create the adapter
         //final Places2Adapter pAdapter = new Places2Adapter(getContext(), places);
-        places2Adapter= new Places2Adapter(getContext(), places);
+        //places2Adapter= new Places2Adapter(getContext(), places);
 
 
         AsyncHttpClient client = new AsyncHttpClient();

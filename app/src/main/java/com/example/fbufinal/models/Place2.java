@@ -1,7 +1,9 @@
 package com.example.fbufinal.models;
 
 import android.graphics.Movie;
+import android.util.Log;
 
+import com.example.fbufinal.BuildConfig;
 import com.google.gson.JsonArray;
 
 import org.json.JSONArray;
@@ -14,18 +16,18 @@ import java.util.List;
 
 @Parcel
 public class Place2 {
-    public static final String API_KEY="AIzaSyDdVbIsNC0NVYooAS-NazR92E6pH5IBtzw";
-    String imagePath;
+    public static final String KEY = BuildConfig.API_KEY;
     String title;
     String description;
     String placeId;
+    String imagePath;
 
     public Place2() {
 
     }
 
     public Place2(JSONObject jsonObject) throws JSONException {
-        //imagePath = jsonObject.getJSONArray("photos").getString(2);
+        imagePath = jsonObject.getJSONArray("photos").getJSONObject(0).getString("photo_reference");
         title = jsonObject.getString("name");
         description = jsonObject.getString("name");
         placeId=jsonObject.getString("place_id");
@@ -46,7 +48,9 @@ public class Place2 {
         // CnRtAAAATLZNl354RwP_9UKbQ_5Psy40texXePv4oAlgP4qNEkdIrkyse7rPXYGd9D_Uj1rVsQdWT4oRz4Qr
         // YAJNpFX7rzqqMlZw2h2E2y5IKMUZ7ouD_SlcHxYq1yL4KbKUv3qtWgTK0A6QbGh87GB3sscrHRIQiG2RrmU
         // _jF4tENr9wGS_YxoUSSDrYjWmrNfeEHSGSc3FyhNLlBU&key=YOUR_API_KEY
-        return String.format("https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=%s", imagePath +"&key="+API_KEY);
+        String imageURL=String.format("https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=%s", imagePath +"&key="+ KEY);
+        return imageURL;
+
     }
 
     public String getTitle() {

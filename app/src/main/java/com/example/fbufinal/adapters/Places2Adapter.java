@@ -1,12 +1,15 @@
 package com.example.fbufinal.adapters;
 
 import android.content.Context;
+import android.nfc.Tag;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,9 +34,10 @@ public class Places2Adapter extends RecyclerView.Adapter<Places2Adapter.ViewHold
 
     @NonNull
     @Override
-    public Places2Adapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_place, parent, false);
-        return new Places2Adapter.ViewHolder(view);
+        //return new Places2Adapter.ViewHolder(view);
+        return new ViewHolder(view);
     }
 
     @Override
@@ -69,11 +73,11 @@ public class Places2Adapter extends RecyclerView.Adapter<Places2Adapter.ViewHold
         public void bind(Place2 place) {
             tvTitle.setText(place.getTitle());
             tvDescription.setText(place.getDescription());
+            Log.i("Adapter", place.getTitle());
             //ParseFile image= place.getImage();
-            //String image=place.getImagePath();
-            String image=null;
+            String image=place.getImagePath();
             if(image!=null){
-                Glide.with(context).load(place.getImagePath()).into(ivImage);
+                Glide.with(context).load(image).into(ivImage);
             }
 
 

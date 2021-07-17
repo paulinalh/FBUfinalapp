@@ -53,10 +53,7 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         // Set default selection
         //bottomNavigation.setSelectedItemId(R.id.action_home);
-        discoverPlaces();
-
-
-
+        //discoverPlaces();
 
     }
 

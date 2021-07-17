@@ -64,7 +64,7 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.ViewHolder
         public ViewHolder(@NonNull  View itemView) {
             super(itemView);
             tvTitle=itemView.findViewById(R.id.tvTitle);
-            ivImage=itemView.findViewById(R.id.ivImage);
+            //ivImage=itemView.findViewById(R.id.ivImage);
             tvDescription=itemView.findViewById(R.id.tvDescription);
         }
 

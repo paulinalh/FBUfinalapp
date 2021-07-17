@@ -67,6 +67,7 @@ public class PlacesActivity extends AppCompatActivity  {
         queryPlaces();*/
 
 
+
     }
 
     private void discoverPlaces() {
