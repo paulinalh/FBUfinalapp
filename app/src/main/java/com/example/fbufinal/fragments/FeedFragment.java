@@ -13,6 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentContainer;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,6 +28,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.fbufinal.R;
+import com.example.fbufinal.activities.MainActivity;
 import com.example.fbufinal.adapters.PlacesAdapter;
 import com.example.fbufinal.models.Place;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -39,6 +43,7 @@ import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,17 +55,21 @@ import pub.devrel.easypermissions.EasyPermissions;
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
-public class FeedFragment extends Fragment implements EasyPermissions.PermissionCallbacks {
+public class FeedFragment extends Fragment implements PlacesAdapter.IPlaceRecyclerView {
     private static final int RC_CAMERA_AND_LOCATION = 345;
     public static final String PLACES_API_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=";
     public static final String API_KEY = "AIzaSyDdVbIsNC0NVYooAS-NazR92E6pH5IBtzw";
     public static final String RADIUS = "1500";
+    Fragment lastFragment= new Fragment();
+    Fragment currentFragment= new Fragment();
+    private FragmentContainer flContainer;
     protected PlacesAdapter placesAdapter;
     protected List<Place> places;
     protected View place;
     public String TAG = "FeedFragment";
     public String currentLatitude;
     public String currentLongitude;
+    //FragmentManager fragmentManager;
     //Initialize location client
     FusedLocationProviderClient client;
 
@@ -78,6 +87,9 @@ public class FeedFragment extends Fragment implements EasyPermissions.Permission
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        places = new ArrayList<>();
+        placesAdapter = new PlacesAdapter(getContext(), places, this);
+
 
     }
 
@@ -101,7 +113,6 @@ public class FeedFragment extends Fragment implements EasyPermissions.Permission
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
         }
 
-
         // Inflate the layout for this fragment
         return view;
 
@@ -113,7 +124,7 @@ public class FeedFragment extends Fragment implements EasyPermissions.Permission
         RecyclerView rvPlaces = view.findViewById(R.id.rvPlaces);
 
         places = new ArrayList<>();
-        placesAdapter = new PlacesAdapter(getContext(), places);
+        placesAdapter = new PlacesAdapter(getContext(), places, this);
         rvPlaces.setAdapter(placesAdapter);
         rvPlaces.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -124,7 +135,7 @@ public class FeedFragment extends Fragment implements EasyPermissions.Permission
     private void getCurrentLocation() {
         //Initialize location manager
         LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        //Check coditions
+        //Check conditions
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
 
             client.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
@@ -220,7 +231,7 @@ public class FeedFragment extends Fragment implements EasyPermissions.Permission
             Toast.makeText(getActivity(), "PermissionDenied", Toast.LENGTH_SHORT).show();
         }
     }
-
+    /*
     @Override
     public void onPermissionsGranted(int requestCode, @NonNull @NotNull List<String> perms) {
         Log.d(TAG, "onPermissionsGranted:" + requestCode + ":" + perms.size());
@@ -234,5 +245,35 @@ public class FeedFragment extends Fragment implements EasyPermissions.Permission
         if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
             new AppSettingsDialog.Builder(this).build().show();
         }
+    }*/
+    Fragment detailsFragment = new DetailsFragment();
+
+    @Override
+    public void goToPlaceDetails(Place place) {
+        //Fragment detailsFragment = new DetailsFragment();
+        //fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+        lastFragment= currentFragment;
+        //flContainer.onFindViewById(R.id.flContainer);
+        //MainActivity.flContainer.setVisibility(View.GONE);
+        String placeId= place.getPlaceId();
+        String imagePath = place.getImagePath();
+        detailsFragment= DetailsFragment.newInstance(placeId, imagePath);
+        getChildFragmentManager().beginTransaction().replace(R.id.child_fragment_container, detailsFragment).commit();
+        //insertNestedFragment(place);
+
     }
+    // Embeds the child fragment dynamically
+    private void insertNestedFragment(Place place) {
+        //Fragment detailsFragment = new DetailsFragment();
+
+        //Intent intent = new Intent(getContext(), DetailsFragment.class);
+        // serialize the movie using parceler, use its short name as a key
+        //intent.putExtra(Place.class.getSimpleName(), Parcels.wrap(place));
+
+        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        transaction.replace(R.id.child_fragment_container, detailsFragment).commit();
+
+    }
+
 }
+
