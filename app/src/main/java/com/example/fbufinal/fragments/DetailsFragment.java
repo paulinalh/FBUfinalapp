@@ -32,15 +32,15 @@ import okhttp3.Headers;
 
 public class DetailsFragment extends Fragment {
     public static final String KEY = BuildConfig.API_KEY;
-    public static final String DETAILS_API_URL="https://maps.googleapis.com/maps/api/place/details/json?place_id=";
-    private static final String TAG ="detailsFragment" ;
+    public static final String DETAILS_API_URL = "https://maps.googleapis.com/maps/api/place/details/json?place_id=";
+    private static final String TAG = "detailsFragment";
     PlacesAdapter adapter;
     static String placeId;
     static String imagePath;
     ImageView ivDetailsImage;
-    TextView tvTitle,tvAddress, tvPhone, tvPrice, tvRating, tvMonday, tvTuesday, tvWednesday, tvThursday, tvFriday, tvSaturday, tvSunday ;
+    TextView tvTitle, tvAddress, tvPhone, tvPrice, tvRating, tvMonday, tvTuesday, tvWednesday, tvThursday, tvFriday, tvSaturday, tvSunday;
     Place place;
-    String title, description,formatted_phone_number,formatted_address,price_level;
+    String title, description, formatted_phone_number, formatted_address, price_level;
     JSONArray opening_hours;
     int rating;
     protected List<Place> placeDetailsList;
@@ -63,14 +63,8 @@ public class DetailsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //this.placeId = getArguments().getString("GOOGLE_PLACE_ID", "");
-        //this.imagePath= getArguments().getString("GOOGLE_IMAGE_URL", "");
-        //this.placeId=place.getPlaceId();
-        //this.imagePath=place.getImagePath();
-        //place = new Place();
 
-
-        placeDetailsList= new ArrayList<>();
+        placeDetailsList = new ArrayList<>();
 
     }
 
@@ -78,23 +72,23 @@ public class DetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Need to define the child fragment layout
-        View view=inflater.inflate(R.layout.fragment_details, container, false);
+        View view = inflater.inflate(R.layout.fragment_details, container, false);
 
 
         //Views of details fragment
-        tvTitle= (TextView) view.findViewById(R.id.tvTitle);
-        tvAddress =(TextView) view.findViewById(R.id.tvAddress);
-        tvPhone=(TextView) view.findViewById(R.id.tvPhone);
-        tvPrice=(TextView) view.findViewById(R.id.tvPrice);
-        tvRating=(TextView) view.findViewById(R.id.tvRating);
-        ivDetailsImage=(ImageView) view.findViewById(R.id.ivDetailsImage);
-        tvMonday=(TextView) view.findViewById(R.id.tvMonday);
-        tvTuesday=(TextView) view.findViewById(R.id.tvTuesday);
-        tvWednesday=(TextView) view.findViewById(R.id.tvWednesday);
-        tvThursday=(TextView) view.findViewById(R.id.tvThursday);
-        tvFriday=(TextView) view.findViewById(R.id.tvFriday);
-        tvSaturday=(TextView) view.findViewById(R.id.tvSaturday);
-        tvSunday=(TextView) view.findViewById(R.id.tvSunday);
+        tvTitle = (TextView) view.findViewById(R.id.tvTitle);
+        tvAddress = (TextView) view.findViewById(R.id.tvAddress);
+        tvPhone = (TextView) view.findViewById(R.id.tvPhone);
+        tvPrice = (TextView) view.findViewById(R.id.tvPrice);
+        tvRating = (TextView) view.findViewById(R.id.tvRating);
+        ivDetailsImage = (ImageView) view.findViewById(R.id.ivDetailsImage);
+        tvMonday = (TextView) view.findViewById(R.id.tvMonday);
+        tvTuesday = (TextView) view.findViewById(R.id.tvTuesday);
+        tvWednesday = (TextView) view.findViewById(R.id.tvWednesday);
+        tvThursday = (TextView) view.findViewById(R.id.tvThursday);
+        tvFriday = (TextView) view.findViewById(R.id.tvFriday);
+        tvSaturday = (TextView) view.findViewById(R.id.tvSaturday);
+        tvSunday = (TextView) view.findViewById(R.id.tvSunday);
 
         return view;
 
@@ -107,10 +101,6 @@ public class DetailsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         //RecyclerView rvPlaces = view.findViewById(R.id.rvPlaces);
         PlacesAdapter.IPlaceRecyclerView mListener = null;
-/*
-        NestedScrollView nsvDetails= view.findViewById(R.id.nsvDetails);
-        adapter= new PlacesAdapter(getContext(), placeDetailsList, mListener);
-        nsvDetails.setAdapter(adapter);*/
 
         getJson();
 
@@ -152,7 +142,7 @@ public class DetailsFragment extends Fragment {
                     tvSunday.setText(opening_hours.getString(6));
                     tvPhone.setText(formatted_phone_number);
                     //tvPrice.setText(price_level);
-                    tvRating.setText(""+rating);
+                    tvRating.setText("" + rating);
 
 
                     if (imagePath != "") {
@@ -175,9 +165,9 @@ public class DetailsFragment extends Fragment {
         });
     }
 
-    public static void setDetails(String id, String path){
-        placeId =id;
-        imagePath =path;
+    public static void setDetails(String id, String path) {
+        placeId = id;
+        imagePath = path;
     }
 
 

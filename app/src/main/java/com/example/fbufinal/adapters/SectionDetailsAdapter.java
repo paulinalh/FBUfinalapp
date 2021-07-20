@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SectionDetailsAdapter extends FragmentPagerAdapter {
-    private List<Fragment> fragmentList= new ArrayList<>();
+    private List<Fragment> fragmentList = new ArrayList<>();
     private List<String> titleList = new ArrayList<>();
 
     public SectionDetailsAdapter(@NonNull @NotNull FragmentManager fm) {
@@ -37,7 +37,7 @@ public class SectionDetailsAdapter extends FragmentPagerAdapter {
         return titleList.get(position);
     }
 
-    public void addFragment(Fragment fragment, String title){
+    public void addFragment(Fragment fragment, String title) {
         fragmentList.add(fragment);
         titleList.add(title);
     }

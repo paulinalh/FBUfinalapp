@@ -60,8 +60,8 @@ public class FeedFragment extends Fragment implements PlacesAdapter.IPlaceRecycl
     public static final String PLACES_API_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=";
     public static final String API_KEY = "AIzaSyDdVbIsNC0NVYooAS-NazR92E6pH5IBtzw";
     public static final String RADIUS = "1500";
-    Fragment lastFragment= new Fragment();
-    Fragment currentFragment= new Fragment();
+    Fragment lastFragment = new Fragment();
+    Fragment currentFragment = new Fragment();
     private FragmentContainer flContainer;
     protected PlacesAdapter placesAdapter;
     protected List<Place> places;
@@ -69,7 +69,6 @@ public class FeedFragment extends Fragment implements PlacesAdapter.IPlaceRecycl
     public String TAG = "FeedFragment";
     public String currentLatitude;
     public String currentLongitude;
-    //FragmentManager fragmentManager;
     //Initialize location client
     FusedLocationProviderClient client;
 
@@ -231,44 +230,20 @@ public class FeedFragment extends Fragment implements PlacesAdapter.IPlaceRecycl
             Toast.makeText(getActivity(), "PermissionDenied", Toast.LENGTH_SHORT).show();
         }
     }
-    /*
-    @Override
-    public void onPermissionsGranted(int requestCode, @NonNull @NotNull List<String> perms) {
-        Log.d(TAG, "onPermissionsGranted:" + requestCode + ":" + perms.size());
-    }
 
-    @Override
-    public void onPermissionsDenied(int requestCode, @NonNull @NotNull List<String> perms) {
-        Log.d(TAG, "onPermissionsDenied:" + requestCode + ":" + perms.size());
-        // (Optional) Check whether the user denied any permissions and checked "NEVER ASK AGAIN."
-        // This will display a dialog directing them to enable the permission in app settings.
-        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
-            new AppSettingsDialog.Builder(this).build().show();
-        }
-    }*/
-    Fragment detailsFragment = new DetailsFragment();
     Fragment sectionsFragment = new SectionsFragment();
 
     @Override
     public void goToPlaceDetails(Place place) {
-        //Fragment detailsFragment = new DetailsFragment();
-        //fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
-        lastFragment= currentFragment;
-        //flContainer.onFindViewById(R.id.flContainer);
-        //MainActivity.flContainer.setVisibility(View.GONE);
-        String placeId= place.getPlaceId();
-        String imagePath = place.getImagePath();
-       //detailsFragment= DetailsFragment.newInstance(placeId, imagePath);
-        //sectionsFragment=SectionsFragment.newInstance(placeId, imagePath);
 
-        /*FragmentTransaction transaction=getChildFragmentManager().beginTransaction();
-        transaction.replace(R.id.child_fragment_container, detailsFragment);
-        transaction.addToBackStack(null);
-        transaction.commit();*/
-        DetailsFragment.setDetails(placeId,imagePath);
+        lastFragment = currentFragment;
+
+        String placeId = place.getPlaceId();
+        String imagePath = place.getImagePath();
+
+        DetailsFragment.setDetails(placeId, imagePath);
 
         getChildFragmentManager().beginTransaction().replace(R.id.child_fragment_container, sectionsFragment).commit();
-        //insertNestedFragment(place);
 
     }
 

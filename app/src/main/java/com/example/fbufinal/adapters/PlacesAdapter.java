@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.example.fbufinal.R;
 import com.example.fbufinal.models.Place;
@@ -22,14 +23,14 @@ import java.util.List;
 public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.ViewHolder> {
     private Context context;
     private List<Place> places;
-    Place place=null;
+    Place place = null;
     //final FragmentManager fragmentManager = getSupportFragmentManager();
     private IPlaceRecyclerView mListener;
 
     public PlacesAdapter(Context context, List<Place> places, IPlaceRecyclerView mListener) {
         this.context = context;
         this.places = places;
-        this.mListener=mListener;
+        this.mListener = mListener;
     }
 
     @NonNull
@@ -66,19 +67,19 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.ViewHolder
 
         public ViewHolder(@NonNull View itemView, IPlaceRecyclerView mListener) {
             super(itemView);
-            this.mListener=mListener;
+            this.mListener = mListener;
             tvTitle = itemView.findViewById(R.id.tvTitle);
             ivImage = itemView.findViewById(R.id.ivImage);
             tvDescription = itemView.findViewById(R.id.tvDescription);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int position= getAdapterPosition();
+                    int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
                         place = places.get(position);
 
                     }
-                        mListener.goToPlaceDetails(place);
+                    mListener.goToPlaceDetails(place);
                 }
             });
         }
@@ -98,7 +99,7 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.ViewHolder
 
     }
 
-    public interface IPlaceRecyclerView{
+    public interface IPlaceRecyclerView {
         void goToPlaceDetails(Place place);
     }
 }

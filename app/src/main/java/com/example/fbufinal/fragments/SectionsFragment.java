@@ -22,11 +22,11 @@ import com.google.android.material.tabs.TabLayout;
  * Use the {@link SectionsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SectionsFragment extends Fragment   {
+public class SectionsFragment extends Fragment {
     ViewPager viewPager;
     TabLayout tabLayout;
     String placeId, imagePath;
-    Fragment detailsFragment= new DetailsFragment();
+    Fragment detailsFragment = new DetailsFragment();
 
 
     public SectionsFragment() {
@@ -36,8 +36,6 @@ public class SectionsFragment extends Fragment   {
     public static SectionsFragment newInstance(String placeId, String imagePath) {
         SectionsFragment fragment = new SectionsFragment();
         Bundle args = new Bundle();
-        //args.putString("GOOGLE_PLACE_ID", placeId);
-        //args.putString("GOOGLE_IMAGE_URL", imagePath);
         fragment.setArguments(args);
         return fragment;
     }
@@ -45,9 +43,7 @@ public class SectionsFragment extends Fragment   {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Set default selection
-        //this.placeId = getArguments().getString("GOOGLE_PLACE_ID", "");
-        //this.imagePath= getArguments().getString("GOOGLE_IMAGE_URL", "");
+
 
     }
 
@@ -62,7 +58,6 @@ public class SectionsFragment extends Fragment   {
         //Views for section fragments
         viewPager = view.findViewById(R.id.viewPager);
         tabLayout = view.findViewById(R.id.tabLayout);
-
 
 
         return view;
@@ -94,14 +89,13 @@ public class SectionsFragment extends Fragment   {
 
     private void setUpViewPager(ViewPager viewPager) {
 
-        SectionDetailsAdapter sectionAdapter= new SectionDetailsAdapter(getChildFragmentManager());
+        SectionDetailsAdapter sectionAdapter = new SectionDetailsAdapter(getChildFragmentManager());
         sectionAdapter.addFragment(new DetailsFragment(), "details");
         sectionAdapter.addFragment(new ServicesFragment(), "services");
         sectionAdapter.addFragment(new ReviewsFragment(), "reviews");
 
         viewPager.setAdapter(sectionAdapter);
     }
-
 
 
 }

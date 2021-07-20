@@ -19,26 +19,21 @@ public class Place extends ParseObject {
     String description;
     String placeId;
     String imagePath;
-    String rating,formatted_phone_number,opening_hours,formatted_address,price_level;
+    String rating, formatted_phone_number, opening_hours, formatted_address, price_level;
+
     public Place() {
 
     }
 
     public Place(JSONObject jsonObject) throws JSONException {
-        if(jsonObject.has("photos")){
+        if (jsonObject.has("photos")) {
             imagePath = jsonObject.getJSONArray("photos").getJSONObject(0).getString("photo_reference");
         }
         title = jsonObject.getString("name");
         description = jsonObject.getString("name");
         placeId = jsonObject.getString("place_id");
 
-/*
-        //details
-        rating = jsonObject.getString("rating");
-        formatted_phone_number = jsonObject.getString("formatted_phone_number");
-        opening_hours = jsonObject.getString("opening_hours");
-        formatted_address = jsonObject.getString("formatted_address");
-        price_level = jsonObject.getString("price_level");*/
+
     }
 
 
@@ -50,13 +45,6 @@ public class Place extends ParseObject {
         return places;
     }
 
-    /*
-    public static Place fromJsonArray(JSONObject placeJsonArray) throws JSONException {
-        Place placeDetails = new Place();
-        placeDetails= new Place(placeJsonArray.getJSONObject("result"));
-
-        return placeDetails;
-    }*/
 
     public String getImagePath() {
         //URL format
