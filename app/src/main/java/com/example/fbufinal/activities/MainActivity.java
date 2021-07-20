@@ -15,7 +15,9 @@ import android.widget.Toast;
 
 import com.example.fbufinal.R;
 import com.example.fbufinal.adapters.PlacesAdapter;
+import com.example.fbufinal.fragments.DetailsFragment;
 import com.example.fbufinal.fragments.FeedFragment;
+import com.example.fbufinal.fragments.SectionsFragment;
 import com.example.fbufinal.models.Place;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.ParseUser;
@@ -24,7 +26,7 @@ import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 import pub.devrel.easypermissions.PermissionRequest;
 
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity implements PlacesAdapter.IPlaceRecyclerView {
     private static final int RC_CAMERA_AND_LOCATION = 123;
     final FragmentManager fragmentManager = getSupportFragmentManager();
     private BottomNavigationView bottomNavigation;
@@ -107,6 +109,15 @@ public class MainActivity extends AppCompatActivity  {
         startActivity(i);
         finish();
     }
+    Fragment detailsFragment = new DetailsFragment();
+    Fragment sectionsFragment = new SectionsFragment();
+
+    @Override
+    public void goToPlaceDetails(Place place) {
+        String placeId= place.getPlaceId();
+        String imagePath = place.getImagePath();
+        detailsFragment= DetailsFragment.newInstance(placeId, imagePath);
 
 
+    }
 }

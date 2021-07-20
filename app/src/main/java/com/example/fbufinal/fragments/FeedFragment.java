@@ -258,9 +258,15 @@ public class FeedFragment extends Fragment implements PlacesAdapter.IPlaceRecycl
         //MainActivity.flContainer.setVisibility(View.GONE);
         String placeId= place.getPlaceId();
         String imagePath = place.getImagePath();
-        //detailsFragment= DetailsFragment.newInstance(placeId, imagePath);
+       //detailsFragment= DetailsFragment.newInstance(placeId, imagePath);
         //sectionsFragment=SectionsFragment.newInstance(placeId, imagePath);
-        //getChildFragmentManager().beginTransaction().replace(R.id.child_fragment_container, detailsFragment).commit();
+
+        /*FragmentTransaction transaction=getChildFragmentManager().beginTransaction();
+        transaction.replace(R.id.child_fragment_container, detailsFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();*/
+        DetailsFragment.setDetails(placeId,imagePath);
+
         getChildFragmentManager().beginTransaction().replace(R.id.child_fragment_container, sectionsFragment).commit();
         //insertNestedFragment(place);
 

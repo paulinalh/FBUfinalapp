@@ -22,7 +22,7 @@ import com.google.android.material.tabs.TabLayout;
  * Use the {@link SectionsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SectionsFragment extends Fragment  {
+public class SectionsFragment extends Fragment   {
     ViewPager viewPager;
     TabLayout tabLayout;
     String placeId, imagePath;
@@ -57,11 +57,7 @@ public class SectionsFragment extends Fragment  {
         // Inflate the layout for this fragment
         // Need to define the child fragment layout
         View view = inflater.inflate(R.layout.fragment_sections, container, false);
-/*
-        FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
-        detailsFragment=new DetailsFragment();
-        detailsFragment= DetailsFragment.newInstance(placeId, imagePath);
-        fragmentTransaction.replace(R.id.viewPager, detailsFragment).commit();*/
+
 
         //Views for section fragments
         viewPager = view.findViewById(R.id.viewPager);
@@ -71,7 +67,6 @@ public class SectionsFragment extends Fragment  {
 
         return view;
     }
-
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -100,12 +95,13 @@ public class SectionsFragment extends Fragment  {
     private void setUpViewPager(ViewPager viewPager) {
 
         SectionDetailsAdapter sectionAdapter= new SectionDetailsAdapter(getChildFragmentManager());
-        sectionAdapter.addFragment(new BlankFragment(), "details");
+        sectionAdapter.addFragment(new DetailsFragment(), "details");
         sectionAdapter.addFragment(new ServicesFragment(), "services");
         sectionAdapter.addFragment(new ReviewsFragment(), "reviews");
 
         viewPager.setAdapter(sectionAdapter);
     }
+
 
 
 }

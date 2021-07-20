@@ -1,7 +1,5 @@
 package com.example.fbufinal.fragments;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,12 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
 import com.codepath.asynchttpclient.AsyncHttpClient;
@@ -25,17 +18,12 @@ import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.fbufinal.BuildConfig;
 import com.example.fbufinal.R;
 import com.example.fbufinal.adapters.PlacesAdapter;
-import com.example.fbufinal.adapters.SectionDetailsAdapter;
 import com.example.fbufinal.models.Place;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.material.tabs.TabLayout;
-import com.google.gson.JsonArray;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,8 +35,8 @@ public class DetailsFragment extends Fragment {
     public static final String DETAILS_API_URL="https://maps.googleapis.com/maps/api/place/details/json?place_id=";
     private static final String TAG ="detailsFragment" ;
     PlacesAdapter adapter;
-    String placeId;
-    String imagePath;
+    static String placeId;
+    static String imagePath;
     ImageView ivDetailsImage;
     TextView tvTitle,tvAddress, tvPhone, tvPrice, tvRating, tvMonday, tvTuesday, tvWednesday, tvThursday, tvFriday, tvSaturday, tvSunday ;
     Place place;
@@ -75,9 +63,12 @@ public class DetailsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.placeId = getArguments().getString("GOOGLE_PLACE_ID", "");
-        this.imagePath= getArguments().getString("GOOGLE_IMAGE_URL", "");
+        //this.placeId = getArguments().getString("GOOGLE_PLACE_ID", "");
+        //this.imagePath= getArguments().getString("GOOGLE_IMAGE_URL", "");
+        //this.placeId=place.getPlaceId();
+        //this.imagePath=place.getImagePath();
         //place = new Place();
+
 
         placeDetailsList= new ArrayList<>();
 
@@ -131,7 +122,7 @@ public class DetailsFragment extends Fragment {
         AsyncHttpClient client = new AsyncHttpClient();
         //Format of the API URL
         //https://maps.googleapis.com/maps/api/place/details/json?place_id=ChIJN1t_tDeuEmsRUsoyG83frY4&fields=name,rating,formatted_phone_number&key=YOUR_API_KEY
-        String FINAL_URL = DETAILS_API_URL + placeId + FIELDS_FOR_URL + "&key=" + KEY;
+        String FINAL_URL = DETAILS_API_URL + this.placeId + FIELDS_FOR_URL + "&key=" + KEY;
         client.get(FINAL_URL, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int i, Headers headers, JSON json) {
@@ -182,6 +173,11 @@ public class DetailsFragment extends Fragment {
                 Log.d(TAG, "onFailure");
             }
         });
+    }
+
+    public static void setDetails(String id, String path){
+        placeId =id;
+        imagePath =path;
     }
 
 
