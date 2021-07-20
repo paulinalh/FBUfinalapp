@@ -247,6 +247,7 @@ public class FeedFragment extends Fragment implements PlacesAdapter.IPlaceRecycl
         }
     }*/
     Fragment detailsFragment = new DetailsFragment();
+    Fragment sectionsFragment = new SectionsFragment();
 
     @Override
     public void goToPlaceDetails(Place place) {
@@ -257,21 +258,11 @@ public class FeedFragment extends Fragment implements PlacesAdapter.IPlaceRecycl
         //MainActivity.flContainer.setVisibility(View.GONE);
         String placeId= place.getPlaceId();
         String imagePath = place.getImagePath();
-        detailsFragment= DetailsFragment.newInstance(placeId, imagePath);
-        getChildFragmentManager().beginTransaction().replace(R.id.child_fragment_container, detailsFragment).commit();
+        //detailsFragment= DetailsFragment.newInstance(placeId, imagePath);
+        //sectionsFragment=SectionsFragment.newInstance(placeId, imagePath);
+        //getChildFragmentManager().beginTransaction().replace(R.id.child_fragment_container, detailsFragment).commit();
+        getChildFragmentManager().beginTransaction().replace(R.id.child_fragment_container, sectionsFragment).commit();
         //insertNestedFragment(place);
-
-    }
-    // Embeds the child fragment dynamically
-    private void insertNestedFragment(Place place) {
-        //Fragment detailsFragment = new DetailsFragment();
-
-        //Intent intent = new Intent(getContext(), DetailsFragment.class);
-        // serialize the movie using parceler, use its short name as a key
-        //intent.putExtra(Place.class.getSimpleName(), Parcels.wrap(place));
-
-        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-        transaction.replace(R.id.child_fragment_container, detailsFragment).commit();
 
     }
 

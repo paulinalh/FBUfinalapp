@@ -17,6 +17,7 @@ import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
 import com.codepath.asynchttpclient.AsyncHttpClient;
@@ -24,8 +25,10 @@ import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.fbufinal.BuildConfig;
 import com.example.fbufinal.R;
 import com.example.fbufinal.adapters.PlacesAdapter;
+import com.example.fbufinal.adapters.SectionDetailsAdapter;
 import com.example.fbufinal.models.Place;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.material.tabs.TabLayout;
 import com.google.gson.JsonArray;
 
 import org.jetbrains.annotations.NotNull;
@@ -75,6 +78,7 @@ public class DetailsFragment extends Fragment {
         this.placeId = getArguments().getString("GOOGLE_PLACE_ID", "");
         this.imagePath= getArguments().getString("GOOGLE_IMAGE_URL", "");
         //place = new Place();
+
         placeDetailsList= new ArrayList<>();
 
     }
@@ -85,6 +89,8 @@ public class DetailsFragment extends Fragment {
         // Need to define the child fragment layout
         View view=inflater.inflate(R.layout.fragment_details, container, false);
 
+
+        //Views of details fragment
         tvTitle= (TextView) view.findViewById(R.id.tvTitle);
         tvAddress =(TextView) view.findViewById(R.id.tvAddress);
         tvPhone=(TextView) view.findViewById(R.id.tvPhone);
@@ -110,7 +116,6 @@ public class DetailsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         //RecyclerView rvPlaces = view.findViewById(R.id.rvPlaces);
         PlacesAdapter.IPlaceRecyclerView mListener = null;
-        getJson();
 /*
         NestedScrollView nsvDetails= view.findViewById(R.id.nsvDetails);
         adapter= new PlacesAdapter(getContext(), placeDetailsList, mListener);
