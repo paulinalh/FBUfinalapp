@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,6 +26,7 @@ import com.example.fbufinal.R;
 import com.example.fbufinal.adapters.PlacesAdapter;
 import com.example.fbufinal.models.Place;
 import com.google.android.gms.location.LocationServices;
+import com.google.gson.JsonArray;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -45,9 +47,10 @@ public class DetailsFragment extends Fragment {
     String placeId;
     String imagePath;
     ImageView ivDetailsImage;
-    TextView tvTitle,tvAddress, tvHours, tvPhone, tvPrice, tvRating ;
+    TextView tvTitle,tvAddress, tvPhone, tvPrice, tvRating, tvMonday, tvTuesday, tvWednesday, tvThursday, tvFriday, tvSaturday, tvSunday ;
     Place place;
-    String title, description,formatted_phone_number,opening_hours,formatted_address,price_level;
+    String title, description,formatted_phone_number,formatted_address,price_level;
+    JSONArray opening_hours;
     int rating;
     protected List<Place> placeDetailsList;
     private static final String FIELDS_FOR_URL = "&fields=name,rating,formatted_phone_number,opening_hours,formatted_address,price_level";
@@ -80,7 +83,23 @@ public class DetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Need to define the child fragment layout
-        return inflater.inflate(R.layout.fragment_details, container, false);
+        View view=inflater.inflate(R.layout.fragment_details, container, false);
+
+        tvTitle= (TextView) view.findViewById(R.id.tvTitle);
+        tvAddress =(TextView) view.findViewById(R.id.tvAddress);
+        tvPhone=(TextView) view.findViewById(R.id.tvPhone);
+        tvPrice=(TextView) view.findViewById(R.id.tvPrice);
+        tvRating=(TextView) view.findViewById(R.id.tvRating);
+        ivDetailsImage=(ImageView) view.findViewById(R.id.ivDetailsImage);
+        tvMonday=(TextView) view.findViewById(R.id.tvMonday);
+        tvTuesday=(TextView) view.findViewById(R.id.tvTuesday);
+        tvWednesday=(TextView) view.findViewById(R.id.tvWednesday);
+        tvThursday=(TextView) view.findViewById(R.id.tvThursday);
+        tvFriday=(TextView) view.findViewById(R.id.tvFriday);
+        tvSaturday=(TextView) view.findViewById(R.id.tvSaturday);
+        tvSunday=(TextView) view.findViewById(R.id.tvSunday);
+
+        return view;
 
 
     }
@@ -90,47 +109,19 @@ public class DetailsFragment extends Fragment {
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         //RecyclerView rvPlaces = view.findViewById(R.id.rvPlaces);
+        PlacesAdapter.IPlaceRecyclerView mListener = null;
+        getJson();
+/*
+        NestedScrollView nsvDetails= view.findViewById(R.id.nsvDetails);
+        adapter= new PlacesAdapter(getContext(), placeDetailsList, mListener);
+        nsvDetails.setAdapter(adapter);*/
 
         getJson();
 
-        tvTitle=view.findViewById(R.id.tvTitle);
-        tvAddress =view.findViewById(R.id.tvAddress);
-        tvHours=view.findViewById(R.id.tvHours);
-        tvPhone=view.findViewById(R.id.tvPhone);
-        tvPrice=view.findViewById(R.id.tvPrice);
-        tvRating=view.findViewById(R.id.tvRating);
-        ivDetailsImage=view.findViewById(R.id.ivDetailsImage);
 
-        tvTitle.setText(title);
-        tvAddress.setText(formatted_address);
-        //tvHours.setText(opening_hours);
-        tvPhone.setText(formatted_phone_number);
-        //tvPrice.setText(price_level);
-        tvRating.setText(""+rating);
-
-        //adapter.notifyDataSetChanged();
-        if (imagePath != "") {
-            Glide.with(getContext()).load(imagePath).into(ivDetailsImage);
-        }
-        //setPlaceDetails();
     }
 
-    private void setPlaceDetails() {
-        getJson();
-        tvTitle.setText(title);
-        tvAddress.setText(formatted_address);
-        //tvHours.setText(opening_hours);
-        tvPhone.setText(formatted_phone_number);
-        //tvPrice.setText(price_level);
-        tvRating.setText(""+rating);
-
-        //adapter.notifyDataSetChanged();
-        if (imagePath != "") {
-            Glide.with(getContext()).load(imagePath).into(ivDetailsImage);
-        }
-    }
-
-    private void getJson() {
+    public void getJson() {
 
         AsyncHttpClient client = new AsyncHttpClient();
         //Format of the API URL
@@ -142,24 +133,42 @@ public class DetailsFragment extends Fragment {
                 Log.d(TAG, FINAL_URL);
                 JSONObject jsonObject = json.jsonObject;
                 try {
-                    //JSONArray result = jsonObject.getJSONArray("result");
                     JSONObject result = jsonObject.getJSONObject("result");
                     Log.i(TAG, "Result: " + result.toString());
-                    //placeDetailsList.addAll(Place.fromJsonArray(result));
                     title = result.getString("name");
-                    //description = jsonObject.getString("name");
                     //placeId = jsonObject.getString("place_id");
                     rating = result.getInt("rating");
                     formatted_phone_number = result.getString("formatted_phone_number");
-                    //opening_hours = jsonObject.getJSONArray("opening_hours").getJSONObject(0).getJSONArray("weekday_text").getJSONObject(0).getString("weekday_text");
+                    opening_hours = result.getJSONObject("opening_hours").getJSONArray("weekday_text");
                     formatted_address = result.getString("formatted_address");
                     //price_level = jsonObject.getString("price_level");
 
-                    Log.i(TAG, "Place name: " + title);
+                    Log.i(TAG, "hours: " + opening_hours);
+
+                    tvTitle.setText(title);
+                    tvAddress.setText(formatted_address);
+                    tvMonday.setText(opening_hours.getString(0));
+                    tvTuesday.setText(opening_hours.getString(1));
+                    tvWednesday.setText(opening_hours.getString(2));
+                    tvThursday.setText(opening_hours.getString(3));
+                    tvFriday.setText(opening_hours.getString(4));
+                    tvSaturday.setText(opening_hours.getString(5));
+                    tvSunday.setText(opening_hours.getString(6));
+                    tvPhone.setText(formatted_phone_number);
+                    //tvPrice.setText(price_level);
+                    tvRating.setText(""+rating);
+
+
+                    if (imagePath != "") {
+                        Glide.with(getContext()).load(imagePath).into(ivDetailsImage);
+                    }
+
                 } catch (JSONException e) {
                     Log.e(TAG, "Hit Json exception", e);
                     e.printStackTrace();
                 }
+
+
             }
 
             @Override
