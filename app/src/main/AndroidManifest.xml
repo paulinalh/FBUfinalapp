@@ -17,6 +17,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FBUfinal">
 
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.codepath.fileprovider.FBUfinalapp"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/fileprovider" />
+        </provider>
+
 
         <activity android:name=".activities.LoginActivity">
             <intent-filter>

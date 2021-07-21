@@ -19,7 +19,6 @@ public class Place extends ParseObject {
     String description;
     String placeId;
     String imagePath;
-    String rating, formatted_phone_number, opening_hours, formatted_address, price_level;
 
     public Place() {
 
