@@ -52,7 +52,7 @@ public class ReviewsFragment extends Fragment {
     RecyclerView rvChat;
     ReviewsAdapter mAdapter;
     boolean mFirstLoad;
-    
+
     // Create a handler which can run code periodically
     static final long POLL_INTERVAL = TimeUnit.SECONDS.toMillis(3);
     Handler myHandler = new android.os.Handler();

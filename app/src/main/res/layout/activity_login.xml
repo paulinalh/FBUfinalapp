@@ -8,7 +8,13 @@
     android:orientation="vertical"
     tools:context=".activities.LoginActivity">
 
+    <ImageView
+        android:id="@+id/logoApp"
+        android:layout_width="wrap_content"
 
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|center_vertical"
+        app:srcCompat="@drawable/logo_app" />
     <EditText
         android:id="@+id/etUsername"
         android:layout_width="match_parent"
@@ -29,17 +35,17 @@
 
     <Button
         android:id="@+id/btnLogin"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/black"
-        android:text="Login"
-        tools:text="Login" />
+        android:layout_gravity="center|center_horizontal|center_vertical"
+        android:backgroundTint="@color/gray"
+        app:icon="@drawable/login_tv" />
 
     <Button
         android:id="@+id/btnSignUp"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/black"
-        android:text="SignUp"
-        tools:text="SignUp" />
+        android:layout_gravity="center|center_horizontal|center_vertical"
+        android:backgroundTint="@color/brown"
+        app:icon="@drawable/signup_tv" />
 </LinearLayout>

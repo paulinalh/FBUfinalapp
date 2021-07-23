@@ -9,15 +9,22 @@
     tools:context=".activities.SignupActivity">
 
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        app:srcCompat="@drawable/signup_logo" />
 
-    <TextView
-        android:id="@+id/tvSign"
+    <EditText
+        android:id="@+id/etName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:ems="10"
-        android:text="Sign up to the app! Enter user and password"
-        android:textSize="34sp" />
+        android:hint="profile name"
+        android:layout_marginTop="60dp"
+        android:inputType="textPersonName" />
 
     <EditText
         android:id="@+id/etUsername"
@@ -40,9 +47,11 @@
 
     <Button
         android:id="@+id/btnSignUp"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/black"
-        android:text="SignUp" />
+        android:layout_gravity="center|center_vertical"
+        android:layout_marginTop="60dp"
+        android:backgroundTint="@color/brown"
+        app:icon="@drawable/signup_tv" />
 
 </LinearLayout>

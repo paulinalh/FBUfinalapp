@@ -109,7 +109,7 @@ public class ProfileFragment extends Fragment {
         String username = user.getString("username");
 
         if (image != null) {
-            Glide.with(getContext()).load(image.getUrl()).into(ivProfileImage);
+            Glide.with(getContext()).load(image.getUrl()).circleCrop().into(ivProfileImage);
         }
 
         Log.i("ProfileFragment", username);
