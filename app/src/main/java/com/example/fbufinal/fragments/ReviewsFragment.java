@@ -44,7 +44,8 @@ public class ReviewsFragment extends Fragment {
     static final String BODY_KEY = "text";
     private static final String TAG = "ReviewsFragment";
     static final int MAX_CHAT_MESSAGES_TO_SHOW = 50;
-
+    static String placeId;
+    static String imagePath;
     EditText etMessage;
     ImageButton ibSend;
     private List<Review> mReviews;
@@ -146,7 +147,7 @@ public class ReviewsFragment extends Fragment {
         mReviews = new ArrayList<>();
         mFirstLoad = true;
         final String userId = ParseUser.getCurrentUser().getObjectId();
-        mAdapter = new ReviewsAdapter(getContext(), userId, mReviews);
+        mAdapter = new ReviewsAdapter(getContext(), placeId, mReviews);
         rvChat.setAdapter(mAdapter);
 
         // associate the LayoutManager with the RecylcerView
@@ -161,8 +162,11 @@ public class ReviewsFragment extends Fragment {
             public void onClick(View v) {
                 String data = etMessage.getText().toString();
 
+
                 Review review = new Review();
                 review.setUserId(ParseUser.getCurrentUser().getObjectId());
+                review.setUsername(ParseUser.getCurrentUser().getUsername());
+                review.setPlaceId(placeId);
                 review.setTextReview(data);
 
 
@@ -233,8 +237,10 @@ public class ReviewsFragment extends Fragment {
         myHandler.removeCallbacksAndMessages(null);
         super.onPause();
     }
-
-
+    public static void setDetails(String id, String path) {
+        placeId = id;
+        imagePath = path;
+    }
 
 
 

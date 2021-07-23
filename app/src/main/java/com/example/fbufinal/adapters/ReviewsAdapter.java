@@ -22,8 +22,9 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewVi
     private List<Review> mReviews;
     private Context mContext;
     private String mUserId;
-    private static final int MESSAGE_OUTGOING = 123;
-    private static final int MESSAGE_INCOMING = 321;
+    private  String mPlaceId;
+    private static final int CORRECT_PLACE = 123;
+    private static final int INCORRECT_PLACE = 321;
 
     // Create a gravatar image based on the hash value obtained from userId
     private static String getProfileUrl(final String userId) {
@@ -40,15 +41,15 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewVi
     }
 
 
-    public ReviewsAdapter(Context context, String userId, List<Review> reviews) {
+    public ReviewsAdapter(Context context, String placeId, List<Review> reviews) {
         mReviews = reviews;
-        this.mUserId = userId;
+        this.mPlaceId = placeId;
         mContext = context;
     }
     @Override
     public void onBindViewHolder(ReviewViewHolder holder, int position) {
         Review review = mReviews.get(position);
-        holder.bindMessage(review);
+        holder.bindReview(review);
     }
 
     @Override
@@ -58,19 +59,20 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewVi
 
     @Override
     public int getItemViewType(int position) {
-        return MESSAGE_OUTGOING;
+        //return CORRECT_PLACE;
 
-        /*
-        if (isMe(position)) {
-            return MESSAGE_OUTGOING;
+
+        if (isCurrentPlace(position)) {
+            return CORRECT_PLACE;
         } else {
-            return MESSAGE_INCOMING;
-        }*/
+            return INCORRECT_PLACE;
+        }
+
     }
 
-    private boolean isMe(int position) {
+    private boolean isCurrentPlace(int position) {
         Review review = mReviews.get(position);
-        return review.getUserId() != null && review.getUserId().equals(mUserId);
+        return review.getPlaceId() != null && review.getPlaceId().equals(mPlaceId);
     }
 
     @Override
@@ -78,12 +80,17 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewVi
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
-     if (viewType == MESSAGE_OUTGOING) {
-            View contactView = inflater.inflate(R.layout.message_outgoing, parent, false);
+     if (viewType == CORRECT_PLACE) {
+            View contactView = inflater.inflate(R.layout.review_outgoing, parent, false);
             return new OutgoingReviewViewHolder(contactView);
-        } else {
+        } else if (viewType == INCORRECT_PLACE){
+         View contactView = inflater.inflate(R.layout.no_review_layout, parent, false);
+         return new IncorrectReviewViewHolder(contactView);
+
+     }else {
             throw new IllegalArgumentException("Unknown view type");
         }
+
     }
 
 
@@ -94,7 +101,7 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewVi
             super(itemView);
         }
 
-        abstract void bindMessage(Review review);
+        abstract void bindReview(Review review);
     }
 
 
@@ -112,7 +119,7 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewVi
         }
 
         @Override
-        public void bindMessage(Review review) {
+        public void bindReview(Review review) {
             String userId = review.getUserId();
             //File img= user1.png;
 
@@ -121,11 +128,33 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewVi
                     .circleCrop() // create an effect of a round profile picture
                     .into(imageMe);*/
             body.setText(review.getTextReview());
-            name.setText(review.getUserId()); // in addition to message show user ID
+            name.setText(review.getUsername()); // in addition to message show user ID
 
 
         }
     }
+    public class IncorrectReviewViewHolder extends ReviewViewHolder {
+
+        ImageView imageOther;
+        TextView body;
+        TextView name;
+
+        public IncorrectReviewViewHolder(View itemView) {
+            super(itemView);
+            itemView.setVisibility(View.GONE);
+            itemView.setVisibility(View.INVISIBLE);
+            /*
+            imageOther = (ImageView)itemView.findViewById(R.id.ivProfileOther);
+            body = (TextView)itemView.findViewById(R.id.tvBody);
+            name = (TextView)itemView.findViewById(R.id.tvName);*/
+        }
+
+        @Override
+        public void bindReview(Review review) {
+            // TODO: implement later
+        }
+    }
+
 
 
 }

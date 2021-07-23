@@ -2,13 +2,13 @@ package com.example.fbufinal.models;
 
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
-import com.parse.ParseUser;
 
 @ParseClassName("Review")
 public class Review extends ParseObject {
     public static final String USER_ID_KEY = "userId";
     public static final String TEXT_REVIEW_KEY = "text";
-    private static final String USER_KEY = "username";
+    public static final String USER_KEY = "username";
+    public static final String PLACE_ID="placeId";
 
     public String getUserId() {
         return getString(USER_ID_KEY);
@@ -25,13 +25,19 @@ public class Review extends ParseObject {
     public void setTextReview(String text) {
         put(TEXT_REVIEW_KEY, text);
     }
-    public ParseUser getUser(){
-        return getParseUser(getUserId());
+    public String getUsername(){
+        return getString(USER_KEY);
     }
-    public void setUser(ParseUser user){
+    public void setUsername(String user){
        put(USER_KEY, user);
     }
 
+    public String getPlaceId(){
+        return getString(PLACE_ID);
+    }
+    public void setPlaceId(String placeId){
+        put(PLACE_ID, placeId);
+    }
 
 
 }
