@@ -84,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements PlacesAdapter.IPl
                 case R.id.action_compose:
                     Toast.makeText(MainActivity.this, "Compose", Toast.LENGTH_SHORT).show();
                     //fragment = new ComposeFragment();
+                    onLogoutButton();
                     break;
                 case R.id.action_profile:
                     //Toast.makeText(MainActivity.this, "Profile", Toast.LENGTH_SHORT).show();
@@ -98,6 +99,19 @@ public class MainActivity extends AppCompatActivity implements PlacesAdapter.IPl
 
     };
 
+
+    Fragment detailsFragment = new DetailsFragment();
+    Fragment sectionsFragment = new SectionsFragment();
+
+    @Override
+    public void goToPlaceDetails(Place place) {
+        String placeId= place.getPlaceId();
+        String imagePath = place.getImagePath();
+        detailsFragment= DetailsFragment.newInstance(placeId, imagePath);
+
+
+    }
+
     public void onLogoutButton() {
 
         ParseUser.logOut();
@@ -109,16 +123,6 @@ public class MainActivity extends AppCompatActivity implements PlacesAdapter.IPl
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // same as above
         startActivity(i);
         finish();
-    }
-    Fragment detailsFragment = new DetailsFragment();
-    Fragment sectionsFragment = new SectionsFragment();
-
-    @Override
-    public void goToPlaceDetails(Place place) {
-        String placeId= place.getPlaceId();
-        String imagePath = place.getImagePath();
-        detailsFragment= DetailsFragment.newInstance(placeId, imagePath);
-
 
     }
 }

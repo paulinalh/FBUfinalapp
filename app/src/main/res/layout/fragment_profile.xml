@@ -33,5 +33,15 @@
             android:textSize="30dp"
             />
 
+        <Button
+            android:id="@+id/btnLogout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvUsername"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="71dp"
+            android:backgroundTint="@color/black"
+            android:text="Log Out" />
+
     </RelativeLayout>
 </androidx.core.widget.NestedScrollView>

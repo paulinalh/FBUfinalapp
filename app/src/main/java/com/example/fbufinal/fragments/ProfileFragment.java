@@ -11,7 +11,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.core.content.FileProvider;
@@ -20,19 +22,36 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.data.BufferedOutputStream;
 import com.example.fbufinal.R;
+import com.example.fbufinal.activities.LoginActivity;
+import com.example.fbufinal.activities.MainActivity;
+import com.example.fbufinal.models.Review;
 import com.example.fbufinal.models.User;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
+import com.parse.GetCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -40,11 +59,39 @@ public class ProfileFragment extends Fragment {
 
     private static final String TAG = "ProfileFragment";
     ImageView ivProfileImage;
+    TextView tvUsername;
     ParseUser user= ParseUser.getCurrentUser();
     ParseFile image;
     String photoFileName= "photo.jpg";
+    String imageId;
     File newPicture;
+    Button btnLogout;
+    User profileUser;
+    ParseObject profileImage;
+    List<User> images;
     public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 42;
+
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // Use for monitoring Parse network traffic
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
+        // Can be Level.BASIC, Level.HEADERS, or Level.BODY
+        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        // any network interceptors must be added with the Configuration Builder given this syntax
+        builder.networkInterceptors().add(httpLoggingInterceptor);
+
+        // Set applicationId and server based on the values in the Back4App settings.
+        Parse.initialize(new Parse.Configuration.Builder(getContext())
+                .applicationId("MRjGoRuk6WryotgaNXvpBv2B0ntvUO4kRS4ZxwbS") // ⚠️ TYPE IN A VALID APPLICATION ID HERE
+                .clientKey("c3Zl3ou44eUPgiM3PrRU7WKAUSSdyKQSbRxnfFps") // ⚠️ TYPE IN A VALID CLIENT KEY HERE
+                .clientBuilder(builder)
+                .server("https://parseapi.back4app.com/").build());  // ⚠️ TYPE IN A VALID SERVER URL HERE
+
+
+
+    }
 
     @Nullable
     @Override
@@ -54,8 +101,11 @@ public class ProfileFragment extends Fragment {
         View view =inflater.inflate(R.layout.fragment_profile, container, false);
 
         ivProfileImage=view.findViewById(R.id.ivProfileImage);
+        tvUsername=view.findViewById(R.id.tvUsername);
+        btnLogout=view.findViewById(R.id.btnLogout);
+        tvUsername.setText("@"+ParseUser.getCurrentUser().getUsername());
 
-        image = ParseUser.getCurrentUser().getParseFile("profileImage");
+        image = ParseUser.getCurrentUser().getParseFile("picture");
         String username = user.getString("username");
 
         if (image != null) {
@@ -63,7 +113,6 @@ public class ProfileFragment extends Fragment {
         }
 
         Log.i("ProfileFragment", username);
-
 
         return view;
     }
@@ -83,14 +132,35 @@ public class ProfileFragment extends Fragment {
 
             }
         });
+
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onLogoutButton();
+
+            }
+        });
+
+
+    }
+    public void onLogoutButton() {
+
+        ParseUser.logOut();
+        ParseUser currentUser = ParseUser.getCurrentUser(); // this will now be null
+
+        // navigate backwards to Login screen
+        Intent i = new Intent(getContext(), LoginActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // this makes sure the Back button won't work
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // same as above
+        startActivity(i);
+        getActivity().finish();
+
     }
     public class ChangeImageListener implements View.OnClickListener {
 
         @Override
         public void onClick(View v) {
             launchCamera();
-            ParseUser currentUser = ParseUser.getCurrentUser();
-            saveNewProfileImage(currentUser, newPicture);
 
 
 
@@ -115,6 +185,7 @@ public class ProfileFragment extends Fragment {
             startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
         }
 
+
     }
 
     @Override
@@ -127,6 +198,13 @@ public class ProfileFragment extends Fragment {
                 // RESIZE BITMAP, see section below
                 // Load the taken image into a preview
                 ivProfileImage.setImageBitmap(takenImage);
+
+
+
+                ParseUser currentUser = ParseUser.getCurrentUser();
+                saveNewProfileImage(currentUser, newPicture);
+
+
             } else { // Result was a failure
                 Toast.makeText(getContext(), "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
             }
@@ -150,16 +228,23 @@ public class ProfileFragment extends Fragment {
 
     }
 
-    private void saveNewProfileImage(ParseUser currentUser, File newPicture) {
-        ParseFile newImage= new ParseFile(newPicture);
+    private void saveNewProfileImage(ParseUser currentUser, File file)  {
 
+        ParseFile newImage= new ParseFile(file);
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("User");
 
-        currentUser.put("profileImage", newImage);
-
-        //post.setImage(image);
-        Toast.makeText(getContext(), "Image change was successful!", Toast.LENGTH_SHORT).show();
-
-        ivProfileImage.setImageResource(0);
+        String objectId= ParseUser.getCurrentUser().getObjectId();
+        // Retrieve the object by id
+        query.getInBackground(objectId, new GetCallback<ParseObject>() {
+            public void done(ParseObject newImageUser, ParseException e) {
+                if (e == null) {
+                    // Now let's update it with some new data. In this case, only cheatMode and score
+                    // will get sent to your Parse Server. playerName hasn't changed.
+                    newImageUser.put("picture", newImage);
+                    newImageUser.saveInBackground();
+                }
+            }
+        });
 
 
     }

@@ -5,6 +5,10 @@
     <string name="camera_and_location_rationale">This app needs access to your camera and location</string>
     <string name="rationale_ask_ok">ok</string>
     <string name="rationale_ask_cancel">cancel</string>
+    <string name="message_hint">Say anything</string>
+    <string name="send">Send</string>
+    <string name="profile_me">My Profile Pic</string>
+
     <string name="large_text">
         "Material is the metaphor.\n\n"
 
