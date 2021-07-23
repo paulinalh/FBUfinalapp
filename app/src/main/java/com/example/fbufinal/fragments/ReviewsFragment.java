@@ -52,8 +52,18 @@ public class ReviewsFragment extends Fragment {
     RecyclerView rvChat;
     ReviewsAdapter mAdapter;
     boolean mFirstLoad;
+    
+    // Create a handler which can run code periodically
     static final long POLL_INTERVAL = TimeUnit.SECONDS.toMillis(3);
     Handler myHandler = new android.os.Handler();
+    Runnable mRefreshMessagesRunnable = new Runnable() {
+        @Override
+        public void run() {
+            refreshMessages();
+            myHandler.postDelayed(this, POLL_INTERVAL);
+        }
+    };
+
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -220,7 +230,8 @@ public class ReviewsFragment extends Fragment {
         });
 
     }
-    
+
+
 
 
     @Override
@@ -228,7 +239,7 @@ public class ReviewsFragment extends Fragment {
         super.onResume();
 
         // Only start checking for new messages when the app becomes active in foreground
-        //myHandler.postDelayed(mRefreshMessagesRunnable, POLL_INTERVAL);
+        myHandler.postDelayed(mRefreshMessagesRunnable, POLL_INTERVAL);
     }
 
     @Override
