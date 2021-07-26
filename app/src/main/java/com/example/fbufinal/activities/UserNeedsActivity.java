@@ -24,7 +24,7 @@ public class UserNeedsActivity extends AppCompatActivity {
     int BRAILLE_CODE= 5;
     int LIGHT_CODE= 6;
     int SOUND_CODE= 7;
-    int SIGNLANGUAGE_CODE= 7;
+    int SIGNLANGUAGE_CODE= 8;
 
 
     @Override
@@ -217,7 +217,9 @@ public class UserNeedsActivity extends AppCompatActivity {
     }
     private void goSignupActivity() {
         Intent i = new Intent(this, SignupActivity.class);
+        i.putExtra("userNeedsArray",userNeedsArr);
         startActivity(i);
+
         finish();
 
     }

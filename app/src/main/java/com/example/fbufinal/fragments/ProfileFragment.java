@@ -20,12 +20,16 @@ import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.data.BufferedOutputStream;
 import com.example.fbufinal.R;
 import com.example.fbufinal.activities.LoginActivity;
 import com.example.fbufinal.activities.MainActivity;
+import com.example.fbufinal.adapters.PlacesAdapter;
+import com.example.fbufinal.adapters.ProfileNeedsAdapter;
 import com.example.fbufinal.models.Review;
 import com.example.fbufinal.models.User;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
@@ -63,6 +67,8 @@ public class ProfileFragment extends Fragment {
     ParseUser user= ParseUser.getCurrentUser();
     ParseFile image;
     String photoFileName= "photo.jpg";
+    List<Integer> userNeedsList;
+    protected ProfileNeedsAdapter profileNeedsAdapter;
     String imageId;
     File newPicture;
     Button btnLogout;
@@ -89,7 +95,8 @@ public class ProfileFragment extends Fragment {
                 .clientBuilder(builder)
                 .server("https://parseapi.back4app.com/").build());  // ⚠️ TYPE IN A VALID SERVER URL HERE
 
-
+        userNeedsList = new ArrayList<>();
+        userNeedsList=user.getList("needs");
 
     }
 
@@ -121,8 +128,15 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        RecyclerView rvProfileNeeds = view.findViewById(R.id.rvProfileNeeds);
 
-        
+        //userNeedsList = new ArrayList<>();
+        profileNeedsAdapter = new ProfileNeedsAdapter(getContext(), userNeedsList);
+        rvProfileNeeds.setAdapter(profileNeedsAdapter);
+        LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        rvProfileNeeds.setLayoutManager(horizontalLayoutManager);
+
+
         ivProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -161,8 +175,6 @@ public class ProfileFragment extends Fragment {
         @Override
         public void onClick(View v) {
             launchCamera();
-
-
 
         }}
 
@@ -248,5 +260,6 @@ public class ProfileFragment extends Fragment {
 
 
     }
+
 
 }

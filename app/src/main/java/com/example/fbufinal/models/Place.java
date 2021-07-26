@@ -12,7 +12,6 @@ import org.parceler.Parcel;
 import java.util.ArrayList;
 import java.util.List;
 
-@ParseClassName("Place")
 public class Place extends ParseObject {
     public static final String KEY = BuildConfig.API_KEY;
     String title;
