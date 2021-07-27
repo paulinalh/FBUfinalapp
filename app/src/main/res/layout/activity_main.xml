@@ -1,25 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+<com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="0dp"
-    android:orientation="vertical"
+    android:layout_gravity="top"
+    android:gravity="top"
+    app:umanoDragView="@id/dragView"
+    app:umanoScrollableView="@id/listView"
     tools:context=".activities.MainActivity">
 
-    <FrameLayout
-        android:id="@+id/flContainer"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/bottomNavigation" ></FrameLayout>
+        android:layout_margin="0dp"
+        android:orientation="vertical"
+        tools:context=".activities.MainActivity">
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigation"
+
+        <FrameLayout
+            android:id="@+id/flContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/bottomNavigation" />
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNavigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            app:menu="@menu/menu_bottom_navigation" />
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:id="@+id/dragView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        app:menu="@menu/menu_bottom_navigation" />
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:clickable="true"
+        android:focusable="false"
+        android:orientation="vertical">
+
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+        </ListView>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="68dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16sp"
+                android:text="addReviewforPlace" />
+        </RelativeLayout>
 
 
-</RelativeLayout>
+
+
+    </LinearLayout>
+
+
+
+
+</com.sothree.slidinguppanel.SlidingUpPanelLayout >
