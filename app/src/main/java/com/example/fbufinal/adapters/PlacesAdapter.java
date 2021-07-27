@@ -69,7 +69,7 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.ViewHolder
             this.mListener = mListener;
             tvTitle = itemView.findViewById(R.id.tvTitle);
             ivImage = itemView.findViewById(R.id.ivImage);
-            tvDescription = itemView.findViewById(R.id.tvDescriptionPlace);
+            //tvDescription = itemView.findViewById(R.id.tvDescriptionPlace);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -86,7 +86,7 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.ViewHolder
 
         public void bind(Place place) {
             tvTitle.setText(place.getTitle());
-            tvDescription.setText(place.getDescription());
+            //tvDescription.setText(place.getDescription());
             Log.i("Adapter", place.getTitle());
             //ParseFile image= place.getImage();
             String image = place.getImagePath();

@@ -13,17 +13,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fbufinal.R;
 import com.example.fbufinal.models.Place;
+import com.example.fbufinal.models.PlaceServicesRating;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHolder> {
     private Context context;
     List<Integer> availableServices;
+    PlaceServicesRating placeObject;
     Place place = null;
 
 
-    public ServicesAdapter(Context context, List<Integer> services) {
+    public ServicesAdapter(Context context, List<Integer> services, PlaceServicesRating place) {
         this.context = context;
+        this.placeObject=place;
         this.availableServices = services;
     }
 
@@ -77,42 +81,100 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
             int LIGHT_CODE= 6;
             int SOUND_CODE= 7;
             int SIGNLANGUAGE_CODE= 8;
+            List <Integer> listRatings= new ArrayList<>();
+            float count=0;
+            float meanRating=0;
 
             if(indexNeed==WEELCHAIR_CODE){
                 tvServiceName.setText("General access of wheelchairs");
                 ivServiceImage.setImageDrawable(context.getResources().getDrawable(R.drawable.wheelchair_icon_1));
+                listRatings=placeObject.getWheelchairRatings();
+                for(int i =0;i<listRatings.size();i++){
+                    count=count+listRatings.get(i);
+                }
+                meanRating=count/listRatings.size();
+                rbServiceRating.setRating(meanRating);
+
 
             }else if(indexNeed==RAMP_CODE){
                 tvServiceName.setText("Need of quality ramps");
                 ivServiceImage.setImageDrawable(context.getResources().getDrawable(R.drawable.ramp_icon_1));
+                listRatings=placeObject.getRampRatings();
+                for(int i =0;i<listRatings.size();i++){
+                    count=count+listRatings.get(i);
+                }
+                meanRating=count/listRatings.size();
+                rbServiceRating.setRating(meanRating);
 
             }else if(indexNeed==PARKING_CODE){
                 tvServiceName.setText("Accessible parking");
                 ivServiceImage.setImageDrawable(context.getResources().getDrawable(R.drawable.parking_icon_1));
+                listRatings=placeObject.getParkingRatings();
+                for(int i =0;i<listRatings.size();i++){
+                    count=count+listRatings.get(i);
+                }
+                meanRating=count/listRatings.size();
+                rbServiceRating.setRating(meanRating);
 
             }else if(indexNeed==ELEVATOR_CODE){
                 tvServiceName.setText("Need of quality elevators");
                 ivServiceImage.setImageDrawable(context.getResources().getDrawable(R.drawable.elevator_icon_1));
+                listRatings=placeObject.getElevatorRatings();
+                for(int i =0;i<listRatings.size();i++){
+                    count=count+listRatings.get(i);
+                }
+                meanRating=count/listRatings.size();
+                rbServiceRating.setRating(meanRating);
 
             }else if(indexNeed==DOG_CODE){
                 tvServiceName.setText("Access to service dogs");
                 ivServiceImage.setImageDrawable(context.getResources().getDrawable(R.drawable.dog_icon_1));
+                listRatings=placeObject.getDogRatings();
+                for(int i =0;i<listRatings.size();i++){
+                    count=count+listRatings.get(i);
+                }
+                meanRating=count/listRatings.size();
+                rbServiceRating.setRating(meanRating);
 
             }else if(indexNeed==BRAILLE_CODE){
                 tvServiceName.setText("Braille services");
                 ivServiceImage.setImageDrawable(context.getResources().getDrawable(R.drawable.braille_icon_1));
+                listRatings=placeObject.getBrailleRatings();
+                for(int i =0;i<listRatings.size();i++){
+                    count=count+listRatings.get(i);
+                }
+                meanRating=count/listRatings.size();
+                rbServiceRating.setRating(meanRating);
 
             }else if(indexNeed==LIGHT_CODE){
                 tvServiceName.setText("Lights control in case of sensitivity");
                 ivServiceImage.setImageDrawable(context.getResources().getDrawable(R.drawable.light_icon_1));
+                listRatings=placeObject.getLightsRatings();
+                for(int i =0;i<listRatings.size();i++){
+                    count=count+listRatings.get(i);
+                }
+                meanRating=count/listRatings.size();
+                rbServiceRating.setRating(meanRating);
 
             }else if(indexNeed==SOUND_CODE){
                 tvServiceName.setText("Sound control in case of sensitivity");
                 ivServiceImage.setImageDrawable(context.getResources().getDrawable(R.drawable.sound_icon_1));
+                listRatings=placeObject.getSoundRatings();
+                for(int i =0;i<listRatings.size();i++){
+                    count=count+listRatings.get(i);
+                }
+                meanRating=count/listRatings.size();
+                rbServiceRating.setRating(meanRating);
 
             }else if(indexNeed==SIGNLANGUAGE_CODE){
                 tvServiceName.setText("Sign language services");
                 ivServiceImage.setImageDrawable(context.getResources().getDrawable(R.drawable.signlanguage_icon_1));
+                listRatings=placeObject.getSignlanguageRatings();
+                for(int i =0;i<listRatings.size();i++){
+                    count=count+listRatings.get(i);
+                }
+                meanRating=count/listRatings.size();
+                rbServiceRating.setRating(meanRating);
 
             }else if(indexNeed==10){
                 itemView.setVisibility(View.GONE);

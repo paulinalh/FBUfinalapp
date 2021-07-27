@@ -106,7 +106,7 @@ public class SectionsFragment extends Fragment {
 
         SectionDetailsAdapter sectionAdapter = new SectionDetailsAdapter(getChildFragmentManager());
         sectionAdapter.addFragment(new DetailsFragment(), "details");
-        sectionAdapter.addFragment(new ServicesFragment(), "services");
+        sectionAdapter.addFragment(new ServicesFragment(), "maps");
         sectionAdapter.addFragment(new ReviewsFragment(), "reviews");
 
         viewPager.setAdapter(sectionAdapter);

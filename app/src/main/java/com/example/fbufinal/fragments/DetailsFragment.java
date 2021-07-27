@@ -77,10 +77,7 @@ public class DetailsFragment extends Fragment {
 
         placeDetailsList = new ArrayList<>();
 
-        queryObject();
-
-
-
+        //queryObject();
 
     }
 
@@ -105,6 +102,8 @@ public class DetailsFragment extends Fragment {
         tvFriday = (TextView) view.findViewById(R.id.tvFriday);
         tvSaturday = (TextView) view.findViewById(R.id.tvSaturday);
         tvSunday = (TextView) view.findViewById(R.id.tvSunday);
+        queryObject();
+
 
         return view;
 
@@ -131,7 +130,7 @@ public class DetailsFragment extends Fragment {
             rvServices.setLayoutManager(horizontalLayoutManager);
         }*/
 
-        queryObject();
+        //queryObject();
         //RecyclerView rvServices = getView().findViewById(R.id.rvServices);
 
 
@@ -223,7 +222,7 @@ public class DetailsFragment extends Fragment {
                     LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
                     rvServices.setLayoutManager(horizontalLayoutManager);
                     availableServicesList=checkAvailableServices();
-                    servicesAdapter = new ServicesAdapter(getContext(), availableServicesList);
+                    servicesAdapter = new ServicesAdapter(getContext(), availableServicesList, placeToRate);
                 }
             }else{
                 Toast.makeText(getContext(), "Error: "+e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -248,23 +247,23 @@ public class DetailsFragment extends Fragment {
         int SOUND_CODE= 7;
         int SIGNLANGUAGE_CODE= 8;
 
-        if(placeToRate.getWheelchairRatings()!=null){
+        if(placeToRate.getWheelchairRatings().get(0)!=0){
             listServices.add(WEELCHAIR_CODE);
-        }else if(placeToRate.getRampRatings().get(0)==0){
+        } if(placeToRate.getRampRatings().get(0)!=0){
             listServices.add(RAMP_CODE);
-        }else if(placeToRate.getParkingRatings().get(0)==0){
+        } if(placeToRate.getParkingRatings().get(0)!=0){
             listServices.add(PARKING_CODE);
-        }else if(placeToRate.getElevatorRatings().get(0)==0){
+        } if(placeToRate.getElevatorRatings().get(0)!=0){
             listServices.add(ELEVATOR_CODE);
-        }else if(placeToRate.getDogRatings().get(0)==0){
+        } if(placeToRate.getDogRatings().get(0)!=0){
             listServices.add(DOG_CODE);
-        }else if(placeToRate.getBrailleRatings().get(0)==0){
+        } if(placeToRate.getBrailleRatings().get(0)!=0){
             listServices.add(BRAILLE_CODE);
-        }else if(placeToRate.getLightsRatings().get(0)==0){
+        } if(placeToRate.getLightsRatings().get(0)!=0){
             listServices.add(LIGHT_CODE);
-        }else if(placeToRate.getSoundRatings().get(0)==0){
+        } if(placeToRate.getSoundRatings().get(0)!=0){
             listServices.add(SOUND_CODE);
-        }else if(placeToRate.getSignlanguageRatings().get(0)==0){
+        } if(placeToRate.getSignlanguageRatings().get(0)!=0){
             listServices.add(SIGNLANGUAGE_CODE);
         }
 

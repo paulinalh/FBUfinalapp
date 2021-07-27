@@ -125,7 +125,11 @@ public class FeedFragment extends Fragment implements PlacesAdapter.IPlaceRecycl
         places = new ArrayList<>();
         placesAdapter = new PlacesAdapter(getContext(), places, this);
         rvPlaces.setAdapter(placesAdapter);
-        rvPlaces.setLayoutManager(new LinearLayoutManager(getContext()));
+        //rvPlaces.setLayoutManager(new LinearLayoutManager(getContext()));
+
+
+        LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        rvPlaces.setLayoutManager(horizontalLayoutManager);
 
 
     }
