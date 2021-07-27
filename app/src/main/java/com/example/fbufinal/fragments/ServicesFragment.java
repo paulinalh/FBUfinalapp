@@ -35,12 +35,12 @@ public class ServicesFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+/*
         queryObject();
         if(objectId==null){
             createObject();
         }
-        queryObject();
+        queryObject();*/
 
     }
 
@@ -61,7 +61,7 @@ public class ServicesFragment extends Fragment {
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         //RecyclerView rvPlaces = view.findViewById(R.id.rvPlaces);
-        PlacesAdapter.IPlaceRecyclerView mListener = null;
+        //PlacesAdapter.IPlaceRecyclerView mListener = null;
         //queryPosts();
         Log.i("Services Fragment", placeId);
 

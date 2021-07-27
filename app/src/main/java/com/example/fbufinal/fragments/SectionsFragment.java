@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.fbufinal.R;
@@ -28,7 +29,8 @@ public class SectionsFragment extends Fragment {
     ViewPager viewPager;
     TabLayout tabLayout;
     ImageView ivPlace;
-    static String placeId, imagePath;
+    TextView tvName;
+    static String placeId, imagePath, placeName;
     Fragment detailsFragment = new DetailsFragment();
 
 
@@ -43,10 +45,9 @@ public class SectionsFragment extends Fragment {
         return fragment;
     }
 
-    public static void setImage(String path) {
+    public static void setImage(String path, String name) {
         imagePath=path;
-
-
+        placeName=name;
     }
 
     @Override
@@ -68,7 +69,7 @@ public class SectionsFragment extends Fragment {
         viewPager = view.findViewById(R.id.viewPager);
         tabLayout = view.findViewById(R.id.tabLayout);
         ivPlace=view.findViewById(R.id.ivPlace);
-
+        //tvName=view.findViewById(R.id.tvName);
 
         return view;
     }
@@ -77,6 +78,7 @@ public class SectionsFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        //tvName.setText(placeName);
         if (imagePath != "") {
             Glide.with(getContext()).load(imagePath).into(ivPlace);
         }

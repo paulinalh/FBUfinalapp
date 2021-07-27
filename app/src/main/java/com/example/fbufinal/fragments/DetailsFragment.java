@@ -7,10 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.codepath.asynchttpclient.AsyncHttpClient;
@@ -18,7 +21,12 @@ import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.fbufinal.BuildConfig;
 import com.example.fbufinal.R;
 import com.example.fbufinal.adapters.PlacesAdapter;
+import com.example.fbufinal.adapters.ProfileNeedsAdapter;
+import com.example.fbufinal.adapters.ServicesAdapter;
 import com.example.fbufinal.models.Place;
+import com.example.fbufinal.models.PlaceServicesRating;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -34,7 +42,9 @@ public class DetailsFragment extends Fragment {
     public static final String KEY = BuildConfig.API_KEY;
     public static final String DETAILS_API_URL = "https://maps.googleapis.com/maps/api/place/details/json?place_id=";
     private static final String TAG = "detailsFragment";
-    PlacesAdapter adapter;
+    String objectId;
+    ServicesAdapter servicesAdapter;
+    PlaceServicesRating placeToRate;
     static String placeId;
     static String imagePath;
     ImageView ivDetailsImage;
@@ -43,6 +53,7 @@ public class DetailsFragment extends Fragment {
     String title, description, formatted_phone_number, formatted_address, price_level;
     JSONArray opening_hours;
     int rating;
+    List <Integer>availableServicesList = new ArrayList<>();
     protected List<Place> placeDetailsList;
     private static final String FIELDS_FOR_URL = "&fields=name,rating,formatted_phone_number,opening_hours,formatted_address,price_level";
 
@@ -66,6 +77,11 @@ public class DetailsFragment extends Fragment {
 
         placeDetailsList = new ArrayList<>();
 
+        queryObject();
+
+
+
+
     }
 
     @Override
@@ -81,7 +97,7 @@ public class DetailsFragment extends Fragment {
         tvPhone = (TextView) view.findViewById(R.id.tvPhone);
         tvPrice = (TextView) view.findViewById(R.id.tvPrice);
         tvRating = (TextView) view.findViewById(R.id.tvRating);
-        ivDetailsImage = (ImageView) view.findViewById(R.id.ivDetailsImage);
+        //ivDetailsImage = (ImageView) view.findViewById(R.id.ivDetailsImage);
         tvMonday = (TextView) view.findViewById(R.id.tvMonday);
         tvTuesday = (TextView) view.findViewById(R.id.tvTuesday);
         tvWednesday = (TextView) view.findViewById(R.id.tvWednesday);
@@ -94,7 +110,7 @@ public class DetailsFragment extends Fragment {
 
 
     }
-
+    RecyclerView rvServices;
 
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
@@ -103,6 +119,23 @@ public class DetailsFragment extends Fragment {
         PlacesAdapter.IPlaceRecyclerView mListener = null;
 
         getJson();
+
+        rvServices = view.findViewById(R.id.rvServices);
+/*
+        availableServicesList=checkAvailableServices();
+
+        if(availableServicesList!=null){
+            servicesAdapter = new ServicesAdapter(getContext(), availableServicesList);
+            rvServices.setAdapter(servicesAdapter);
+            LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+            rvServices.setLayoutManager(horizontalLayoutManager);
+        }*/
+
+        queryObject();
+        //RecyclerView rvServices = getView().findViewById(R.id.rvServices);
+
+
+
 
 
     }
@@ -145,9 +178,9 @@ public class DetailsFragment extends Fragment {
                     tvRating.setText("" + rating);
 
 
-                    if (imagePath != "") {
+                  /*  if (imagePath != "") {
                         Glide.with(getContext()).load(imagePath).into(ivDetailsImage);
-                    }
+                    }*/
 
                 } catch (JSONException e) {
                     Log.e(TAG, "Hit Json exception", e);
@@ -168,6 +201,121 @@ public class DetailsFragment extends Fragment {
     public static void setDetails(String id, String path) {
         placeId = id;
         imagePath = path;
+
+    }
+
+    public void queryObject() {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("PlaceInclusionServices");
+        //ParseQuery<PlaceServicesRating> query= ParseQuery.getQuery(PlaceServicesRating.class);
+
+        // Finds only the comments that has placeId
+        query.whereEqualTo("placeId", placeId);
+
+        query.findInBackground((objects, e) -> {
+            if(e == null){
+                for (ParseObject result : objects) {
+                    Log.d("Object found Details ",result.getObjectId());
+                    this.objectId=result.getObjectId();
+                    placeToRate= (PlaceServicesRating) result;
+                    //objectId=placeToRate.getObjectId();
+
+                    rvServices.setAdapter(servicesAdapter);
+                    LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+                    rvServices.setLayoutManager(horizontalLayoutManager);
+                    availableServicesList=checkAvailableServices();
+                    servicesAdapter = new ServicesAdapter(getContext(), availableServicesList);
+                }
+            }else{
+                Toast.makeText(getContext(), "Error: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+            if(this.objectId==null){
+                createObject();
+            }
+
+        });
+    }
+
+    private List<Integer> checkAvailableServices() {
+        List<Integer> listServices = new ArrayList<>();
+        int WEELCHAIR_CODE= 0;
+        int RAMP_CODE= 1;
+        int PARKING_CODE= 2;
+        int ELEVATOR_CODE= 3;
+        int DOG_CODE= 4;
+        int BRAILLE_CODE= 5;
+        int LIGHT_CODE= 6;
+        int SOUND_CODE= 7;
+        int SIGNLANGUAGE_CODE= 8;
+
+        if(placeToRate.getWheelchairRatings()!=null){
+            listServices.add(WEELCHAIR_CODE);
+        }else if(placeToRate.getRampRatings().get(0)==0){
+            listServices.add(RAMP_CODE);
+        }else if(placeToRate.getParkingRatings().get(0)==0){
+            listServices.add(PARKING_CODE);
+        }else if(placeToRate.getElevatorRatings().get(0)==0){
+            listServices.add(ELEVATOR_CODE);
+        }else if(placeToRate.getDogRatings().get(0)==0){
+            listServices.add(DOG_CODE);
+        }else if(placeToRate.getBrailleRatings().get(0)==0){
+            listServices.add(BRAILLE_CODE);
+        }else if(placeToRate.getLightsRatings().get(0)==0){
+            listServices.add(LIGHT_CODE);
+        }else if(placeToRate.getSoundRatings().get(0)==0){
+            listServices.add(SOUND_CODE);
+        }else if(placeToRate.getSignlanguageRatings().get(0)==0){
+            listServices.add(SIGNLANGUAGE_CODE);
+        }
+
+        return listServices;
+    }
+
+    public void createObject() {
+        /*ParseObject newObject = new ParseObject("PlaceInclusionServices");
+
+
+        newObject.put("placeId", placeId);
+        newObject.put("wheelchairRatings", new JSONArray());
+        newObject.put("rampRatings", new JSONArray());
+        newObject.put("parkingRatings", new JSONArray());
+        newObject.put("elevatorRatings", new JSONArray());
+        newObject.put("dogRatings", new JSONArray());
+        newObject.put("brailleRatings", new JSONArray());
+        newObject.put("lightsRatings", new JSONArray());
+        newObject.put("soundRatings", new JSONArray());
+        newObject.put("signlanguageRatings", new JSONArray());*/
+
+        List <Integer>emptyList=new ArrayList<>();
+        emptyList.add(0);
+
+        PlaceServicesRating newObject = new PlaceServicesRating();
+        newObject.setRatingPlaceId(placeId);
+        newObject.setWheelchairRatings(emptyList);
+        newObject.setRampRatings(emptyList);
+        newObject.setParkingRatings(emptyList);
+        newObject.setElevatorRatings(emptyList);
+        newObject.setDogRatings(emptyList);
+        newObject.setBrailleRatings(emptyList);
+        newObject.setLightsRatings(emptyList);
+        newObject.setSoundRatings(emptyList);
+        newObject.setSignlanguageRatings(emptyList);
+
+        // Saves the new object.
+        // Notice that the SaveCallback is totally optional!
+        newObject.saveInBackground(e -> {
+            if (e==null){
+                //Save was done
+                queryObject();
+
+            }else{
+                //Something went wrong
+                Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
     }
 
 

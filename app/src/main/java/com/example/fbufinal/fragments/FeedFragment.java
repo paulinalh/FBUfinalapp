@@ -240,11 +240,13 @@ public class FeedFragment extends Fragment implements PlacesAdapter.IPlaceRecycl
 
         String placeId = place.getPlaceId();
         String imagePath = place.getImagePath();
+        String placeName = place.getTitle();
+
 
         DetailsFragment.setDetails(placeId, imagePath);
         ReviewsFragment.setDetails(placeId, imagePath);
         ServicesFragment.setPlace(placeId);
-        SectionsFragment.setImage(imagePath);
+        SectionsFragment.setImage(imagePath, placeName);
 
         getChildFragmentManager().beginTransaction().replace(R.id.child_fragment_container, sectionsFragment).commit();
 

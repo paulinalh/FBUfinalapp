@@ -3,6 +3,7 @@ package com.example.fbufinal;
 import android.app.Application;
 
 import com.example.fbufinal.models.Place;
+import com.example.fbufinal.models.PlaceServicesRating;
 import com.parse.Parse;
 import com.parse.ParseObject;
 
@@ -14,6 +15,7 @@ public class ParseApplication extends Application {
 
         //register your parse models
         ParseObject.registerSubclass(Place.class);
+        ParseObject.registerSubclass(PlaceServicesRating.class);
 
         Parse.initialize(new Parse.Configuration.Builder(this)
                 .applicationId("MRjGoRuk6WryotgaNXvpBv2B0ntvUO4kRS4ZxwbS")

@@ -9,8 +9,8 @@ import java.util.List;
 
 @ParseClassName("PlaceInclusionServices")
 public class PlaceServicesRating extends ParseObject {
-    public static final String KEY_OBJECTID="username";
-    public static final String KEY_PLACEID= "image";
+    public static final String KEY_OBJECTID="objectId";
+    public static final String KEY_PLACEID= "placeId";
     public static final String KEY_WHEELCHAIR="wheelchairRatings";
     public static final String KEY_RAMP="rampRatings";
     public static final String KEY_PARKING="parkingRatings";

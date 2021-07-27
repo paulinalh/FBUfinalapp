@@ -9,22 +9,14 @@
     tools:context=".fragments.ReviewsFragment">
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvChat"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/rlSend"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:transcriptMode="alwaysScroll" />
+
 
 
     <RelativeLayout
         android:id="@+id/rlSend"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
         android:paddingLeft="0dp"
         android:paddingTop="5dp"
         android:paddingRight="0dp"
@@ -53,6 +45,16 @@
             android:src="@android:drawable/ic_menu_send"
             android:textSize="18sp" />
     </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvChat"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rlSend"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:transcriptMode="alwaysScroll" />
 
 
 </RelativeLayout>
