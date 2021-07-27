@@ -10,6 +10,7 @@ import androidx.viewpager.widget.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.example.fbufinal.R;
@@ -26,6 +27,7 @@ import com.google.android.material.tabs.TabLayout;
 public class SectionsFragment extends Fragment {
     ViewPager viewPager;
     TabLayout tabLayout;
+    ImageView ivPlace;
     static String placeId, imagePath;
     Fragment detailsFragment = new DetailsFragment();
 
@@ -65,6 +67,7 @@ public class SectionsFragment extends Fragment {
         //Views for section fragments
         viewPager = view.findViewById(R.id.viewPager);
         tabLayout = view.findViewById(R.id.tabLayout);
+        ivPlace=view.findViewById(R.id.ivPlace);
 
 
         return view;
@@ -75,7 +78,7 @@ public class SectionsFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         if (imagePath != "") {
-            Glide.with(getContext()).load(imagePath).into(ivDetailsImage);
+            Glide.with(getContext()).load(imagePath).into(ivPlace);
         }
         setUpViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
