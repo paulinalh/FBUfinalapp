@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
 import com.example.fbufinal.R;
 import com.example.fbufinal.adapters.PlacesAdapter;
 import com.example.fbufinal.adapters.SectionDetailsAdapter;
@@ -25,7 +26,7 @@ import com.google.android.material.tabs.TabLayout;
 public class SectionsFragment extends Fragment {
     ViewPager viewPager;
     TabLayout tabLayout;
-    String placeId, imagePath;
+    static String placeId, imagePath;
     Fragment detailsFragment = new DetailsFragment();
 
 
@@ -38,6 +39,12 @@ public class SectionsFragment extends Fragment {
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    public static void setImage(String path) {
+        imagePath=path;
+
+
     }
 
     @Override
@@ -67,6 +74,9 @@ public class SectionsFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        if (imagePath != "") {
+            Glide.with(getContext()).load(imagePath).into(ivDetailsImage);
+        }
         setUpViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

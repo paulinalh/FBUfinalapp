@@ -42,12 +42,7 @@ public class ProfileNeedsAdapter extends RecyclerView.Adapter<ProfileNeedsAdapte
     @Override
     public void onBindViewHolder(@NonNull ProfileNeedsAdapter.ViewHolder holder, int position) {
         int index= userNeedsList.get(position);
-        if(userNeedsList.get(position)==1) {
-            holder.bind(position);
-        }/*else{
-            holder.bind(10);
-        }*/
-
+        holder.bind(index);
 
     }
 
@@ -122,11 +117,7 @@ public class ProfileNeedsAdapter extends RecyclerView.Adapter<ProfileNeedsAdapte
 
             }else if(indexNeed==10){
                 itemView.setVisibility(View.GONE);
-
             }
-
-
-
         }
 
     }

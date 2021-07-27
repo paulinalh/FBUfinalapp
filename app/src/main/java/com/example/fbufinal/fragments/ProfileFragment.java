@@ -130,8 +130,13 @@ public class ProfileFragment extends Fragment {
 
         RecyclerView rvProfileNeeds = view.findViewById(R.id.rvProfileNeeds);
 
-        //userNeedsList = new ArrayList<>();
-        profileNeedsAdapter = new ProfileNeedsAdapter(getContext(), userNeedsList);
+        List <Integer>imagesNeedsList = new ArrayList<>();
+        for(int i =0;i<userNeedsList.size();i++){
+            if(userNeedsList.get(i)==1){
+                imagesNeedsList.add(i);
+            }
+        }
+        profileNeedsAdapter = new ProfileNeedsAdapter(getContext(), imagesNeedsList);
         rvProfileNeeds.setAdapter(profileNeedsAdapter);
         LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         rvProfileNeeds.setLayoutManager(horizontalLayoutManager);

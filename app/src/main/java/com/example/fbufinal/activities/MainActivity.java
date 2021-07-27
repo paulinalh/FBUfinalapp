@@ -19,6 +19,7 @@ import com.example.fbufinal.fragments.DetailsFragment;
 import com.example.fbufinal.fragments.FeedFragment;
 import com.example.fbufinal.fragments.ProfileFragment;
 import com.example.fbufinal.fragments.SectionsFragment;
+import com.example.fbufinal.fragments.ServicesFragment;
 import com.example.fbufinal.models.Place;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.ParseUser;
@@ -83,8 +84,8 @@ public class MainActivity extends AppCompatActivity implements PlacesAdapter.IPl
                     break;
                 case R.id.action_compose:
                     Toast.makeText(MainActivity.this, "Compose", Toast.LENGTH_SHORT).show();
-                    //fragment = new ComposeFragment();
-                    onLogoutButton();
+                    //currentFragment = new ServicesFragment();
+                    //onLogoutButton();
                     break;
                 case R.id.action_profile:
                     //Toast.makeText(MainActivity.this, "Profile", Toast.LENGTH_SHORT).show();

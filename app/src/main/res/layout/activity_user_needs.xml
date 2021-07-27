@@ -13,22 +13,25 @@
         android:layout_alignParentRight="true"
         app:srcCompat="@drawable/urneeds_logo" />
 
-    <ImageView
-        android:id="@+id/ivQuestion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+
+    <TextView
+        android:id="@+id/tvQuestion"
+        android:layout_width="224dp"
+        android:layout_height="100dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="41dp"
-        app:srcCompat="@drawable/question_needs" />
-
+        android:layout_marginStart="19dp"
+        android:layout_marginTop="29dp"
+        android:text="what are your needs when you go to a new place?"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        android:textSize="25sp" />
 
     <ImageView
         android:id="@+id/ivWheelchair"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_below="@+id/ivQuestion"
+        android:layout_below="@+id/tvQuestion"
         android:layout_alignParentStart="true"
         android:layout_marginStart="25dp"
         android:layout_marginLeft="25dp"
@@ -40,7 +43,7 @@
         android:id="@+id/ivRamp"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_below="@+id/ivQuestion"
+        android:layout_below="@+id/tvQuestion"
         android:layout_alignParentStart="true"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="157dp"
@@ -51,7 +54,7 @@
         android:id="@+id/ivParking"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_below="@+id/ivQuestion"
+        android:layout_below="@+id/tvQuestion"
         android:layout_alignParentEnd="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="85dp"

@@ -52,6 +52,8 @@
         android:layout_gravity="center|center_vertical"
         android:layout_marginTop="60dp"
         android:backgroundTint="@color/brown"
-        app:icon="@drawable/signup_tv" />
+        android:text="sign up"
+        android:textAllCaps="false"
+        android:textSize="34sp"/>
 
 </LinearLayout>
