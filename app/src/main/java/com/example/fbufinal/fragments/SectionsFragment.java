@@ -69,7 +69,7 @@ public class SectionsFragment extends Fragment {
         viewPager = view.findViewById(R.id.viewPager);
         tabLayout = view.findViewById(R.id.tabLayout);
         ivPlace=view.findViewById(R.id.ivPlace);
-        //tvName=view.findViewById(R.id.tvName);
+        tvName=view.findViewById(R.id.tvName);
 
         return view;
     }
@@ -78,7 +78,7 @@ public class SectionsFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        //tvName.setText(placeName);
+        tvName.setText(placeName);
         if (imagePath != "") {
             Glide.with(getContext()).load(imagePath).into(ivPlace);
         }
@@ -106,7 +106,7 @@ public class SectionsFragment extends Fragment {
 
         SectionDetailsAdapter sectionAdapter = new SectionDetailsAdapter(getChildFragmentManager());
         sectionAdapter.addFragment(new DetailsFragment(), "details");
-        sectionAdapter.addFragment(new ServicesFragment(), "maps");
+        sectionAdapter.addFragment(new MapFragment(), "maps");
         sectionAdapter.addFragment(new ReviewsFragment(), "reviews");
 
         viewPager.setAdapter(sectionAdapter);

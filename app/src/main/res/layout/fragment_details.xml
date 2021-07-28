@@ -21,23 +21,10 @@
             android:orientation="vertical">
 
 
-            <TextView
-                android:id="@+id/tvTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:fontFamily="sans-serif-medium"
-                android:gravity="center|center_horizontal|center_vertical"
-                android:text="title"
-                android:textColor="@color/black"
-                android:textSize="40sp"
-                tools:text="title" />
-
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_below="@+id/tvTitle"
                 android:id="@+id/rvServices"
                 android:layout_marginTop="15dp"/>
 

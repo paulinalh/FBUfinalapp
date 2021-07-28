@@ -19,6 +19,7 @@ import com.example.fbufinal.R;
 import com.example.fbufinal.adapters.PlacesAdapter;
 import com.example.fbufinal.fragments.DetailsFragment;
 import com.example.fbufinal.fragments.FeedFragment;
+import com.example.fbufinal.fragments.MapFragment;
 import com.example.fbufinal.fragments.ProfileFragment;
 import com.example.fbufinal.fragments.SectionsFragment;
 import com.example.fbufinal.fragments.ServicesFragment;
@@ -43,6 +44,8 @@ public class MainActivity extends AppCompatActivity implements PlacesAdapter.IPl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //flContainer.onFindViewById(R.id.flContainer);
+
+
 
         ListView listView=findViewById(R.id.listView);
         listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, new String[]{"uno", "dos", "tres"}));
@@ -91,6 +94,10 @@ public class MainActivity extends AppCompatActivity implements PlacesAdapter.IPl
                     Toast.makeText(MainActivity.this, "Compose", Toast.LENGTH_SHORT).show();
                     //currentFragment = new ServicesFragment();
                     //onLogoutButton();
+                    //initialize map fragment
+                    currentFragment = new MapFragment();
+                    //open fragment
+                    //getSupportFragmentManager().beginTransaction().replace(R.id.flContainer,fragment).commit();
                     break;
                 case R.id.action_profile:
                     //Toast.makeText(MainActivity.this, "Profile", Toast.LENGTH_SHORT).show();

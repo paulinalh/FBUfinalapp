@@ -69,6 +69,7 @@ public class FeedFragment extends Fragment implements PlacesAdapter.IPlaceRecycl
     public String TAG = "FeedFragment";
     public String currentLatitude;
     public String currentLongitude;
+    public double  longitude,latitude;
     //Initialize location client
     FusedLocationProviderClient client;
 
@@ -147,8 +148,8 @@ public class FeedFragment extends Fragment implements PlacesAdapter.IPlaceRecycl
 
                     Location location = task.getResult();
                     if (location != null) {
-                        double longitude = location.getLongitude();
-                        double latitude = location.getLatitude();
+                        longitude = location.getLongitude();
+                        latitude = location.getLatitude();
                         currentLatitude = String.valueOf(longitude);
                         currentLongitude = String.valueOf(latitude);
                         //Toast.makeText(getContext(), currentLongitude, Toast.LENGTH_SHORT).show();
@@ -251,6 +252,7 @@ public class FeedFragment extends Fragment implements PlacesAdapter.IPlaceRecycl
         ReviewsFragment.setDetails(placeId, imagePath);
         ServicesFragment.setPlace(placeId);
         SectionsFragment.setImage(imagePath, placeName);
+        MapFragment.setLatLng(latitude, longitude, placeName);
 
         getChildFragmentManager().beginTransaction().replace(R.id.child_fragment_container, sectionsFragment).commit();
 

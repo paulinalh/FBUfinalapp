@@ -89,7 +89,7 @@ public class DetailsFragment extends Fragment {
 
 
         //Views of details fragment
-        tvTitle = (TextView) view.findViewById(R.id.tvTitle);
+        //tvTitle = (TextView) view.findViewById(R.id.tvTitle);
         tvAddress = (TextView) view.findViewById(R.id.tvAddress);
         tvPhone = (TextView) view.findViewById(R.id.tvPhone);
         tvPrice = (TextView) view.findViewById(R.id.tvPrice);
@@ -163,7 +163,7 @@ public class DetailsFragment extends Fragment {
 
                     Log.i(TAG, "hours: " + opening_hours);
 
-                    tvTitle.setText(title);
+                    //tvTitle.setText(title);
                     tvAddress.setText(formatted_address);
                     tvMonday.setText(opening_hours.getString(0));
                     tvTuesday.setText(opening_hours.getString(1));
