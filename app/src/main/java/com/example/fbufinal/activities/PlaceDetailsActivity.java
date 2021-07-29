@@ -13,6 +13,7 @@ import com.example.fbufinal.fragments.MapFragment;
 import com.example.fbufinal.fragments.ReviewsFragment;
 import com.example.fbufinal.fragments.SectionsFragment;
 import com.example.fbufinal.fragments.ViewPagerFragment;
+import com.example.fbufinal.models.Favorite;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -34,15 +35,20 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.fbufinal.R;
+import com.parse.FindCallback;
 import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,6 +58,7 @@ public class PlaceDetailsActivity extends AppCompatActivity {
     private static String imagePath;
     String placeName;
     String placeId;
+    ParseUser currentUser=ParseUser.getCurrentUser();
     int favorite = 0;
     public static final String KEY = BuildConfig.API_KEY;
     public static final String DETAILS_API_URL = "https://maps.googleapis.com/maps/api/place/details/json?place_id=";
@@ -59,8 +66,8 @@ public class PlaceDetailsActivity extends AppCompatActivity {
     private static final String TAG = "PlaceDetailsActivity";
     String imageURL = "";
     List<String> favList;
-    boolean alreadyFav = false;
-
+    boolean alreadyFav;
+String favPlaceId;
 
     final FragmentManager fragmentManager = getSupportFragmentManager();
 
@@ -102,20 +109,7 @@ public class PlaceDetailsActivity extends AppCompatActivity {
         toolBarLayout.setTitle(getTitle());
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
-        favList = new ArrayList<>();
-        favList.clear();
-
-        favList = user.getList("favorites");
-
-
-        for (int j = 0; j < favList.size(); j++) {
-
-            if (favList.get(j) == placeId) {
-                alreadyFav = true;
-                fab.setImageDrawable(getDrawable(R.drawable.ufi_heart_active));
-                break;
-            }
-        }
+        isAlreadyFavorite( fab);
 
 
         fab.setOnClickListener(new View.OnClickListener() {
@@ -124,23 +118,16 @@ public class PlaceDetailsActivity extends AppCompatActivity {
 
                 if (alreadyFav == false) {
                     alreadyFav = true;
-                    favList.add(placeId);
-                    updateObject(favList);
                     fab.setImageDrawable(getDrawable(R.drawable.ufi_heart_active));
+                    saveFavorite();
                 } else if (alreadyFav == true) {
                     alreadyFav = false;
                     fab.setImageDrawable(getDrawable(R.drawable.ufi_heart));
-                    for (int i = 0; i < favList.size(); i++) {
-                        if (favList.get(i) == placeId) {
-                            favList.remove(i);
-                            updateObject(favList);
-                            break;
-                        }
-                    }
+                    deleteFavorite();
                 }
 
-                Snackbar.make(view, favList.get(0), Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                //Snackbar.make(view, favList.get(0), Snackbar.LENGTH_LONG)
+                      //  .setAction("Action", null).show();
             }
         });
 
@@ -205,6 +192,72 @@ public class PlaceDetailsActivity extends AppCompatActivity {
                 Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void saveFavorite() {
+        Favorite favorite = new Favorite();
+        favorite.setFavPlaceId(placeId);
+        favorite.setUser(currentUser);
+        favorite.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Error while saving", e);
+                    Toast.makeText(PlaceDetailsActivity.this, "Error while saving!", Toast.LENGTH_SHORT).show();
+                }
+                Log.i(TAG, "Favorite save was successful");
+                //etDescription.setText("");
+                //ivPostImage.setImageResource(0);
+            }
+        });
+
+    }
+
+    public void deleteFavorite() {
+// Retrieve the object by id
+        ParseQuery<Favorite> query = ParseQuery.getQuery(Favorite.class);
+        query.getInBackground(favPlaceId, (object, e) -> {
+            if (e == null) {
+                // Deletes the fetched ParseObject from the database
+                object.deleteInBackground(e2 -> {
+                    if(e2==null){
+                        Toast.makeText(this, "Delete Successful", Toast.LENGTH_SHORT).show();
+                    }else{
+                        //Something went wrong while deleting the Object
+                        Toast.makeText(this, "Error: "+e2.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }else{
+                //Something went wrong while retrieving the Object
+                Toast.makeText(this, "Error: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void isAlreadyFavorite(FloatingActionButton fab) {
+        ParseQuery<Favorite> query = ParseQuery.getQuery(Favorite.class);
+        query.include(Favorite.KEY_USER);
+        query.whereEqualTo("user", ParseUser.getCurrentUser());
+        query.findInBackground(new FindCallback<Favorite>() {
+            @Override
+            public void done(List<Favorite> favs, ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Issue with getting posts", e);
+                    alreadyFav=false;
+                    return;
+                }
+                for (Favorite favorite : favs) {
+                    //Log.i(TAG, "Fav:" + favorite.getFavPlaceId() + ", username: " + favorite.getUser().getUsername());
+                    if(favorite.getFavPlaceId().equals(placeId)){
+                        alreadyFav=true;
+                        favPlaceId=favorite.getObjectId();
+                        fab.setImageDrawable(getDrawable(R.drawable.ufi_heart_active));
+                    }
+                }
+
+            }
+        });
+
     }
 
 }
