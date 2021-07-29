@@ -22,7 +22,6 @@
         android:theme="@style/Theme.FBUfinal">
         <activity
             android:name=".activities.PlaceDetailsActivity"
-            android:label="@string/title_activity_place_details"
             android:theme="@style/Theme.FBUfinal.NoActionBar" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.

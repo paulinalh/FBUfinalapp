@@ -64,6 +64,10 @@ public class ReviewsFragment extends Fragment {
         }
     };
 
+    public static void setId(String id) {
+        placeId=id;
+    }
+
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -12,8 +12,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.fbufinal.R;
@@ -24,8 +28,16 @@ import com.example.fbufinal.fragments.ProfileFragment;
 import com.example.fbufinal.fragments.SearchFragment;
 import com.example.fbufinal.fragments.SectionsFragment;
 import com.example.fbufinal.models.Place;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.AutocompletePrediction;
+import com.google.android.libraries.places.api.model.AutocompleteSessionToken;
+import com.google.android.libraries.places.api.model.RectangularBounds;
+import com.google.android.libraries.places.api.model.TypeFilter;
+import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest;
+import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -44,6 +56,10 @@ public class MainActivity extends AppCompatActivity implements PlacesAdapter.IPl
     final FragmentManager fragmentManager = getSupportFragmentManager();
     private BottomNavigationView bottomNavigation;
     private FragmentContainer flContainer;
+    private View queryText;
+    private Button mSearchButton;
+    private TextView mSearchResult;
+    private StringBuilder mResult;
     public String TAG = "MainActivity";
     //boolean hasLocationPermission = false;
 
@@ -52,43 +68,15 @@ public class MainActivity extends AppCompatActivity implements PlacesAdapter.IPl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //flContainer.onFindViewById(R.id.flContainer);
+        //String apiKey = getString(R.string.api_key);
 
-        String apiKey = getString(R.string.google_android_key);
 
-        /**
-         * Initialize Places. For simplicity, the API key is hard-coded. In a production
-         * environment we recommend using a secure mechanism to manage API keys.
-         */
-        if (!Places.isInitialized()) {
-            Places.initialize(getApplicationContext(), apiKey);
-        }
 
-// Create a new Places client instance.
-        // Initialize the AutocompleteSupportFragment.
-        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
-                getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
 
-        assert autocompleteFragment != null;
-        autocompleteFragment.setPlaceFields(Arrays.asList(com.google.android.libraries.places.api.model.Place.Field.ID, com.google.android.libraries.places.api.model.Place.Field.NAME));
 
-        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-            @Override
-            public void onPlaceSelected(@NonNull @NotNull com.google.android.libraries.places.api.model. Place searchPlace) {
-                // TODO: Get info about the selected place.
-                //Toast.makeText(MainActivity.this,searchPlace.getId(), Toast.LENGTH_SHORT ).show();
-                String searchPlaceId=searchPlace.getId();
-                Log.i(TAG, "Place: " + searchPlace.getName() + ", " + searchPlace.getId());
-                Intent i = new Intent(MainActivity.this, PlaceDetailsActivity.class);
-                i.putExtra("searchPlaceId",searchPlaceId);
-                startActivity(i);
-            }
 
-            @Override
-            public void onError(@NonNull @NotNull Status status) {
-                // TODO: Handle the error.
-                Log.i(TAG, "An error occurred: " + status);
-            }
-        });
+
+
 
 
         //Slide down panel
