@@ -10,5 +10,8 @@
     <color name="beige">#C2A99B</color>
     <color name="gray">#D1CCC9</color>
     <color name="brown">#82746D</color>
+    <color name="primary_500">#3F51B5</color>
+    <color name="black_trans80">#33000000</color>
+
 
 </resources>

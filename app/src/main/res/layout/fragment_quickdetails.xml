@@ -9,7 +9,7 @@
     android:layout_alignParentEnd="true"
     android:layout_alignParentBottom="true"
     android:layout_marginBottom="0dp"
-    tools:context=".fragments.DetailsFragment">
+    tools:context=".fragments.QuickDetailsFragment">
 
 
 

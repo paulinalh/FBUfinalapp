@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
@@ -15,9 +14,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.fbufinal.R;
-import com.example.fbufinal.adapters.PlacesAdapter;
 import com.example.fbufinal.adapters.SectionDetailsAdapter;
-import com.example.fbufinal.models.Place;
 import com.google.android.material.tabs.TabLayout;
 
 /**
@@ -31,7 +28,7 @@ public class SectionsFragment extends Fragment {
     ImageView ivPlace;
     TextView tvName;
     static String placeId, imagePath, placeName;
-    Fragment detailsFragment = new DetailsFragment();
+    Fragment detailsFragment = new QuickDetailsFragment();
 
 
     public SectionsFragment() {
@@ -105,7 +102,7 @@ public class SectionsFragment extends Fragment {
     private void setUpViewPager(ViewPager viewPager) {
 
         SectionDetailsAdapter sectionAdapter = new SectionDetailsAdapter(getChildFragmentManager());
-        sectionAdapter.addFragment(new DetailsFragment(), "details");
+        sectionAdapter.addFragment(new QuickDetailsFragment(), "details");
         sectionAdapter.addFragment(new MapFragment(), "maps");
         sectionAdapter.addFragment(new ReviewsFragment(), "reviews");
 

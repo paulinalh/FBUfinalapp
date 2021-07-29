@@ -18,16 +18,14 @@ import android.widget.Toast;
 
 import com.example.fbufinal.R;
 import com.example.fbufinal.adapters.PlacesAdapter;
-import com.example.fbufinal.fragments.DetailsFragment;
+import com.example.fbufinal.fragments.QuickDetailsFragment;
 import com.example.fbufinal.fragments.FeedFragment;
-import com.example.fbufinal.fragments.MapFragment;
 import com.example.fbufinal.fragments.ProfileFragment;
+import com.example.fbufinal.fragments.SearchFragment;
 import com.example.fbufinal.fragments.SectionsFragment;
-import com.example.fbufinal.fragments.ServicesFragment;
 import com.example.fbufinal.models.Place;
 import com.google.android.gms.common.api.Status;
 import com.google.android.libraries.places.api.Places;
-import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -75,9 +73,14 @@ public class MainActivity extends AppCompatActivity implements PlacesAdapter.IPl
 
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
-            public void onPlaceSelected(@NonNull @NotNull com.google.android.libraries.places.api.model. Place place) {
+            public void onPlaceSelected(@NonNull @NotNull com.google.android.libraries.places.api.model. Place searchPlace) {
                 // TODO: Get info about the selected place.
-                Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
+                //Toast.makeText(MainActivity.this,searchPlace.getId(), Toast.LENGTH_SHORT ).show();
+                String searchPlaceId=searchPlace.getId();
+                Log.i(TAG, "Place: " + searchPlace.getName() + ", " + searchPlace.getId());
+                Intent i = new Intent(MainActivity.this, PlaceDetailsActivity.class);
+                i.putExtra("searchPlaceId",searchPlaceId);
+                startActivity(i);
             }
 
             @Override
@@ -88,12 +91,13 @@ public class MainActivity extends AppCompatActivity implements PlacesAdapter.IPl
         });
 
 
-
+        //Slide down panel
         ListView listView=findViewById(R.id.listView);
         listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, new String[]{"uno", "dos", "tres"}));
 
         BottomNavigationView bottomNavigation = (BottomNavigationView) findViewById(R.id.bottomNavigation);
         bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
         // Set default selection
         bottomNavigation.setSelectedItemId(R.id.action_home);
     }
@@ -138,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements PlacesAdapter.IPl
                     //currentFragment = new ServicesFragment();
                     //onLogoutButton();
                     //initialize map fragment
-                    currentFragment = new MapFragment();
+                    currentFragment = new SearchFragment();
                     //open fragment
                     //getSupportFragmentManager().beginTransaction().replace(R.id.flContainer,fragment).commit();
                     break;
@@ -156,14 +160,14 @@ public class MainActivity extends AppCompatActivity implements PlacesAdapter.IPl
     };
 
 
-    Fragment detailsFragment = new DetailsFragment();
+    Fragment detailsFragment = new QuickDetailsFragment();
     Fragment sectionsFragment = new SectionsFragment();
 
     @Override
     public void goToPlaceDetails(Place place) {
         String placeId= place.getPlaceId();
         String imagePath = place.getImagePath();
-        detailsFragment= DetailsFragment.newInstance(placeId, imagePath);
+        detailsFragment= QuickDetailsFragment.newInstance(placeId, imagePath);
 
 
     }

@@ -15,13 +15,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.fbufinal.BuildConfig;
 import com.example.fbufinal.R;
 import com.example.fbufinal.adapters.PlacesAdapter;
-import com.example.fbufinal.adapters.ProfileNeedsAdapter;
 import com.example.fbufinal.adapters.ServicesAdapter;
 import com.example.fbufinal.models.Place;
 import com.example.fbufinal.models.PlaceServicesRating;
@@ -38,7 +36,7 @@ import java.util.List;
 
 import okhttp3.Headers;
 
-public class DetailsFragment extends Fragment {
+public class QuickDetailsFragment extends Fragment {
     public static final String KEY = BuildConfig.API_KEY;
     public static final String DETAILS_API_URL = "https://maps.googleapis.com/maps/api/place/details/json?place_id=";
     private static final String TAG = "detailsFragment";
@@ -57,12 +55,12 @@ public class DetailsFragment extends Fragment {
     protected List<Place> placeDetailsList;
     private static final String FIELDS_FOR_URL = "&fields=name,rating,formatted_phone_number,opening_hours,formatted_address,price_level";
 
-    public DetailsFragment() {
+    public QuickDetailsFragment() {
         // Required empty public constructor
     }
 
-    public static DetailsFragment newInstance(String placeId, String imagePath) {
-        DetailsFragment fragment = new DetailsFragment();
+    public static QuickDetailsFragment newInstance(String placeId, String imagePath) {
+        QuickDetailsFragment fragment = new QuickDetailsFragment();
         Bundle args = new Bundle();
         args.putString("GOOGLE_PLACE_ID", placeId);
         args.putString("GOOGLE_IMAGE_URL", imagePath);
@@ -85,7 +83,7 @@ public class DetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Need to define the child fragment layout
-        View view = inflater.inflate(R.layout.fragment_details, container, false);
+        View view = inflater.inflate(R.layout.fragment_quickdetails, container, false);
 
 
         //Views of details fragment
