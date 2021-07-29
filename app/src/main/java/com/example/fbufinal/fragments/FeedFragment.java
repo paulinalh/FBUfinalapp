@@ -84,7 +84,6 @@ public class FeedFragment extends Fragment implements PlacesAdapter.IPlaceRecycl
         places = new ArrayList<>();
         placesAdapter = new PlacesAdapter(getContext(), places, this);
 
-
     }
 
 

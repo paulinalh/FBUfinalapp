@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentContainer;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.content.Intent;
@@ -21,12 +23,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.fbufinal.R;
+import com.example.fbufinal.adapters.FavoritePlacesAdapter;
 import com.example.fbufinal.adapters.PlacesAdapter;
+import com.example.fbufinal.fragments.FavoritesFragment;
 import com.example.fbufinal.fragments.QuickDetailsFragment;
 import com.example.fbufinal.fragments.FeedFragment;
 import com.example.fbufinal.fragments.ProfileFragment;
 import com.example.fbufinal.fragments.SearchFragment;
 import com.example.fbufinal.fragments.SectionsFragment;
+import com.example.fbufinal.models.Favorite;
 import com.example.fbufinal.models.Place;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.Status;
@@ -41,11 +46,18 @@ import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -61,6 +73,9 @@ public class MainActivity extends AppCompatActivity implements PlacesAdapter.IPl
     private TextView mSearchResult;
     private StringBuilder mResult;
     public String TAG = "MainActivity";
+    RecyclerView rvFavorites;
+    List<Favorite> favorites = new ArrayList<>();
+    FavoritePlacesAdapter favAdapter;
     //boolean hasLocationPermission = false;
 
     @Override
@@ -70,11 +85,14 @@ public class MainActivity extends AppCompatActivity implements PlacesAdapter.IPl
         //flContainer.onFindViewById(R.id.flContainer);
         //String apiKey = getString(R.string.api_key);
 
+/*
 
+        rvFavorites= findViewById(R.id.rvFavorites);
+        rvFavorites.setAdapter(favAdapter);
+        rvFavorites.setLayoutManager(new LinearLayoutManager(this));
+        queryFavorites();
 
-
-
-
+        favAdapter = new FavoritePlacesAdapter(this, favorites);*/
 
 
 
@@ -134,6 +152,11 @@ public class MainActivity extends AppCompatActivity implements PlacesAdapter.IPl
                     //open fragment
                     //getSupportFragmentManager().beginTransaction().replace(R.id.flContainer,fragment).commit();
                     break;
+                case R.id.action_favorites:
+                    //Toast.makeText(MainActivity.this, "Profile", Toast.LENGTH_SHORT).show();
+                    currentFragment= new FavoritesFragment();
+                    //onLogoutButton();
+                    break;
                 case R.id.action_profile:
                     //Toast.makeText(MainActivity.this, "Profile", Toast.LENGTH_SHORT).show();
                     currentFragment= new ProfileFragment();
@@ -160,17 +183,5 @@ public class MainActivity extends AppCompatActivity implements PlacesAdapter.IPl
 
     }
 
-    public void onLogoutButton() {
 
-        ParseUser.logOut();
-        ParseUser currentUser = ParseUser.getCurrentUser(); // this will now be null
-
-        // navigate backwards to Login screen
-        Intent i = new Intent(MainActivity.this, LoginActivity.class);
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // this makes sure the Back button won't work
-        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // same as above
-        startActivity(i);
-        finish();
-
-    }
 }

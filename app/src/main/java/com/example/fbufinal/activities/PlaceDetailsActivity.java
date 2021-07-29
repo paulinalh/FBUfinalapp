@@ -8,54 +8,39 @@ import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.fbufinal.BuildConfig;
 import com.example.fbufinal.fragments.DetailsFragment;
-import com.example.fbufinal.fragments.FeedFragment;
-import com.example.fbufinal.fragments.MapFragment;
 import com.example.fbufinal.fragments.ReviewsFragment;
-import com.example.fbufinal.fragments.SectionsFragment;
 import com.example.fbufinal.fragments.ViewPagerFragment;
 import com.example.fbufinal.models.Favorite;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.telecom.Call;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.fbufinal.R;
 import com.parse.FindCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
-import com.parse.ParseFile;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.Headers;
 
 public class PlaceDetailsActivity extends AppCompatActivity {
-    private static String imagePath;
+    private String imagePath;
     String placeName;
     String placeId;
     ParseUser currentUser=ParseUser.getCurrentUser();
@@ -64,7 +49,7 @@ public class PlaceDetailsActivity extends AppCompatActivity {
     public static final String DETAILS_API_URL = "https://maps.googleapis.com/maps/api/place/details/json?place_id=";
     private static final String FIELDS_FOR_URL = "&fields=name,rating,formatted_phone_number,photos,opening_hours,formatted_address,price_level,geometry";
     private static final String TAG = "PlaceDetailsActivity";
-    String imageURL = "";
+    String imageURL;
     List<String> favList;
     boolean alreadyFav;
 String favPlaceId;
@@ -91,7 +76,6 @@ String favPlaceId;
 
 
         setTitle(placeName);
-        imageURL = String.format("https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=%s", imagePath + "&key=" + KEY);
 
 
         setContentView(R.layout.activity_place_details);
@@ -100,11 +84,6 @@ String favPlaceId;
         setSupportActionBar(toolbar);
 
         CollapsingToolbarLayout toolBarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
-        ImageView ivSearchPlace = (ImageView) findViewById(R.id.ivSearchPlace);
-        if (imageURL != "") {
-            Glide.with(this).load(imageURL).into(ivSearchPlace);
-        }
-
 
         toolBarLayout.setTitle(getTitle());
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -126,8 +105,7 @@ String favPlaceId;
                     deleteFavorite();
                 }
 
-                //Snackbar.make(view, favList.get(0), Snackbar.LENGTH_LONG)
-                      //  .setAction("Action", null).show();
+
             }
         });
 
@@ -157,7 +135,7 @@ String favPlaceId;
                     JSONObject result = jsonObject.getJSONObject("result");
 
                     imagePath = result.getJSONArray("photos").getJSONObject(0).getString("photo_reference");
-
+                    showImage();
                     //PlaceDetailsActivity.setImage2(imagePath);
 
 
@@ -198,6 +176,8 @@ String favPlaceId;
         Favorite favorite = new Favorite();
         favorite.setFavPlaceId(placeId);
         favorite.setUser(currentUser);
+        favorite.setFavName(placeName);
+        favorite.setFavImageURL(imageURL);
         favorite.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -258,6 +238,14 @@ String favPlaceId;
             }
         });
 
+    }
+
+    private void showImage(){
+        imageURL = String.format("https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=%s", imagePath + "&key=" + KEY);
+        ImageView ivSearchPlace = (ImageView) findViewById(R.id.ivSearchPlace);
+        if (imageURL != "") {
+            Glide.with(this).load(imageURL).into(ivSearchPlace);
+        }
     }
 
 }
