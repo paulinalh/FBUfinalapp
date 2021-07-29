@@ -231,6 +231,7 @@ public class FeedFragment extends Fragment implements PlacesAdapter.IPlaceRecycl
     }
 
     Fragment sectionsFragment = new SectionsFragment();
+    Fragment quickDetails= new QuickDetailsFragment();
 
     @Override
     public void goToPlaceDetails(Place place) {
@@ -248,7 +249,7 @@ public class FeedFragment extends Fragment implements PlacesAdapter.IPlaceRecycl
         SectionsFragment.setImage(imagePath, placeName);
         MapFragment.setLatLng(latitude, longitude, placeName);
 
-        getChildFragmentManager().beginTransaction().replace(R.id.child_fragment_container, sectionsFragment).commit();
+        getChildFragmentManager().beginTransaction().replace(R.id.child_fragment_container, quickDetails).commit();
 
     }
 

@@ -1,11 +1,13 @@
 package com.example.fbufinal.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,10 +17,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
+import com.bumptech.glide.Glide;
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.fbufinal.BuildConfig;
 import com.example.fbufinal.R;
+import com.example.fbufinal.activities.PlaceDetailsActivity;
 import com.example.fbufinal.adapters.PlacesAdapter;
 import com.example.fbufinal.adapters.ServicesAdapter;
 import com.example.fbufinal.models.Place;
@@ -50,7 +55,9 @@ public class QuickDetailsFragment extends Fragment {
     Place place;
     String title, description, formatted_phone_number, formatted_address, price_level;
     JSONArray opening_hours;
+    LottieAnimationView lottieLike, lottieComment, lottieMap, lottieDetails;
     int rating;
+    RatingBar rbQuickPlace;
     List <Integer>availableServicesList = new ArrayList<>();
     protected List<Place> placeDetailsList;
     private static final String FIELDS_FOR_URL = "&fields=name,rating,formatted_phone_number,opening_hours,formatted_address,price_level";
@@ -83,12 +90,19 @@ public class QuickDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Need to define the child fragment layout
-        View view = inflater.inflate(R.layout.fragment_quickdetails, container, false);
+        View view = inflater.inflate(R.layout.fragment_quick_view, container, false);
 
 
         //Views of details fragment
-        //tvTitle = (TextView) view.findViewById(R.id.tvTitle);
-        tvAddress = (TextView) view.findViewById(R.id.tvAddress);
+        tvTitle = (TextView) view.findViewById(R.id.tvQuickName);
+        ivDetailsImage=(ImageView) view.findViewById(R.id.ivQuickPlace);
+        rbQuickPlace=(RatingBar) view.findViewById(R.id.rbQuickPlaceRating);
+        lottieLike=(LottieAnimationView) view.findViewById(R.id.lottieLike);
+        lottieComment=(LottieAnimationView) view.findViewById(R.id.lottieComment);
+        lottieMap=(LottieAnimationView) view.findViewById(R.id.lottieMap);
+        lottieDetails=(LottieAnimationView) view.findViewById(R.id.lottieDetails);
+
+        /*tvAddress = (TextView) view.findViewById(R.id.tvAddress);
         tvPhone = (TextView) view.findViewById(R.id.tvPhone);
         tvPrice = (TextView) view.findViewById(R.id.tvPrice);
         tvRating = (TextView) view.findViewById(R.id.tvRating);
@@ -99,15 +113,15 @@ public class QuickDetailsFragment extends Fragment {
         tvThursday = (TextView) view.findViewById(R.id.tvThursday);
         tvFriday = (TextView) view.findViewById(R.id.tvFriday);
         tvSaturday = (TextView) view.findViewById(R.id.tvSaturday);
-        tvSunday = (TextView) view.findViewById(R.id.tvSunday);
-        queryObject();
+        tvSunday = (TextView) view.findViewById(R.id.tvSunday);*/
+        //queryObject();
 
 
         return view;
 
 
     }
-    RecyclerView rvServices;
+    //RecyclerView rvServices;
 
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
@@ -117,7 +131,7 @@ public class QuickDetailsFragment extends Fragment {
 
         getJson();
 
-        rvServices = view.findViewById(R.id.rvServices);
+        //rvServices = view.findViewById(R.id.rvServices);
 /*
         availableServicesList=checkAvailableServices();
 
@@ -131,6 +145,49 @@ public class QuickDetailsFragment extends Fragment {
         //queryObject();
         //RecyclerView rvServices = getView().findViewById(R.id.rvServices);
 
+        lottieLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "yes", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+        lottieComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getContext(), PlaceDetailsActivity.class);
+                i.putExtra("searchPlaceId",placeId);
+                i.putExtra("searchPlaceName",title);
+
+                startActivity(i);
+
+            }
+        });
+
+        lottieMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getContext(), PlaceDetailsActivity.class);
+                i.putExtra("searchPlaceId",placeId);
+                i.putExtra("searchPlaceName",title);
+
+                startActivity(i);
+
+            }
+        });
+
+        lottieDetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getContext(), PlaceDetailsActivity.class);
+                i.putExtra("searchPlaceId",placeId);
+                i.putExtra("searchPlaceName",title);
+
+                startActivity(i);
+
+            }
+        });
 
 
 
@@ -154,6 +211,7 @@ public class QuickDetailsFragment extends Fragment {
                     title = result.getString("name");
                     //placeId = jsonObject.getString("place_id");
                     rating = result.getInt("rating");
+                    float rateFl= (float) (rating);
                     formatted_phone_number = result.getString("formatted_phone_number");
                     opening_hours = result.getJSONObject("opening_hours").getJSONArray("weekday_text");
                     formatted_address = result.getString("formatted_address");
@@ -161,7 +219,9 @@ public class QuickDetailsFragment extends Fragment {
 
                     Log.i(TAG, "hours: " + opening_hours);
 
-                    //tvTitle.setText(title);
+                    tvTitle.setText(title);
+                    rbQuickPlace.setRating(rateFl);
+                    /*
                     tvAddress.setText(formatted_address);
                     tvMonday.setText(opening_hours.getString(0));
                     tvTuesday.setText(opening_hours.getString(1));
@@ -172,12 +232,12 @@ public class QuickDetailsFragment extends Fragment {
                     tvSunday.setText(opening_hours.getString(6));
                     tvPhone.setText(formatted_phone_number);
                     //tvPrice.setText(price_level);
-                    tvRating.setText("" + rating);
+                    tvRating.setText("" + rating);*/
 
 
-                  /*  if (imagePath != "") {
+                    if (imagePath != "") {
                         Glide.with(getContext()).load(imagePath).into(ivDetailsImage);
-                    }*/
+                    }
 
                 } catch (JSONException e) {
                     Log.e(TAG, "Hit Json exception", e);
@@ -201,8 +261,8 @@ public class QuickDetailsFragment extends Fragment {
 
     }
 
-    public void queryObject() {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("PlaceInclusionServices");
+    //public void queryObject() {
+        /*ParseQuery<ParseObject> query = ParseQuery.getQuery("PlaceInclusionServices");
         //ParseQuery<PlaceServicesRating> query= ParseQuery.getQuery(PlaceServicesRating.class);
 
         // Finds only the comments that has placeId
@@ -232,7 +292,7 @@ public class QuickDetailsFragment extends Fragment {
 
         });
     }
-
+/*
     private List<Integer> checkAvailableServices() {
         List<Integer> listServices = new ArrayList<>();
         int WEELCHAIR_CODE= 0;
@@ -269,6 +329,9 @@ public class QuickDetailsFragment extends Fragment {
     }
 
     public void createObject() {
+
+    //ESTO YA ESTABA COMENTADO
+ */
         /*ParseObject newObject = new ParseObject("PlaceInclusionServices");
 
 
@@ -283,6 +346,8 @@ public class QuickDetailsFragment extends Fragment {
         newObject.put("soundRatings", new JSONArray());
         newObject.put("signlanguageRatings", new JSONArray());*/
 
+//ESTO NO ESTABA COMENTADO
+    /*
         List <Integer>emptyList=new ArrayList<>();
         emptyList.add(0);
 
@@ -313,7 +378,7 @@ public class QuickDetailsFragment extends Fragment {
 
 
 
-    }
+    }*/
 
 
 }
