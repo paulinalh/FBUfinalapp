@@ -5,9 +5,9 @@
     android:id="@+id/cvRoot"
     android:layout_width="match_parent"
     android:layout_height="250dp"
-    android:layout_marginLeft="4dp"
+    android:layout_marginLeft="30dp"
     android:layout_marginTop="16dp"
-    android:layout_marginRight="4dp"
+    android:layout_marginRight="30dp"
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground"
     card_view:cardBackgroundColor="@color/gray"
@@ -57,7 +57,7 @@
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center"
                 android:textColor="@android:color/black"
-                android:textSize="20sp"
+                android:textSize="30sp"
                 tools:text="Title" />
         </RelativeLayout>
 

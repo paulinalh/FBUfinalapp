@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="center">
+    android:layout_centerHorizontal="true">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:alpha="0.7"
-        android:src="@drawable/background_fragment" />
+        android:src="@drawable/scrim"
+       />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cvQuickDetails"
@@ -27,42 +28,56 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <ImageView
+                android:id="@+id/ivClose"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                card_view:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
+
             <TextView
                 android:id="@+id/tvFirst"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="0dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginEnd="20dp"
                 android:fontFamily="sans-serif-medium"
                 android:text="Give your opinion about this place's"
                 android:textColor="#000000"
-                android:textSize="30sp" />
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/tvRateType"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvFirst"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="5dp"
                 android:layout_toStartOf="@+id/ivService"
                 android:fontFamily="sans-serif-medium"
                 android:textColor="#000000"
-                android:textSize="34sp" />
+                android:textSize="24sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvRateType"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="5dp"
                 android:layout_toStartOf="@+id/ivService"
                 android:fontFamily="sans-serif-medium"
                 android:text="rate from 1 to 5"
                 android:textColor="#000000"
-                android:textSize="20sp" />
+                android:textSize="14sp" />
 
             <ImageView
                 android:id="@+id/ivService"
@@ -80,6 +95,7 @@
                 android:layout_below="@id/ivService"
                 android:layout_centerVertical="false"
                 android:layout_marginTop="30dp"
+                android:id="@+id/llStars"
                 android:layout_centerHorizontal="true">
 
                 <ImageView
@@ -113,6 +129,15 @@
                     card_view:srcCompat="@android:drawable/star_off" />
 
             </LinearLayout>
+
+            <Button
+                android:id="@+id/btnStars"
+                android:layout_width="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/llStars"
+                android:layout_marginTop="20dp"
+                android:text="Rate" />
         </RelativeLayout>
 
 

@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements PlacesAdapter.IPl
 
 
         //Slide down panel
-        ListView listView=findViewById(R.id.listView);
+       ListView listView=findViewById(R.id.listView);
         listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, new String[]{"uno", "dos", "tres"}));
 
         BottomNavigationView bottomNavigation = (BottomNavigationView) findViewById(R.id.bottomNavigation);

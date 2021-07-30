@@ -97,7 +97,6 @@ public class QuickDetailsFragment extends Fragment {
         tvTitle = (TextView) view.findViewById(R.id.tvQuickName);
         ivDetailsImage=(ImageView) view.findViewById(R.id.ivQuickPlace);
         rbQuickPlace=(RatingBar) view.findViewById(R.id.rbQuickPlaceRating);
-        lottieLike=(LottieAnimationView) view.findViewById(R.id.lottieLike);
         lottieComment=(LottieAnimationView) view.findViewById(R.id.lottieComment);
         lottieMap=(LottieAnimationView) view.findViewById(R.id.lottieMap);
         lottieDetails=(LottieAnimationView) view.findViewById(R.id.lottieDetails);
@@ -145,13 +144,6 @@ public class QuickDetailsFragment extends Fragment {
         //queryObject();
         //RecyclerView rvServices = getView().findViewById(R.id.rvServices);
 
-        lottieLike.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(), "yes", Toast.LENGTH_SHORT).show();
-
-            }
-        });
 
         lottieComment.setOnClickListener(new View.OnClickListener() {
             @Override

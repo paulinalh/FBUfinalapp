@@ -44,16 +44,16 @@ public class ServicesFragment extends Fragment {
     RatingBar rbWheelchair, rbRamp, rbParking, rbElevator, rbDog, rbBraille, rbLights, rbSound, rbSignlanguage;
     LinearLayout lyWheelchair, lyRamp, lyParking, lyElevator, lyDog, lyBraille, lyLights, lySound, lySignlanguage;
     List<Integer> availableServicesList = new ArrayList<>();
-    int WEELCHAIR_CODE= 0;
-    int RAMP_CODE= 1;
-    int PARKING_CODE= 2;
-    int ELEVATOR_CODE= 3;
-    int DOG_CODE= 4;
-    int BRAILLE_CODE= 5;
-    int LIGHT_CODE= 6;
-    int SOUND_CODE= 7;
-    int SIGNLANGUAGE_CODE= 8;
-    Fragment ratingFragment= new RatingFragment();
+    int WEELCHAIR_CODE = 0;
+    int RAMP_CODE = 1;
+    int PARKING_CODE = 2;
+    int ELEVATOR_CODE = 3;
+    int DOG_CODE = 4;
+    int BRAILLE_CODE = 5;
+    int LIGHT_CODE = 6;
+    int SOUND_CODE = 7;
+    int SIGNLANGUAGE_CODE = 8;
+    Fragment ratingFragment = new RatingFragment();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -91,7 +91,7 @@ public class ServicesFragment extends Fragment {
         ivBraille = (ImageView) view.findViewById(R.id.ivBraille);
         ivLights = (ImageView) view.findViewById(R.id.ivLights);
         ivSound = (ImageView) view.findViewById(R.id.ivSound);
-        ivSignlanguage = (ImageView) view.findViewById(R.id.ivSignlanguage);
+        ivSignlanguage = (ImageView) view.findViewById(R.id.ivSignLanguage);
 
         //All Rating bars
         rbWheelchair = (RatingBar) view.findViewById(R.id.rbWheelchair);
@@ -125,63 +125,72 @@ public class ServicesFragment extends Fragment {
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Log.i("Services Fragment", placeId);
+        //Log.i("Services Fragment", placeId);
 
 
         lyWheelchair.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RatingFragment.setTypeService(WEELCHAIR_CODE);
+                RatingFragment.setTypeService(WEELCHAIR_CODE, objectId, placeToRate);
                 getChildFragmentManager().beginTransaction().replace(R.id.child_fragment_container, ratingFragment).commit();
 
             }
         });
-        lyRamp .setOnClickListener(new View.OnClickListener() {
+        lyRamp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                RatingFragment.setTypeService(RAMP_CODE, objectId, placeToRate);
+                getChildFragmentManager().beginTransaction().replace(R.id.child_fragment_container, ratingFragment).commit();
 
             }
         });
-        lyParking .setOnClickListener(new View.OnClickListener() {
+        lyParking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                RatingFragment.setTypeService(PARKING_CODE, objectId, placeToRate);
+                getChildFragmentManager().beginTransaction().replace(R.id.child_fragment_container, ratingFragment).commit();
             }
         });
         lyElevator.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                RatingFragment.setTypeService(ELEVATOR_CODE, objectId, placeToRate);
+                getChildFragmentManager().beginTransaction().replace(R.id.child_fragment_container, ratingFragment).commit();
             }
         });
-        lyDog .setOnClickListener(new View.OnClickListener() {
+        lyDog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                RatingFragment.setTypeService(DOG_CODE, objectId, placeToRate);
+                getChildFragmentManager().beginTransaction().replace(R.id.child_fragment_container, ratingFragment).commit();
             }
         });
-        lyBraille .setOnClickListener(new View.OnClickListener() {
+        lyBraille.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                RatingFragment.setTypeService(BRAILLE_CODE, objectId, placeToRate);
+                getChildFragmentManager().beginTransaction().replace(R.id.child_fragment_container, ratingFragment).commit();
             }
         });
-        lyLights .setOnClickListener(new View.OnClickListener() {
+        lyLights.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                RatingFragment.setTypeService(LIGHT_CODE, objectId, placeToRate);
+                getChildFragmentManager().beginTransaction().replace(R.id.child_fragment_container, ratingFragment).commit();
             }
         });
         lySound.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                RatingFragment.setTypeService(SOUND_CODE, objectId, placeToRate);
+                getChildFragmentManager().beginTransaction().replace(R.id.child_fragment_container, ratingFragment).commit();
             }
         });
-        lySignlanguage .setOnClickListener(new View.OnClickListener() {
+        lySignlanguage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                RatingFragment.setTypeService(SIGNLANGUAGE_CODE, objectId, placeToRate);
+                getChildFragmentManager().beginTransaction().replace(R.id.child_fragment_container, ratingFragment).commit();
             }
         });
 
@@ -201,13 +210,13 @@ public class ServicesFragment extends Fragment {
         query.whereEqualTo("placeId", placeId);
 
         query.findInBackground((objects, e) -> {
-            if(e == null){
+            if (e == null) {
                 for (ParseObject result : objects) {
-                    Log.d("Object found Details ",result.getObjectId());
-                    this.objectId=result.getObjectId();
-                    placeToRate= (PlaceServicesRating) result;
+                    Log.d("Object found Details ", result.getObjectId());
+                    this.objectId = result.getObjectId();
+                    placeToRate = (PlaceServicesRating) result;
                     //objectId=placeToRate.getObjectId();
-                    availableServicesList=checkAvailableServices();
+                    availableServicesList = checkAvailableServices();
 
 
 /*
@@ -216,11 +225,11 @@ public class ServicesFragment extends Fragment {
                     rvServices.setLayoutManager(horizontalLayoutManager);
                     servicesAdapter = new ServicesAdapter(getContext(), availableServicesList, placeToRate);*/
                 }
-            }else{
-                Toast.makeText(getContext(), "Error: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getContext(), "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
 
             }
-            if(this.objectId==null){
+            if (this.objectId == null) {
                 createObject();
             }
 
@@ -230,109 +239,127 @@ public class ServicesFragment extends Fragment {
     private List<Integer> checkAvailableServices() {
         List<Integer> listServices = new ArrayList<>();
 
-        List <Integer> listRatings= new ArrayList<>();
-        float count=0;
-        float meanRating=0;
+        List<Integer> listRatings = new ArrayList<>();
+        float count = 0;
+        float meanRating = 0;
 
-        if(placeToRate.getWheelchairRatings().get(0)!=0){
+        if (placeToRate.getWheelchairRatings().get(0) != 0) {
             listServices.add(WEELCHAIR_CODE);
             ivWheelchair.setImageDrawable(getContext().getResources().getDrawable(R.drawable.wheelchair_icon_2));
-            listRatings=placeToRate.getWheelchairRatings();
-            for(int i =0;i<listRatings.size();i++){
-                count=count+listRatings.get(i);
+            listRatings = placeToRate.getWheelchairRatings();
+            for (int i = 0; i < listRatings.size(); i++) {
+                count = count + listRatings.get(i);
             }
-            meanRating=count/listRatings.size();
+            meanRating = count / listRatings.size();
             rbWheelchair.setVisibility(View.VISIBLE);
             rbWheelchair.setRating(meanRating);
+            count = 0;
+            meanRating = 0;
 
-        } if(placeToRate.getRampRatings().get(0)!=0){
+        }
+        if (placeToRate.getRampRatings().get(0) != 0) {
             listServices.add(RAMP_CODE);
-            ivRamp.setImageDrawable(getContext().getResources().getDrawable(R.drawable.wheelchair_icon_2));
-            listRatings=placeToRate.getWheelchairRatings();
-            for(int i =0;i<listRatings.size();i++){
-                count=count+listRatings.get(i);
+            ivRamp.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ramp_icon_2));
+            listRatings = placeToRate.getRampRatings();
+            for (int i = 0; i < listRatings.size(); i++) {
+                count = count + listRatings.get(i);
             }
-            meanRating=count/listRatings.size();
-            rbRamp.setRating(meanRating);
+            meanRating = count / listRatings.size();
             rbRamp.setVisibility(View.VISIBLE);
-
-        } if(placeToRate.getParkingRatings().get(0)!=0){
+            rbRamp.setRating(meanRating);
+            count = 0;
+            meanRating = 0;
+        }
+        if (placeToRate.getParkingRatings().get(0) != 0) {
             listServices.add(PARKING_CODE);
-            ivParking.setImageDrawable(getContext().getResources().getDrawable(R.drawable.wheelchair_icon_2));
-            listRatings=placeToRate.getWheelchairRatings();
-            for(int i =0;i<listRatings.size();i++){
-                count=count+listRatings.get(i);
+            ivParking.setImageDrawable(getContext().getResources().getDrawable(R.drawable.parking_icon_2));
+            listRatings = placeToRate.getParkingRatings();
+            for (int i = 0; i < listRatings.size(); i++) {
+                count = count + listRatings.get(i);
             }
-            meanRating=count/listRatings.size();
-            rbParking.setRating(meanRating);
+            meanRating = count / listRatings.size();
             rbParking.setVisibility(View.VISIBLE);
-
-        } if(placeToRate.getElevatorRatings().get(0)!=0){
+            rbParking.setRating(meanRating);
+            count = 0;
+            meanRating = 0;
+        }
+        if (placeToRate.getElevatorRatings().get(0) != 0) {
             listServices.add(ELEVATOR_CODE);
-            ivElevator.setImageDrawable(getContext().getResources().getDrawable(R.drawable.wheelchair_icon_2));
-            listRatings=placeToRate.getWheelchairRatings();
-            for(int i =0;i<listRatings.size();i++){
-                count=count+listRatings.get(i);
+            ivElevator.setImageDrawable(getContext().getResources().getDrawable(R.drawable.elevator_icon_2));
+            listRatings = placeToRate.getElevatorRatings();
+            for (int i = 0; i < listRatings.size(); i++) {
+                count = count + listRatings.get(i);
             }
-            meanRating=count/listRatings.size();
-            rbElevator.setRating(meanRating);
+            meanRating = count / listRatings.size();
             rbElevator.setVisibility(View.VISIBLE);
-
-        } if(placeToRate.getDogRatings().get(0)!=0){
+            rbElevator.setRating(meanRating);
+            count = 0;
+            meanRating = 0;
+        }
+        if (placeToRate.getDogRatings().get(0) != 0) {
             listServices.add(DOG_CODE);
-            ivDog.setImageDrawable(getContext().getResources().getDrawable(R.drawable.wheelchair_icon_2));
-            listRatings=placeToRate.getWheelchairRatings();
-            for(int i =0;i<listRatings.size();i++){
-                count=count+listRatings.get(i);
+            ivDog.setImageDrawable(getContext().getResources().getDrawable(R.drawable.dog_icon_2));
+            listRatings = placeToRate.getDogRatings();
+            for (int i = 0; i < listRatings.size(); i++) {
+                count = count + listRatings.get(i);
             }
-            meanRating=count/listRatings.size();
-            rbDog.setRating(meanRating);
+            meanRating = count / listRatings.size();
             rbDog.setVisibility(View.VISIBLE);
-
-        } if(placeToRate.getBrailleRatings().get(0)!=0){
+            rbDog.setRating(meanRating);
+            count = 0;
+            meanRating = 0;
+        }
+        if (placeToRate.getBrailleRatings().get(0) != 0) {
             listServices.add(BRAILLE_CODE);
-            ivBraille.setImageDrawable(getContext().getResources().getDrawable(R.drawable.wheelchair_icon_2));
-            listRatings=placeToRate.getWheelchairRatings();
-            for(int i =0;i<listRatings.size();i++){
-                count=count+listRatings.get(i);
+            ivBraille.setImageDrawable(getContext().getResources().getDrawable(R.drawable.braille_icon_2));
+            listRatings = placeToRate.getBrailleRatings();
+            for (int i = 0; i < listRatings.size(); i++) {
+                count = count + listRatings.get(i);
             }
-            meanRating=count/listRatings.size();
-            rbBraille.setRating(meanRating);
+            meanRating = count / listRatings.size();
             rbBraille.setVisibility(View.VISIBLE);
-
-        } if(placeToRate.getLightsRatings().get(0)!=0){
+            rbBraille.setRating(meanRating);
+            count = 0;
+            meanRating = 0;
+        }
+        if (placeToRate.getLightsRatings().get(0) != 0) {
             listServices.add(LIGHT_CODE);
-            ivLights.setImageDrawable(getContext().getResources().getDrawable(R.drawable.wheelchair_icon_2));
-            listRatings=placeToRate.getWheelchairRatings();
-            for(int i =0;i<listRatings.size();i++){
-                count=count+listRatings.get(i);
+            ivLights.setImageDrawable(getContext().getResources().getDrawable(R.drawable.light_icon_2));
+            listRatings = placeToRate.getLightsRatings();
+            for (int i = 0; i < listRatings.size(); i++) {
+                count = count + listRatings.get(i);
             }
-            meanRating=count/listRatings.size();
-            rbLights.setRating(meanRating);
+            meanRating = count / listRatings.size();
             rbLights.setVisibility(View.VISIBLE);
-
-        } if(placeToRate.getSoundRatings().get(0)!=0){
+            rbLights.setRating(meanRating);
+            count = 0;
+            meanRating = 0;
+        }
+        if (placeToRate.getSoundRatings().get(0) != 0) {
             listServices.add(SOUND_CODE);
-            ivSound.setImageDrawable(getContext().getResources().getDrawable(R.drawable.wheelchair_icon_2));
-            listRatings=placeToRate.getWheelchairRatings();
-            for(int i =0;i<listRatings.size();i++){
-                count=count+listRatings.get(i);
+            ivSound.setImageDrawable(getContext().getResources().getDrawable(R.drawable.sound_icon_2));
+            listRatings = placeToRate.getSoundRatings();
+            for (int i = 0; i < listRatings.size(); i++) {
+                count = count + listRatings.get(i);
             }
-            meanRating=count/listRatings.size();
-            rbSound.setRating(meanRating);
+            meanRating = count / listRatings.size();
             rbSound.setVisibility(View.VISIBLE);
-
-        } if(placeToRate.getSignlanguageRatings().get(0)!=0){
+            rbSound.setRating(meanRating);
+            count = 0;
+            meanRating = 0;
+        }
+        if (placeToRate.getSignlanguageRatings().get(0) != 0) {
             listServices.add(SIGNLANGUAGE_CODE);
-            ivSignlanguage.setImageDrawable(getContext().getResources().getDrawable(R.drawable.wheelchair_icon_2));
-            listRatings=placeToRate.getWheelchairRatings();
-            for(int i =0;i<listRatings.size();i++){
-                count=count+listRatings.get(i);
+            ivSignlanguage.setImageDrawable(getContext().getResources().getDrawable(R.drawable.signlanguage_icon_2));
+            listRatings = placeToRate.getSignlanguageRatings();
+            for (int i = 0; i < listRatings.size(); i++) {
+                count = count + listRatings.get(i);
             }
-            meanRating=count/listRatings.size();
-            rbSignlanguage.setRating(meanRating);
+            meanRating = count / listRatings.size();
             rbSignlanguage.setVisibility(View.VISIBLE);
-
+            rbSignlanguage.setRating(meanRating);
+            count = 0;
+            meanRating = 0;
         }
 
         return listServices;
@@ -358,7 +385,7 @@ public class ServicesFragment extends Fragment {
 
         //ESTO YA NO ERA COMENTARIO
 
-        List<Integer> emptyList=new ArrayList<>();
+        List<Integer> emptyList = new ArrayList<>();
         emptyList.add(0);
 
         PlaceServicesRating newObject = new PlaceServicesRating();
@@ -376,11 +403,11 @@ public class ServicesFragment extends Fragment {
         // Saves the new object.
         // Notice that the SaveCallback is totally optional!
         newObject.saveInBackground(e -> {
-            if (e==null){
+            if (e == null) {
                 //Save was done
                 queryObject();
 
-            }else{
+            } else {
                 //Something went wrong
                 Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
             }

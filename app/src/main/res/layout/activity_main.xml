@@ -37,7 +37,6 @@
             app:menu="@menu/menu_bottom_navigation" />
     </RelativeLayout>
 
-
     <LinearLayout
         android:id="@+id/dragView"
         android:layout_width="match_parent"
@@ -57,13 +56,28 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="68dp">
+            android:layout_height="40dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="16sp"
-                android:text="addReviewforPlace" />
+                android:fontFamily="sans-serif-medium"
+                android:layout_alignParentBottom="true"
+                android:paddingLeft="10sp"
+                android:textSize="20sp"
+                android:text="Search for specific commands" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/starAnimation"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="0dp"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/search_loop"
+                 />
         </RelativeLayout>
 
 
@@ -71,3 +85,9 @@
 
 
 </com.sothree.slidinguppanel.SlidingUpPanelLayout>
+
+
+
+
+
+
