@@ -166,7 +166,7 @@ public class RatingFragment extends Fragment {
         ivClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().getFragmentManager().popBackStack();
+                getFragmentManager().beginTransaction().remove(RatingFragment.this).commit();
 
             }
         });
@@ -214,7 +214,9 @@ public class RatingFragment extends Fragment {
     }
 
     private void updateParse() {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("PlaceInclusionServices");
+        ParseQuery<PlaceServicesRating> query = ParseQuery.getQuery(PlaceServicesRating.class);
+
+        //ParseQuery<ParseObject> query = ParseQuery.getQuery("PlaceInclusionServices");
 
         // Retrieve the object by id
         query.getInBackground(objectId, (object, e) -> {
@@ -222,26 +224,45 @@ public class RatingFragment extends Fragment {
                 //Object was successfully retrieved
                 // Update the fields we want to
                 if(CODE==0){
-                    object.put("wheelchairRatings", ratingsList);
+                    object.setWheelchairRatings(ratingsList);
+                    //object.put("wheelchairRatings", ratingsList);
                 }else if(CODE==1){
-                    object.put("rampRatings", ratingsList);
+                    object.setRampRatings(ratingsList);
+
+                    //object.put("rampRatings", ratingsList);
                 }else if(CODE==2){
-                    object.put("parkingRatings", ratingsList);
+                    object.setParkingRatings(ratingsList);
+
+                    //object.put("parkingRatings", ratingsList);
                 }else if(CODE==3){
-                    object.put("elevatorRatings", ratingsList);
+                    object.setElevatorRatings(ratingsList);
+
+                    //object.put("elevatorRatings", ratingsList);
                 }else if(CODE==4){
-                    object.put("dogRatings", ratingsList);
+                    object.setDogRatings(ratingsList);
+
+                    //object.put("dogRatings", ratingsList);
                 }else if(CODE==5){
-                    object.put("brailleRatings", ratingsList);
+                    object.setBrailleRatings(ratingsList);
+
+                    //object.put("brailleRatings", ratingsList);
                 }else if(CODE==6){
-                    object.put("lightsRatings", ratingsList);
+                    object.setLightsRatings(ratingsList);
+
+                    //object.put("lightsRatings", ratingsList);
                 }else if(CODE==7){
-                    object.put("soundRatings", ratingsList);
+                    object.setSoundRatings(ratingsList);
+
+                    //object.put("soundRatings", ratingsList);
                 }else if(CODE==8){
-                    object.put("signlanguageRatings", ratingsList);
+                    object.setSignlanguageRatings(ratingsList);
+
+                    //object.put("signlanguageRatings", ratingsList);
                 }
                 //All other fields will remain the same
                 object.saveInBackground();
+                getFragmentManager().beginTransaction().remove(RatingFragment.this).commit();
+
 
             } else {
                 // something went wrong

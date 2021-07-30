@@ -50,7 +50,7 @@ public class QuickDetailsFragment extends Fragment {
     PlaceServicesRating placeToRate;
     static String placeId;
     static String imagePath;
-    ImageView ivDetailsImage;
+    ImageView ivDetailsImage,ivClose;
     TextView tvTitle, tvAddress, tvPhone, tvPrice, tvRating, tvMonday, tvTuesday, tvWednesday, tvThursday, tvFriday, tvSaturday, tvSunday;
     Place place;
     String title, description, formatted_phone_number, formatted_address, price_level;
@@ -100,6 +100,7 @@ public class QuickDetailsFragment extends Fragment {
         lottieComment=(LottieAnimationView) view.findViewById(R.id.lottieComment);
         lottieMap=(LottieAnimationView) view.findViewById(R.id.lottieMap);
         lottieDetails=(LottieAnimationView) view.findViewById(R.id.lottieDetails);
+        ivClose=view.findViewById(R.id.ivClose);
 
         /*tvAddress = (TextView) view.findViewById(R.id.tvAddress);
         tvPhone = (TextView) view.findViewById(R.id.tvPhone);
@@ -177,6 +178,14 @@ public class QuickDetailsFragment extends Fragment {
                 i.putExtra("searchPlaceName",title);
 
                 startActivity(i);
+
+            }
+        });
+
+        ivClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getFragmentManager().beginTransaction().remove(QuickDetailsFragment.this).commit();
 
             }
         });

@@ -25,18 +25,34 @@
         android:layout_height="400dp"
         android:orientation="vertical">
 
-        <ImageView
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
 
 
-            android:id="@+id/ivQuickPlace"
-            android:layout_width="400dp"
-            android:layout_height="200dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="0dp"
-            android:cropToPadding="false">
+                android:id="@+id/ivQuickPlace"
+                android:layout_width="400dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="0dp"
+                android:cropToPadding="false">
 
 
-        </ImageView>
+            </ImageView>
+
+            <ImageView
+                android:id="@+id/ivClose"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
+
+        </RelativeLayout>
+
+
 
         <TextView
             android:id="@+id/tvQuickName"

@@ -20,6 +20,8 @@ public class PlaceServicesRating extends ParseObject {
     public static final String KEY_LIGHTS="lightsRatings";
     public static final String KEY_SOUND="soundRatings";
     public static final String KEY_SIGNLANGUAGE="signlanguageRatings";
+    public static final String KEY_IMAGE="imageofPlace";
+    public static final String KEY_NAME="nameofPlace";
 
     public String getServicesObjectId(){
         return getString(KEY_OBJECTID);
@@ -35,6 +37,22 @@ public class PlaceServicesRating extends ParseObject {
 
     public void setRatingPlaceId(String id){
         put(KEY_PLACEID,id);
+    }
+
+    public String getImageofPlace22(){
+        return getString(KEY_IMAGE);
+    }
+
+    public String getNameofPlace22(){
+        return getString(KEY_NAME);
+    }
+
+    public void setImageofPlace22(String image){
+        put(KEY_IMAGE,image);
+    }
+
+    public void setNameofPlace22(String name){
+        put(KEY_NAME,name);
     }
 
     public List<Integer> getWheelchairRatings(){

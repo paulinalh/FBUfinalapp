@@ -82,7 +82,7 @@ public class DetailsFragment extends Fragment {
 
         placeDetailsList = new ArrayList<>();
 
-        queryObject2();
+        //queryObject2();
 
     }
 
@@ -107,7 +107,7 @@ public class DetailsFragment extends Fragment {
         tvFriday = (TextView) view.findViewById(R.id.tvFriday);
         tvSaturday = (TextView) view.findViewById(R.id.tvSaturday);
         tvSunday = (TextView) view.findViewById(R.id.tvSunday);
-        queryObject2();
+        //queryObject2();
 
 
         return view;
@@ -216,8 +216,8 @@ public class DetailsFragment extends Fragment {
 
 
     public void queryObject2() {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("PlaceInclusionServices");
-        //ParseQuery<PlaceServicesRating> query= ParseQuery.getQuery(PlaceServicesRating.class);
+        //ParseQuery<ParseObject> query = ParseQuery.getQuery("PlaceInclusionServices");
+        ParseQuery<PlaceServicesRating> query= ParseQuery.getQuery(PlaceServicesRating.class);
 
         // Finds only the comments that has placeId
         query.whereEqualTo("placeId", placeId);
@@ -241,7 +241,7 @@ public class DetailsFragment extends Fragment {
 
             }
             if(this.objectId==null){
-                createObject();
+                //createObject();
             }
 
         });

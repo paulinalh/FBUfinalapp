@@ -35,7 +35,7 @@ import java.util.List;
 
 public class ServicesFragment extends Fragment {
     private static final String TAG = "Services fragment";
-    static String placeId;
+    static String placeId,placeName,image;
     protected List<PlaceServicesRating> allPlaces;
     PlaceServicesRating placeToRate;
     String objectId;
@@ -58,7 +58,7 @@ public class ServicesFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        queryObject();
+        //queryObject();
 
 
     }
@@ -197,14 +197,17 @@ public class ServicesFragment extends Fragment {
 
     }
 
-    public static void setPlace(String id) {
+    public static void setPlace(String id,String name, String img) {
 
         placeId = id;
+        placeName=name;
+        image=img;
     }
 
     public void queryObject() {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("PlaceInclusionServices");
-        //ParseQuery<PlaceServicesRating> query= ParseQuery.getQuery(PlaceServicesRating.class);
+
+        //ParseQuery<ParseObject> query = ParseQuery.getQuery("PlaceInclusionServices");
+        ParseQuery<PlaceServicesRating> query= ParseQuery.getQuery(PlaceServicesRating.class);
 
         // Finds only the comments that has placeId
         query.whereEqualTo("placeId", placeId);
@@ -399,6 +402,8 @@ public class ServicesFragment extends Fragment {
         newObject.setLightsRatings(emptyList);
         newObject.setSoundRatings(emptyList);
         newObject.setSignlanguageRatings(emptyList);
+        newObject.setNameofPlace22(placeName);
+        newObject.setImageofPlace22(image);
 
         // Saves the new object.
         // Notice that the SaveCallback is totally optional!
