@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+
+
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cvQuickDetails"
     android:layout_width="350dp"
     android:layout_height="400dp"
     android:layout_alignParentTop="true"
+    android:layout_centerInParent="true"
+    android:layout_gravity="center_horizontal"
     android:layout_marginLeft="20dp"
     android:layout_marginTop="50dp"
     android:layout_marginRight="20dp"
-    android:layout_centerInParent="true"
     android:foreground="?android:attr/selectableItemBackground"
     card_view:cardCornerRadius="20dp">
 

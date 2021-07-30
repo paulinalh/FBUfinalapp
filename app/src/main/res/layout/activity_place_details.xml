@@ -10,7 +10,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/app_bar_height"
+        android:layout_height="230dp"
         android:fitsSystemWindows="true"
         android:theme="@style/Theme.FBUfinal.AppBarOverlay">
 
@@ -30,6 +30,11 @@
                 app:layout_collapseMode="parallax"
                 app:layout_collapseParallaxMultiplier="0.9"
                 />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:src="@drawable/scrim" />
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"

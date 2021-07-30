@@ -1,15 +1,389 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.DetailsFragment">
+
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.ServicesFragment">
 
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/lyWheelchair"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:text="@string/large_text" />
+        android:orientation="vertical"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="25dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="60dp">
 
-</androidx.core.widget.NestedScrollView>
+
+        <ImageView
+            android:id="@+id/ivWheelchair"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_below="@+id/tvQuestion"
+            android:layout_alignParentStart="true"
+            app:srcCompat="@drawable/wheelchair_icon_1"
+            tools:srcCompat="@drawable/wheelchair_icon_1" />
+
+
+        <TextView
+            android:id="@+id/tvWheelchair"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/Wheelchair"
+            android:textColor="@android:color/black"
+            android:textSize="12sp"
+            tools:text="description" />
+
+        <RatingBar
+            android:id="@+id/rbWheelchair"
+            style="@style/Widget.AppCompat.RatingBar.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:numStars="5"
+            android:stepSize="0.5"
+            android:visibility="invisible" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/lyRamp"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentStart="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="157dp"
+        android:layout_marginTop="60dp">
+
+
+        <ImageView
+            android:id="@+id/ivRamp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:srcCompat="@drawable/ramp_icon_1"
+            tools:srcCompat="@drawable/ramp_icon_1" />
+
+
+        <TextView
+            android:id="@+id/tvRamp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="@string/Ramp"
+            android:textColor="@android:color/black"
+            android:textSize="12sp"
+            tools:text="description" />
+
+        <RatingBar
+            android:id="@+id/rbRamp"
+            style="@style/Widget.AppCompat.RatingBar.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:numStars="5"
+            android:stepSize="0.5"
+            android:visibility="invisible" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lyParking"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentEnd="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="25dp">
+
+
+        <ImageView
+            android:id="@+id/ivParking"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:srcCompat="@drawable/parking_icon_1"
+            tools:srcCompat="@drawable/parking_icon_1" />
+
+
+        <TextView
+            android:id="@+id/tvParking"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/Parking"
+            android:textColor="@android:color/black"
+            android:textSize="12sp"
+            tools:text="description" />
+
+        <RatingBar
+            android:id="@+id/rbParking"
+            style="@style/Widget.AppCompat.RatingBar.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:numStars="5"
+            android:stepSize="0.5"
+            android:visibility="invisible" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lyElevator"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="40dp"
+        android:layout_below="@+id/lyWheelchair">
+
+
+        <ImageView
+            android:id="@+id/ivElevator"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:srcCompat="@drawable/elevator_icon_1"
+            tools:srcCompat="@drawable/elevator_icon_1" />
+
+
+        <TextView
+            android:id="@+id/tvElevator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/Elevator"
+            android:textColor="@android:color/black"
+            android:textSize="12sp"
+            tools:text="description" />
+
+        <RatingBar
+            android:id="@+id/rbElevator"
+            style="@style/Widget.AppCompat.RatingBar.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:numStars="5"
+            android:stepSize="0.5"
+            android:visibility="invisible" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lyDog"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentEnd="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="156dp"
+        android:layout_below="@+id/lyRamp">
+
+
+        <ImageView
+            android:id="@+id/ivDog"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:srcCompat="@drawable/dog_icon_1"
+            tools:srcCompat="@drawable/dog_icon_1" />
+
+
+        <TextView
+            android:id="@+id/tvDog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/Dog"
+            android:textColor="@android:color/black"
+            android:textSize="12sp"
+            tools:text="description" />
+
+        <RatingBar
+            android:id="@+id/rbDog"
+            style="@style/Widget.AppCompat.RatingBar.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:numStars="5"
+            android:stepSize="0.5"
+            android:visibility="invisible" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lyBraille"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="25dp"
+        android:layout_below="@+id/lyParking">
+
+
+        <ImageView
+            android:id="@+id/ivBraille"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:srcCompat="@drawable/braille_icon_1"
+            tools:srcCompat="@drawable/braille_icon_1" />
+
+
+        <TextView
+            android:id="@+id/tvBraille"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/Braille"
+            android:textColor="@android:color/black"
+            android:textSize="12sp"
+            tools:text="description" />
+
+        <RatingBar
+            android:id="@+id/rbBraille"
+            style="@style/Widget.AppCompat.RatingBar.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:numStars="5"
+            android:stepSize="0.5"
+            android:visibility="invisible" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lyLights"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="40dp"
+        android:layout_below="@+id/lyElevator">
+
+
+        <ImageView
+            android:id="@+id/ivLights"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:srcCompat="@drawable/light_icon_1"
+            tools:srcCompat="@drawable/light_icon_1" />
+
+
+        <TextView
+            android:id="@+id/tvLights"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/Lights"
+            android:textColor="@android:color/black"
+            android:textSize="12sp"
+            tools:text="description" />
+
+        <RatingBar
+            android:id="@+id/rbLights"
+            style="@style/Widget.AppCompat.RatingBar.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:numStars="5"
+            android:stepSize="0.5"
+            android:visibility="invisible" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lySound"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentEnd="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="157dp"
+        android:layout_below="@+id/lyDog">
+
+
+        <ImageView
+            android:id="@+id/ivSound"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:srcCompat="@drawable/sound_icon_1"
+            tools:srcCompat="@drawable/sound_icon_1" />
+
+
+        <TextView
+            android:id="@+id/tvSound"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/Sound"
+            android:textColor="@android:color/black"
+            android:textSize="12sp"
+            tools:text="description" />
+
+        <RatingBar
+            android:id="@+id/rbSound"
+            style="@style/Widget.AppCompat.RatingBar.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:numStars="5"
+            android:stepSize="0.5"
+            android:visibility="invisible" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lySignLanguage"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="25dp"
+        android:layout_below="@+id/lyBraille">
+
+
+        <ImageView
+            android:id="@+id/ivSignLanguage"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:srcCompat="@drawable/signlanguage_icon_1"
+            tools:srcCompat="@drawable/signlanguage_icon_1" />
+
+
+        <TextView
+            android:id="@+id/tvSignLanguage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/Sign_Language"
+            android:textColor="@android:color/black"
+            android:textSize="12sp"
+            tools:text="description" />
+
+        <RatingBar
+            android:id="@+id/rbSignLanguage"
+            style="@style/Widget.AppCompat.RatingBar.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:numStars="5"
+            android:stepSize="0.5"
+            android:visibility="invisible" />
+    </LinearLayout>
+</RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/child_fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    </androidx.core.widget.NestedScrollView>
