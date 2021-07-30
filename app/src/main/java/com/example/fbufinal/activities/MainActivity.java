@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.slidingpanelayout.widget.SlidingPaneLayout;
 
 import android.Manifest;
 import android.content.Intent;
@@ -15,9 +16,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,6 +48,7 @@ import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRe
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
+import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.FindCallback;
@@ -52,6 +56,7 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -77,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements PlacesAdapter.IPl
     List<Favorite> favorites = new ArrayList<>();
     FavoritePlacesAdapter favAdapter;
     //boolean hasLocationPermission = false;
+    SlidingPaneLayout slider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements PlacesAdapter.IPl
         setContentView(R.layout.activity_main);
         //flContainer.onFindViewById(R.id.flContainer);
         //String apiKey = getString(R.string.api_key);
+
 
 /*
 
@@ -93,20 +100,52 @@ public class MainActivity extends AppCompatActivity implements PlacesAdapter.IPl
         queryFavorites();
 
         favAdapter = new FavoritePlacesAdapter(this, favorites);*/
-
-
-
-
-        //Slide down panel
-       ListView listView=findViewById(R.id.listView);
-        listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, new String[]{"uno", "dos", "tres"}));
-
         BottomNavigationView bottomNavigation = (BottomNavigationView) findViewById(R.id.bottomNavigation);
         bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         // Set default selection
         bottomNavigation.setSelectedItemId(R.id.action_home);
+
+SlidingUpPanelLayout slideLayout=findViewById(R.id.slide_layout);
+         //slider = findViewById(R.id.slide);
+        //Slide down panel
+       ListView listView=findViewById(R.id.listView);
+       ArrayAdapter adapter=new ArrayAdapter<String>(this,
+               android.R.layout.simple_list_item_1,
+               new String[]{"Recommended Places",
+                       "Search by name",
+                       "Places with wheelchair accessibility",
+                       "Places with quality ramps",
+                       "Places with accessible parking",
+                       "Places with quality elevators",
+                       "Places with access to service dogs",
+                       "Places with services in Braille",
+                       "Places with lights control for people with sensitivity",
+                       "Places with sound control for people with sensitivity",
+                       "Places with services in sign language"
+               });
+        listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+       Toast.makeText(MainActivity.this, "I will get: "+adapter.getItem(position),Toast.LENGTH_SHORT).show();
+                Fragment currentFragment = null;
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                if(position==0){
+                   slideLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+                    //currentFragment = new SearchFragment();
+                    //fragmentManager.beginTransaction().replace(R.id.flContainer, currentFragment).commit();
+                    bottomNavigation.setSelectedItemId(R.id.action_compose);
+
+                }
+
+            }
+        });
+
+
     }
+
 
 
     @AfterPermissionGranted(RC_CAMERA_AND_LOCATION)

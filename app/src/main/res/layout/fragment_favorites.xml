@@ -12,6 +12,7 @@
         android:layout_height="wrap_content">
 
 
+
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
@@ -19,7 +20,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginStart="1dp"
-            android:layout_marginTop="79dp"
+            android:layout_marginTop="5dp"
             android:fontFamily="sans-serif-medium"
             android:text="These are your favorite places!"
             android:textColor="@color/black"
@@ -37,5 +38,19 @@
         android:layout_below="@+id/rlFavTitle"
         android:layout_marginTop="0dp"
         android:orientation="vertical" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/confetti"
+        android:layout_width="500dp"
+        android:layout_height="500dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="-16dp"
+        android:layout_marginTop="-7dp"
+        android:layout_marginEnd="-4dp"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="false"
+        app:lottie_rawRes="@raw/confetti" />
 
 </RelativeLayout>
