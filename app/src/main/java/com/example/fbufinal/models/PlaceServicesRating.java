@@ -110,7 +110,7 @@ public class PlaceServicesRating extends ParseObject {
         put(KEY_RAMP_POSTS,ratings);
     }
     public void setParkingPosts(List<Post> ratings){
-        put(KEY_PARKING,ratings);
+        put(KEY_PARKING_POSTS,ratings);
     }
     public void setElevatorPosts(List<Post> ratings){
         put(KEY_ELEVATOR_POSTS,ratings);

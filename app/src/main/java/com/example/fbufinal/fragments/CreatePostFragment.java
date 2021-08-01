@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.ImageDecoder;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
@@ -37,6 +39,9 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -114,6 +119,11 @@ public class CreatePostFragment extends Fragment {
 
                     photoFile = getPhotoFileUri(photoFileName);
 
+                    /*final File file = new File(Environment.getExternalStorageDirectory(), "read.me");
+                    Uri uri = Uri.fromFile(file);
+                    File auxFile = new File(uri.getPath());
+                    assertEquals(file.getAbsolutePath(), auxFile.getAbsolutePath());*/
+
                     // wrap File object into a content provider
                     // required for API >= 24
                     // See https://guides.codepath.com/android/Sharing-Content-with-Intents#sharing-files-with-api-24-or-higher
@@ -124,7 +134,7 @@ public class CreatePostFragment extends Fragment {
                     // So as long as the result is not null, it's safe to use the intent.
                     if (pickPhoto.resolveActivity(getContext().getPackageManager()) != null) {
                         // Start the image capture intent to take photo
-                        startActivityForResult(pickPhoto, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+                        startActivityForResult(pickPhoto, PICK_IMAGE);
                     }
 
                     //startActivityForResult(pickPhoto, PICK_IMAGE);
@@ -192,6 +202,7 @@ public class CreatePostFragment extends Fragment {
 
     }
 
+    /*
     private void launchCamera() {
         // create Intent to take a picture and return control to the calling application
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -210,7 +221,7 @@ public class CreatePostFragment extends Fragment {
             // Start the image capture intent to take photo
             startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
         }
-    }
+    }*/
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -229,7 +240,8 @@ public class CreatePostFragment extends Fragment {
 
             if (resultCode == RESULT_OK && data != null) {
                 Uri selectedImage = data.getData();
-            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
 
             /*if (selectedImage != null) {
                 Cursor cursor = getActivity().getContentResolver().query(selectedImage,
@@ -244,12 +256,58 @@ public class CreatePostFragment extends Fragment {
                 }
             }*/
 
-                Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
+                /*InputStream imageStream = null;
+                try {
+                    imageStream = getContext().getContentResolver().openInputStream(selectedImage);
+                    Bitmap takenImage = BitmapFactory.decodeStream(imageStream);
+                    takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
+                    ivPostImage.setImageBitmap(takenImage);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }*/
+
+
                 ivPostImage.setImageURI(selectedImage);
+
+                //photoFile = new File(getPath(selectedImage));
 
             }
         }
+
+       // saveNewProfileImage(photoFile);
     }
+
+    public String getPath(Uri uri)
+    {
+        String[] projection = { MediaStore.Images.Media.DATA };
+        Cursor cursor = getContext().getContentResolver().query(uri, projection, null, null, null);
+        if (cursor == null) return null;
+        int column_index =             cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        String s=cursor.getString(column_index);
+        cursor.close();
+        return s;
+    }
+
+    public Bitmap loadFromUri(Uri photoUri) {
+        Bitmap image = null;
+        try {
+            // check version of Android on device
+            if(Build.VERSION.SDK_INT > 27){
+                // on newer versions of Android, use the new decodeBitmap method
+                ImageDecoder.Source source = ImageDecoder.createSource(getContext().getContentResolver(), photoUri);
+                image = ImageDecoder.decodeBitmap(source);
+            } else {
+                // support older versions of Android by using getBitmap
+                image = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), photoUri);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return image;
+    }
+
+
 
     // Returns the File for a photo stored on disk given the fileName
     public File getPhotoFileUri(String fileName) {
@@ -289,7 +347,7 @@ public class CreatePostFragment extends Fragment {
         });
         getKey(post);
         //queryPostsfromPlace();
-        addToPlace();
+        //addToPlace();
     }
 
     private void getKey(Post post) {

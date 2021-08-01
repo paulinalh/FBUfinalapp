@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,6 +22,8 @@ import com.example.fbufinal.models.Favorite;
 import com.example.fbufinal.models.Place;
 import com.parse.Parse;
 import com.parse.ParseFile;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import org.parceler.Parcels;
@@ -82,6 +85,9 @@ public class FavoritePlacesAdapter extends RecyclerView.Adapter<FavoritePlacesAd
             tvTitle = itemView.findViewById(R.id.tvTitleFavorite);
             ivImage = itemView.findViewById(R.id.ivImageFavorite);
             itemView.setOnClickListener(this);
+
+
+
         }
 
         public void bind(Favorite fav) {
@@ -92,6 +98,36 @@ public class FavoritePlacesAdapter extends RecyclerView.Adapter<FavoritePlacesAd
             if (picture != null) {
                 Glide.with(context).load(picture).into(ivImage);
             }
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    ParseQuery<Favorite> query = ParseQuery.getQuery(Favorite.class);
+
+                    // Retrieve the object by id
+                    query.getInBackground(fav.getObjectId(), (object, e) -> {
+                        if (e == null) {
+                            //Object was fetched
+                            //Deletes the fetched ParseObject from the database
+                            object.deleteInBackground(e2 -> {
+                                if(e2==null){
+                                    Toast.makeText(context, "Delete Successful", Toast.LENGTH_SHORT).show();
+                                }else{
+                                    //Something went wrong while deleting the Object
+                                    Toast.makeText(context, "Error: "+e2.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }else{
+                            //Something went wrong
+                            Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                    return true;
+                }
+            });
+
+
         }
 
 

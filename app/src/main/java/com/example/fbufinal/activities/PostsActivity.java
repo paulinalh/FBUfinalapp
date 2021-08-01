@@ -78,8 +78,7 @@ public class PostsActivity extends AppCompatActivity {
 
         Intent i=getIntent();
         PlaceServicesRating placeToRate = (PlaceServicesRating) Parcels.unwrap(getIntent().getParcelableExtra(PlaceServicesRating.class.getSimpleName()));
-        PostsFragment.setPlace(placeToRate,CODE);
-        CreatePostFragment.setPlace(placeToRate,CODE);
+
 
         objectId=i.getStringExtra("objectId");
         placeName=i.getStringExtra("namePlace");
@@ -89,7 +88,8 @@ public class PostsActivity extends AppCompatActivity {
         ivScrim =findViewById(R.id.ivScrim);
         imageActivity = findViewById(R.id.ivServiceOnPosts);
 
-
+        PostsFragment.setPlace(placeToRate,CODE);
+        CreatePostFragment.setPlace(placeToRate,CODE);
 
         if (CODE==WEELCHAIR_CODE) {
             imageActivity.setImageDrawable(getDrawable(R.drawable.header1));
@@ -108,9 +108,9 @@ public class PostsActivity extends AppCompatActivity {
         }else if (CODE==LIGHT_CODE) {
             imageActivity.setImageDrawable(getDrawable(R.drawable.header7));
         }else if (CODE==SOUND_CODE) {
-            imageActivity.setImageDrawable(getDrawable(R.drawable.header8));
-        }else if (CODE==SIGNLANGUAGE_CODE) {
             imageActivity.setImageDrawable(getDrawable(R.drawable.header9));
+        }else if (CODE==SIGNLANGUAGE_CODE) {
+            imageActivity.setImageDrawable(getDrawable(R.drawable.header8));
         }
 
         ivScrim.setVisibility(View.GONE);

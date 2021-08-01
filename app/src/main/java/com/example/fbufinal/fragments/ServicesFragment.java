@@ -66,6 +66,28 @@ public class ServicesFragment extends Fragment {
         super.onCreate(savedInstanceState);
         //queryObject();
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        refreshPlaceData();
+        queryObject();
+
+    }
+
+    private void refreshPlaceData() {
+        ParseQuery<PlaceServicesRating> query = new ParseQuery<PlaceServicesRating>(PlaceServicesRating.class);
+        if(placeToRate!=null){
+            query.getInBackground(placeToRate.getObjectId(), (object, e) -> {
+                if (e == null) {
+                    placeToRate=object;
+                } else {
+                    // something went wrong
+                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
 
     }
 
@@ -149,7 +171,7 @@ public class ServicesFragment extends Fragment {
                 i.putExtra("code",WEELCHAIR_CODE);
                 startActivity(i);
 
-                //RatingFragment.setTypeService(WEELCHAIR_CODE, objectId, placeToRate);
+                //RatingFragment.setTypeService(WEELCHAIR_CODE, objectId, placeToRate);<
                 //getChildFragmentManager().beginTransaction().replace(R.id.child_fragment_container, ratingFragment).commit();
 
             }

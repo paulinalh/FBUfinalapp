@@ -71,16 +71,18 @@ public class PostsFragment extends Fragment {
 
         RecyclerView rvPosts = view.findViewById(R.id.rvPosts);
 
-        // initialize the array that will hold posts and create a PostsAdapter
         allPosts = new ArrayList<>();
         adapter = new PostsAdapter(getContext(), allPosts,place,CODE);
+        queryPosts();
+
+        // initialize the array that will hold posts and create a PostsAdapter
 
         // set the adapter on the recycler view
         rvPosts.setAdapter(adapter);
         // set the layout manager on the recycler view
         rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
         // query posts from Parstagram
-        queryPosts();
+
 
         //Refresh
         swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
@@ -116,6 +118,7 @@ public class PostsFragment extends Fragment {
 
 
         List<Post> posts = new ArrayList<>();
+
         if(CODE==0){
             posts=place.getWheelchairPosts();
         }else if(CODE==1){
@@ -136,7 +139,8 @@ public class PostsFragment extends Fragment {
             posts=place.getSignPosts();
         }
 
-        allPosts.addAll(posts);
+        allPosts=posts;
+        adapter.addAll(posts);
         adapter.notifyDataSetChanged();
 
     }
