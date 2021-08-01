@@ -22,6 +22,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -43,7 +44,7 @@ public class PlaceDetailsActivity extends AppCompatActivity {
     private String imagePath;
     String placeName;
     String placeId;
-    ParseUser currentUser=ParseUser.getCurrentUser();
+    ParseUser currentUser = ParseUser.getCurrentUser();
     int favorite = 0;
     public static final String KEY = BuildConfig.API_KEY;
     public static final String DETAILS_API_URL = "https://maps.googleapis.com/maps/api/place/details/json?place_id=";
@@ -52,8 +53,8 @@ public class PlaceDetailsActivity extends AppCompatActivity {
     String imageURL;
     List<String> favList;
     boolean alreadyFav;
-String favPlaceId;
-
+    String favPlaceId;
+    Button btnBack;
     final FragmentManager fragmentManager = getSupportFragmentManager();
 
     public static void setImage2(String imagePath) {
@@ -71,13 +72,10 @@ String favPlaceId;
 
         ParseUser user = ParseUser.getCurrentUser();
 
-
         getImagePath();
 
 
         setTitle(placeName);
-
-
         setContentView(R.layout.activity_place_details);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -88,9 +86,16 @@ String favPlaceId;
         toolBarLayout.setTitle(getTitle());
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
-        isAlreadyFavorite( fab);
+        isAlreadyFavorite(fab);
 
-
+        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.back_arrow));
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //What to do on back clicked
+                finish();
+            }
+        });
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -108,6 +113,8 @@ String favPlaceId;
 
             }
         });
+
+
 
         Fragment currentFragment = null;
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -200,16 +207,16 @@ String favPlaceId;
             if (e == null) {
                 // Deletes the fetched ParseObject from the database
                 object.deleteInBackground(e2 -> {
-                    if(e2==null){
+                    if (e2 == null) {
                         Toast.makeText(this, "Delete Successful", Toast.LENGTH_SHORT).show();
-                    }else{
+                    } else {
                         //Something went wrong while deleting the Object
-                        Toast.makeText(this, "Error: "+e2.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Error: " + e2.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
-            }else{
+            } else {
                 //Something went wrong while retrieving the Object
-                Toast.makeText(this, "Error: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -223,14 +230,14 @@ String favPlaceId;
             public void done(List<Favorite> favs, ParseException e) {
                 if (e != null) {
                     Log.e(TAG, "Issue with getting posts", e);
-                    alreadyFav=false;
+                    alreadyFav = false;
                     return;
                 }
                 for (Favorite favorite : favs) {
                     //Log.i(TAG, "Fav:" + favorite.getFavPlaceId() + ", username: " + favorite.getUser().getUsername());
-                    if(favorite.getFavPlaceId().equals(placeId)){
-                        alreadyFav=true;
-                        favPlaceId=favorite.getObjectId();
+                    if (favorite.getFavPlaceId().equals(placeId)) {
+                        alreadyFav = true;
+                        favPlaceId = favorite.getObjectId();
                         fab.setImageDrawable(getDrawable(R.drawable.ufi_heart_active));
                     }
                 }
@@ -240,7 +247,7 @@ String favPlaceId;
 
     }
 
-    private void showImage(){
+    private void showImage() {
         imageURL = String.format("https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=%s", imagePath + "&key=" + KEY);
         ImageView ivSearchPlace = (ImageView) findViewById(R.id.ivSearchPlace);
         if (imageURL != "") {

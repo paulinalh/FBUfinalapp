@@ -23,6 +23,9 @@
         <activity
             android:name=".activities.PlaceDetailsActivity"
             android:theme="@style/Theme.FBUfinal.NoActionBar" />
+        <activity
+            android:name=".activities.PostsActivity"
+            android:theme="@style/Theme.FBUfinal.NoActionBar" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -31,19 +34,21 @@
              sign the APK for publishing.
              You can define the keys for the debug and release targets in src/debug/ and src/release/.
         -->
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDcH0T5p_Gsb1DZNkdRU48QgEcgxDMPxXo" />
+
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.codepath.fileprovider.FBUfinalapp"
+            android:authorities="com.codepath.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/fileprovider" />
         </provider>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDcH0T5p_Gsb1DZNkdRU48QgEcgxDMPxXo" />
 
         <activity android:name=".activities.LoginActivity">
             <intent-filter>

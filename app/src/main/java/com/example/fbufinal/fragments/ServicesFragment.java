@@ -1,5 +1,6 @@
 package com.example.fbufinal.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,17 +19,21 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.fbufinal.R;
+import com.example.fbufinal.activities.PostsActivity;
 import com.example.fbufinal.adapters.PlacesAdapter;
 import com.example.fbufinal.adapters.ServicesAdapter;
 import com.example.fbufinal.models.PlaceServicesRating;
+import com.example.fbufinal.models.Post;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +45,7 @@ public class ServicesFragment extends Fragment {
     PlaceServicesRating placeToRate;
     String objectId;
     TextView tvWheelchair, tvRamp, tvParking, tvElevator, tvDog, tvBraille, tvLights, tvSound, tvSignlanguage;
-    ImageView ivWheelchair, ivRamp, ivParking, ivElevator, ivDog, ivBraille, ivLights, ivSound, ivSignlanguage;
+    ImageView ivWheelchair, ivRamp, ivParking, ivElevator, ivDog, ivBraille, ivLights, ivSound, ivSignlanguage, ivTextNeeds;
     RatingBar rbWheelchair, rbRamp, rbParking, rbElevator, rbDog, rbBraille, rbLights, rbSound, rbSignlanguage;
     LinearLayout lyWheelchair, lyRamp, lyParking, lyElevator, lyDog, lyBraille, lyLights, lySound, lySignlanguage;
     List<Integer> availableServicesList = new ArrayList<>();
@@ -114,11 +119,15 @@ public class ServicesFragment extends Fragment {
         lyLights = (LinearLayout) view.findViewById(R.id.lyLights);
         lySound = (LinearLayout) view.findViewById(R.id.lySound);
         lySignlanguage = (LinearLayout) view.findViewById(R.id.lySignLanguage);
+        ivTextNeeds= (ImageView) view.findViewById(R.id.ivTextNeeds);
+
 
         queryObject();
         return view;
 
     }
+
+
 
 
     @Override
@@ -128,69 +137,112 @@ public class ServicesFragment extends Fragment {
         //Log.i("Services Fragment", placeId);
 
 
+
         lyWheelchair.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RatingFragment.setTypeService(WEELCHAIR_CODE, objectId, placeToRate);
-                getChildFragmentManager().beginTransaction().replace(R.id.child_fragment_container, ratingFragment).commit();
+                Intent i= new Intent(getContext(), PostsActivity.class);
+                i.putExtra(PlaceServicesRating.class.getSimpleName(), Parcels.wrap(placeToRate));
+                i.putExtra("objectId",objectId);
+                i.putExtra("namePlace",placeName);
+                i.putExtra("code",WEELCHAIR_CODE);
+                startActivity(i);
+
+                //RatingFragment.setTypeService(WEELCHAIR_CODE, objectId, placeToRate);
+                //getChildFragmentManager().beginTransaction().replace(R.id.child_fragment_container, ratingFragment).commit();
 
             }
         });
         lyRamp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RatingFragment.setTypeService(RAMP_CODE, objectId, placeToRate);
-                getChildFragmentManager().beginTransaction().replace(R.id.child_fragment_container, ratingFragment).commit();
+                Intent i= new Intent(getContext(), PostsActivity.class);
+                i.putExtra(PlaceServicesRating.class.getSimpleName(), Parcels.wrap(placeToRate));
+                i.putExtra("objectId",objectId);
+                i.putExtra("namePlace",placeName);
+                i.putExtra("code",RAMP_CODE);
+                startActivity(i);
+
+                //RatingFragment.setTypeService(RAMP_CODE, objectId, placeToRate);
+                //getChildFragmentManager().beginTransaction().replace(R.id.child_fragment_container, ratingFragment).commit();
 
             }
         });
         lyParking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RatingFragment.setTypeService(PARKING_CODE, objectId, placeToRate);
-                getChildFragmentManager().beginTransaction().replace(R.id.child_fragment_container, ratingFragment).commit();
+                Intent i= new Intent(getContext(), PostsActivity.class);
+                i.putExtra(PlaceServicesRating.class.getSimpleName(), Parcels.wrap(placeToRate));
+                i.putExtra("objectId",objectId);
+                i.putExtra("namePlace",placeName);
+                i.putExtra("code",PARKING_CODE);
+                startActivity(i);
             }
         });
         lyElevator.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RatingFragment.setTypeService(ELEVATOR_CODE, objectId, placeToRate);
-                getChildFragmentManager().beginTransaction().replace(R.id.child_fragment_container, ratingFragment).commit();
+                Intent i= new Intent(getContext(), PostsActivity.class);
+                i.putExtra(PlaceServicesRating.class.getSimpleName(), Parcels.wrap(placeToRate));
+                i.putExtra("objectId",objectId);
+                i.putExtra("namePlace",placeName);
+                i.putExtra("code",ELEVATOR_CODE);
+                startActivity(i);
             }
         });
         lyDog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RatingFragment.setTypeService(DOG_CODE, objectId, placeToRate);
-                getChildFragmentManager().beginTransaction().replace(R.id.child_fragment_container, ratingFragment).commit();
+                Intent i= new Intent(getContext(), PostsActivity.class);
+                i.putExtra(PlaceServicesRating.class.getSimpleName(), Parcels.wrap(placeToRate));
+                i.putExtra("objectId",objectId);
+                i.putExtra("namePlace",placeName);
+                i.putExtra("code",DOG_CODE);
+                startActivity(i);
             }
         });
         lyBraille.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RatingFragment.setTypeService(BRAILLE_CODE, objectId, placeToRate);
-                getChildFragmentManager().beginTransaction().replace(R.id.child_fragment_container, ratingFragment).commit();
+                Intent i= new Intent(getContext(), PostsActivity.class);
+                i.putExtra(PlaceServicesRating.class.getSimpleName(), Parcels.wrap(placeToRate));
+                i.putExtra("objectId",objectId);
+                i.putExtra("namePlace",placeName);
+                i.putExtra("code",BRAILLE_CODE);
+                startActivity(i);
             }
         });
         lyLights.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RatingFragment.setTypeService(LIGHT_CODE, objectId, placeToRate);
-                getChildFragmentManager().beginTransaction().replace(R.id.child_fragment_container, ratingFragment).commit();
+                Intent i= new Intent(getContext(), PostsActivity.class);
+                i.putExtra(PlaceServicesRating.class.getSimpleName(), Parcels.wrap(placeToRate));
+                i.putExtra("objectId",objectId);
+                i.putExtra("namePlace",placeName);
+                i.putExtra("code",LIGHT_CODE);
+                startActivity(i);
             }
         });
         lySound.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RatingFragment.setTypeService(SOUND_CODE, objectId, placeToRate);
-                getChildFragmentManager().beginTransaction().replace(R.id.child_fragment_container, ratingFragment).commit();
+                Intent i= new Intent(getContext(), PostsActivity.class);
+                i.putExtra(PlaceServicesRating.class.getSimpleName(), Parcels.wrap(placeToRate));
+                i.putExtra("objectId",objectId);
+                i.putExtra("namePlace",placeName);
+                i.putExtra("code",SOUND_CODE);
+                startActivity(i);
             }
         });
         lySignlanguage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RatingFragment.setTypeService(SIGNLANGUAGE_CODE, objectId, placeToRate);
-                getChildFragmentManager().beginTransaction().replace(R.id.child_fragment_container, ratingFragment).commit();
+                Intent i= new Intent(getContext(), PostsActivity.class);
+                i.putExtra(PlaceServicesRating.class.getSimpleName(), Parcels.wrap(placeToRate));
+                i.putExtra("objectId",objectId);
+                i.putExtra("namePlace",placeName);
+                i.putExtra("code",SIGNLANGUAGE_CODE);
+                startActivity(i);
             }
         });
 
@@ -220,8 +272,19 @@ public class ServicesFragment extends Fragment {
                     placeToRate = (PlaceServicesRating) result;
                     //objectId=placeToRate.getObjectId();
                     availableServicesList = checkAvailableServices();
+                    placeToRate.setAllServices(availableServicesList);
+                    try {
+                        placeToRate.save();
+                    } catch (ParseException parseException) {
+                        parseException.printStackTrace();
+                    }
+                    DetailsFragment.setServices(availableServicesList);
+                    if(ParseUser.getCurrentUser().getList("needs").equals(availableServicesList)){
+                        ivTextNeeds.setVisibility(View.VISIBLE);
+                    }else{
+                        ivTextNeeds.setVisibility(View.GONE);
 
-
+                    }
 /*
                     rvServices.setAdapter(servicesAdapter);
                     LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
@@ -241,13 +304,19 @@ public class ServicesFragment extends Fragment {
 
     private List<Integer> checkAvailableServices() {
         List<Integer> listServices = new ArrayList<>();
+        for(int x=0;x<9;x++){
+            listServices.add(0);
+        }
+
 
         List<Integer> listRatings = new ArrayList<>();
         float count = 0;
         float meanRating = 0;
 
         if (placeToRate.getWheelchairRatings().get(0) != 0) {
-            listServices.add(WEELCHAIR_CODE);
+
+
+            listServices.set(0,1);
             ivWheelchair.setImageDrawable(getContext().getResources().getDrawable(R.drawable.wheelchair_icon_2));
             listRatings = placeToRate.getWheelchairRatings();
             for (int i = 0; i < listRatings.size(); i++) {
@@ -261,7 +330,7 @@ public class ServicesFragment extends Fragment {
 
         }
         if (placeToRate.getRampRatings().get(0) != 0) {
-            listServices.add(RAMP_CODE);
+            listServices.set(1,1);
             ivRamp.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ramp_icon_2));
             listRatings = placeToRate.getRampRatings();
             for (int i = 0; i < listRatings.size(); i++) {
@@ -274,7 +343,7 @@ public class ServicesFragment extends Fragment {
             meanRating = 0;
         }
         if (placeToRate.getParkingRatings().get(0) != 0) {
-            listServices.add(PARKING_CODE);
+            listServices.set(2,1);
             ivParking.setImageDrawable(getContext().getResources().getDrawable(R.drawable.parking_icon_2));
             listRatings = placeToRate.getParkingRatings();
             for (int i = 0; i < listRatings.size(); i++) {
@@ -287,7 +356,7 @@ public class ServicesFragment extends Fragment {
             meanRating = 0;
         }
         if (placeToRate.getElevatorRatings().get(0) != 0) {
-            listServices.add(ELEVATOR_CODE);
+            listServices.set(3,1);
             ivElevator.setImageDrawable(getContext().getResources().getDrawable(R.drawable.elevator_icon_2));
             listRatings = placeToRate.getElevatorRatings();
             for (int i = 0; i < listRatings.size(); i++) {
@@ -300,7 +369,7 @@ public class ServicesFragment extends Fragment {
             meanRating = 0;
         }
         if (placeToRate.getDogRatings().get(0) != 0) {
-            listServices.add(DOG_CODE);
+            listServices.set(4,1);
             ivDog.setImageDrawable(getContext().getResources().getDrawable(R.drawable.dog_icon_2));
             listRatings = placeToRate.getDogRatings();
             for (int i = 0; i < listRatings.size(); i++) {
@@ -313,7 +382,7 @@ public class ServicesFragment extends Fragment {
             meanRating = 0;
         }
         if (placeToRate.getBrailleRatings().get(0) != 0) {
-            listServices.add(BRAILLE_CODE);
+            listServices.set(5,1);
             ivBraille.setImageDrawable(getContext().getResources().getDrawable(R.drawable.braille_icon_2));
             listRatings = placeToRate.getBrailleRatings();
             for (int i = 0; i < listRatings.size(); i++) {
@@ -326,7 +395,7 @@ public class ServicesFragment extends Fragment {
             meanRating = 0;
         }
         if (placeToRate.getLightsRatings().get(0) != 0) {
-            listServices.add(LIGHT_CODE);
+            listServices.set(6,1);
             ivLights.setImageDrawable(getContext().getResources().getDrawable(R.drawable.light_icon_2));
             listRatings = placeToRate.getLightsRatings();
             for (int i = 0; i < listRatings.size(); i++) {
@@ -339,7 +408,7 @@ public class ServicesFragment extends Fragment {
             meanRating = 0;
         }
         if (placeToRate.getSoundRatings().get(0) != 0) {
-            listServices.add(SOUND_CODE);
+            listServices.set(7,1);
             ivSound.setImageDrawable(getContext().getResources().getDrawable(R.drawable.sound_icon_2));
             listRatings = placeToRate.getSoundRatings();
             for (int i = 0; i < listRatings.size(); i++) {
@@ -352,7 +421,7 @@ public class ServicesFragment extends Fragment {
             meanRating = 0;
         }
         if (placeToRate.getSignlanguageRatings().get(0) != 0) {
-            listServices.add(SIGNLANGUAGE_CODE);
+            listServices.set(8,1);
             ivSignlanguage.setImageDrawable(getContext().getResources().getDrawable(R.drawable.signlanguage_icon_2));
             listRatings = placeToRate.getSignlanguageRatings();
             for (int i = 0; i < listRatings.size(); i++) {
@@ -365,28 +434,12 @@ public class ServicesFragment extends Fragment {
             meanRating = 0;
         }
 
+        //placeToRate.setAllServices(listServices);
+
         return listServices;
     }
 
     public void createObject() {
-
-        //ESTO ERA COMENTARIO
-
-        /*ParseObject newObject = new ParseObject("PlaceInclusionServices");
-
-
-        newObject.put("placeId", placeId);
-        newObject.put("wheelchairRatings", new JSONArray());
-        newObject.put("rampRatings", new JSONArray());
-        newObject.put("parkingRatings", new JSONArray());
-        newObject.put("elevatorRatings", new JSONArray());
-        newObject.put("dogRatings", new JSONArray());
-        newObject.put("brailleRatings", new JSONArray());
-        newObject.put("lightsRatings", new JSONArray());
-        newObject.put("soundRatings", new JSONArray());
-        newObject.put("signlanguageRatings", new JSONArray());*/
-
-        //ESTO YA NO ERA COMENTARIO
 
         List<Integer> emptyList = new ArrayList<>();
         emptyList.add(0);
@@ -404,6 +457,10 @@ public class ServicesFragment extends Fragment {
         newObject.setSignlanguageRatings(emptyList);
         newObject.setNameofPlace22(placeName);
         newObject.setImageofPlace22(image);
+        newObject.setAllServices(emptyList);
+        newObject.setWheelchairPosts(new ArrayList<>());
+        newObject.setRampPosts(new ArrayList<>());
+
 
         // Saves the new object.
         // Notice that the SaveCallback is totally optional!

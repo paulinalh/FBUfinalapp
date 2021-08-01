@@ -162,14 +162,14 @@ public class RatingFragment extends Fragment {
 
                 finalStarsRating=5;
             }
-        });
+        });/*
         ivClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getFragmentManager().beginTransaction().remove(RatingFragment.this).commit();
 
             }
-        });
+        });*/
         btnStars.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -36,8 +36,8 @@ public class SignupActivity extends AppCompatActivity {
         Intent i = getIntent();
         this.userNeedsArr = i.getIntArrayExtra("userNeedsArray");
 
-        for(int j=0;j<userNeedsArr.length;j++){
-        Log.d("paulina", String.valueOf(userNeedsArr[j]));
+        for (int j = 0; j < userNeedsArr.length; j++) {
+            Log.d("paulina", String.valueOf(userNeedsArr[j]));
         }
 
         etUsername = findViewById(R.id.etUsername);
@@ -67,8 +67,7 @@ public class SignupActivity extends AppCompatActivity {
 
         List<Integer> userNeedsList = new ArrayList<Integer>(userNeedsArr.length);
 
-         for (int i=0; i<userNeedsArr.length;i++)
-        {
+        for (int i = 0; i < userNeedsArr.length; i++) {
             userNeedsList.add(userNeedsArr[i]);
         }
 
@@ -77,11 +76,10 @@ public class SignupActivity extends AppCompatActivity {
         user.signUpInBackground(new SignUpCallback() {
             public void done(ParseException e) {
                 if (e == null) {
-                    // Hooray! Let them use the app now.
+                    // User can use the app now.
                     goMainActivity();
                 } else {
-                    // Sign up didn't succeed. Look at the ParseException
-                    // to figure out what went wrong
+                    // Sign up didn't succeed.
                 }
             }
         });

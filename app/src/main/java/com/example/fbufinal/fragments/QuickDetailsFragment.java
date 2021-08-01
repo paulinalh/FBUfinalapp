@@ -102,19 +102,7 @@ public class QuickDetailsFragment extends Fragment {
         lottieDetails=(LottieAnimationView) view.findViewById(R.id.lottieDetails);
         ivClose=view.findViewById(R.id.ivClose);
 
-        /*tvAddress = (TextView) view.findViewById(R.id.tvAddress);
-        tvPhone = (TextView) view.findViewById(R.id.tvPhone);
-        tvPrice = (TextView) view.findViewById(R.id.tvPrice);
-        tvRating = (TextView) view.findViewById(R.id.tvRating);
-        //ivDetailsImage = (ImageView) view.findViewById(R.id.ivDetailsImage);
-        tvMonday = (TextView) view.findViewById(R.id.tvMonday);
-        tvTuesday = (TextView) view.findViewById(R.id.tvTuesday);
-        tvWednesday = (TextView) view.findViewById(R.id.tvWednesday);
-        tvThursday = (TextView) view.findViewById(R.id.tvThursday);
-        tvFriday = (TextView) view.findViewById(R.id.tvFriday);
-        tvSaturday = (TextView) view.findViewById(R.id.tvSaturday);
-        tvSunday = (TextView) view.findViewById(R.id.tvSunday);*/
-        //queryObject();
+
 
 
         return view;
@@ -222,18 +210,7 @@ public class QuickDetailsFragment extends Fragment {
 
                     tvTitle.setText(title);
                     rbQuickPlace.setRating(rateFl);
-                    /*
-                    tvAddress.setText(formatted_address);
-                    tvMonday.setText(opening_hours.getString(0));
-                    tvTuesday.setText(opening_hours.getString(1));
-                    tvWednesday.setText(opening_hours.getString(2));
-                    tvThursday.setText(opening_hours.getString(3));
-                    tvFriday.setText(opening_hours.getString(4));
-                    tvSaturday.setText(opening_hours.getString(5));
-                    tvSunday.setText(opening_hours.getString(6));
-                    tvPhone.setText(formatted_phone_number);
-                    //tvPrice.setText(price_level);
-                    tvRating.setText("" + rating);*/
+
 
 
                     if (imagePath != "") {

@@ -10,6 +10,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ImageView
+            android:id="@+id/ivMedal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/needs_meet"
+            android:visibility="gone"/>
+
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cvDetails"
@@ -18,6 +27,7 @@
             android:layout_marginLeft="15dp"
             android:layout_marginTop="16dp"
             android:layout_marginRight="15dp"
+            android:layout_below="@id/ivMedal"
             android:foreground="?android:attr/selectableItemBackground"
             app:cardBackgroundColor="@color/gray"
             app:cardCornerRadius="40dp">
@@ -232,27 +242,6 @@
             </RelativeLayout>
 
         </androidx.cardview.widget.CardView>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvServices2"
-            android:layout_width="344dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/cvDetails"
-            android:layout_marginTop="50dp"
-            android:orientation="horizontal" />
-
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/lottieAdd"
-            android:layout_width="67dp"
-            android:layout_height="70dp"
-            android:layout_below="@id/cvDetails"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="98dp"
-            android:layout_marginEnd="2dp"
-            android:layout_toEndOf="@+id/rvServices2"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            app:lottie_rawRes="@raw/add_button" />
 
 
     </RelativeLayout>

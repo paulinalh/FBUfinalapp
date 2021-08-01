@@ -92,7 +92,6 @@ public class FavoritePlacesAdapter extends RecyclerView.Adapter<FavoritePlacesAd
             if (picture != null) {
                 Glide.with(context).load(picture).into(ivImage);
             }
-            //Glide.with(context).load(picture.getUrl()).transform(new RoundedCornersTransformation(500, 0)).into(ivPicture);
         }
 
 
