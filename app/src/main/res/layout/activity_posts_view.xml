@@ -67,13 +67,13 @@
         app:srcCompat="@android:drawable/btn_star_big_off" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/back_action"
+        android:id="@+id/see_posts_action"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|start"
-        app:srcCompat="@drawable/quantum_ic_arrow_back_grey600_24" />
+        app:srcCompat="@android:drawable/arrow_down_float" />
 
     <ImageView
         android:id="@+id/ivScrim"

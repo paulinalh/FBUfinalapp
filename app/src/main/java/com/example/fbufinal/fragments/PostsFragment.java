@@ -73,7 +73,7 @@ public class PostsFragment extends Fragment {
 
         // initialize the array that will hold posts and create a PostsAdapter
         allPosts = new ArrayList<>();
-        adapter = new PostsAdapter(getContext(), allPosts);
+        adapter = new PostsAdapter(getContext(), allPosts,place,CODE);
 
         // set the adapter on the recycler view
         rvPosts.setAdapter(adapter);
@@ -118,6 +118,22 @@ public class PostsFragment extends Fragment {
         List<Post> posts = new ArrayList<>();
         if(CODE==0){
             posts=place.getWheelchairPosts();
+        }else if(CODE==1){
+            posts=place.getRampPosts();
+        }else if(CODE==2){
+            posts=place.getParkingPosts();
+        }else if(CODE==3){
+            posts=place.getElevatorPosts();
+        }else if(CODE==4){
+            posts=place.getDogPosts();
+        }else if(CODE==5){
+            posts=place.getBraillePosts();
+        }else if(CODE==6){
+            posts=place.getLightsPosts();
+        }else if(CODE==7){
+            posts=place.getSoundPosts();
+        }else if(CODE==8){
+            posts=place.getSignPosts();
         }
 
         allPosts.addAll(posts);

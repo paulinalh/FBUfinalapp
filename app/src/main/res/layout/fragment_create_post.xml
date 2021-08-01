@@ -5,17 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activities.PlaceDetailsActivity">
+    tools:context=".activities.PostsActivity">
 
     <EditText
         android:id="@+id/etDescription"
         android:layout_width="166dp"
         android:layout_height="241dp"
         android:layout_below="@+id/btnSubmit"
-        android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="9dp"
-        android:layout_marginTop="164dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="12dp"
         android:layout_toEndOf="@+id/ivPostImage"
         android:ems="10"
@@ -25,10 +24,10 @@
         android:id="@+id/ivPostImage"
         android:layout_width="219dp"
         android:layout_height="263dp"
+        android:layout_below="@+id/btnCaptureImage"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
         android:layout_marginStart="-3dp"
-        android:layout_marginTop="151dp"
+        android:layout_marginTop="16dp"
         tools:srcCompat="@tools:sample/avatars" />
 
     <Button
@@ -37,20 +36,21 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="96dp"
-        android:layout_marginEnd="18dp"
-        android:backgroundTint="@color/teal_200"
+        android:layout_marginTop="86dp"
+        android:layout_marginEnd="20dp"
+        android:backgroundTint="@color/black"
         android:text="Submit" />
 
     <Button
         android:id="@+id/btnCaptureImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/etDescription"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="82dp"
+        android:layout_marginTop="86dp"
         android:layout_marginBottom="0dp"
-        android:backgroundTint="@color/teal_200"
+        android:backgroundTint="@color/black_trans80"
         android:text=""
         app:icon="@android:drawable/ic_menu_camera" />
 

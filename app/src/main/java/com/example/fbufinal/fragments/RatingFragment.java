@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.fbufinal.R;
+import com.example.fbufinal.activities.PostsActivity;
 import com.example.fbufinal.models.PlaceServicesRating;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -34,10 +35,11 @@ public class RatingFragment extends Fragment {
     private static int CODE;
     private static String objectId;
     static PlaceServicesRating placeToUpdate;
+
     String serviceKey;
     List <Integer> ratingsList;
     TextView tvServiceType;
-    ImageView ivService,star1,star2,star3,star4,star5, ivClose;
+    ImageView ivService,star1,star2,star3,star4,star5, ivClose,ivScrim;
     Button btnStars;
     int WHEELCHAIR_CODE = 0;
     int RAMP_CODE= 1;
@@ -68,6 +70,7 @@ public class RatingFragment extends Fragment {
         CODE=code;
         objectId = id;
         placeToUpdate=place;
+
     }
 
     @Override
@@ -91,9 +94,9 @@ public class RatingFragment extends Fragment {
         star3=view.findViewById(R.id.star3);
         star4=view.findViewById(R.id.star4);
         star5=view.findViewById(R.id.star5);
-        ivClose=view.findViewById(R.id.ivClose);
+        ivClose=view.findViewById(R.id.ivCloseRating);
         btnStars=view.findViewById(R.id.btnStars);
-
+        ivScrim=view.findViewById(R.id.ivScrim);
         checkType();
 
         return view;
@@ -162,18 +165,19 @@ public class RatingFragment extends Fragment {
 
                 finalStarsRating=5;
             }
-        });/*
+        });
         ivClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getFragmentManager().beginTransaction().remove(RatingFragment.this).commit();
 
             }
-        });*/
+        });
         btnStars.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getKey();
+                //PostsActivity.ivScrim.setVisibility(View.GONE);
             }
         });
 
@@ -264,6 +268,7 @@ public class RatingFragment extends Fragment {
                 getFragmentManager().beginTransaction().remove(RatingFragment.this).commit();
 
 
+
             } else {
                 // something went wrong
                 Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -303,4 +308,5 @@ public class RatingFragment extends Fragment {
             ivService.setImageDrawable(getContext().getResources().getDrawable(R.drawable.signlanguage_icon_2));
         }
     }
+
 }

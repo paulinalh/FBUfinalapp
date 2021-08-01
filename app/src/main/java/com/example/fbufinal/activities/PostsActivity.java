@@ -52,7 +52,7 @@ public class PostsActivity extends AppCompatActivity {
     protected View post;
     public String TAG = "Feed activity";
     private SwipeRefreshLayout swipeContainer;
-    final FragmentManager fragmentManager = getSupportFragmentManager();
+    public final FragmentManager fragmentManager = getSupportFragmentManager();
     Fragment currentFragment = null;
     Fragment previousFragment = null;
     int WEELCHAIR_CODE = 0;
@@ -67,7 +67,7 @@ public class PostsActivity extends AppCompatActivity {
     int CODE;
     String objectId,placeName;
     Fragment ratingFragment = new RatingFragment();
-    ImageView ivScrim,imageActivity;
+    public ImageView ivScrim,imageActivity;
 
 
     @Override
@@ -89,46 +89,58 @@ public class PostsActivity extends AppCompatActivity {
         ivScrim =findViewById(R.id.ivScrim);
         imageActivity = findViewById(R.id.ivServiceOnPosts);
 
+
+
         if (CODE==WEELCHAIR_CODE) {
-            //imageActivity.setImageDrawable(getDrawable(R.drawable.wheelchair_icon_2));
-            Glide.with(this).load(imageActivity).into(imageActivity);
+            imageActivity.setImageDrawable(getDrawable(R.drawable.header1));
+            //Glide.with(this).load(imageActivity).into(imageActivity);
 
         }else if (CODE==RAMP_CODE) {
-            imageActivity.setImageDrawable(getDrawable(R.drawable.header));
+            imageActivity.setImageDrawable(getDrawable(R.drawable.header2));
         }else if (CODE==PARKING_CODE) {
-            imageActivity.setImageDrawable(getDrawable(R.drawable.parking_icon_2));
+            imageActivity.setImageDrawable(getDrawable(R.drawable.header3));
         }else if (CODE==ELEVATOR_CODE) {
-            imageActivity.setImageDrawable(getDrawable(R.drawable.elevator_icon_2));
+            imageActivity.setImageDrawable(getDrawable(R.drawable.header4));
         }else if (CODE==DOG_CODE) {
-            imageActivity.setImageDrawable(getDrawable(R.drawable.dog_icon_2));
+            imageActivity.setImageDrawable(getDrawable(R.drawable.header5));
         }else if (CODE==BRAILLE_CODE) {
-            imageActivity.setImageDrawable(getDrawable(R.drawable.braille_icon_2));
+            imageActivity.setImageDrawable(getDrawable(R.drawable.header6));
         }else if (CODE==LIGHT_CODE) {
-            imageActivity.setImageDrawable(getDrawable(R.drawable.light_icon_2));
+            imageActivity.setImageDrawable(getDrawable(R.drawable.header7));
         }else if (CODE==SOUND_CODE) {
-            imageActivity.setImageDrawable(getDrawable(R.drawable.sound_icon_2));
+            imageActivity.setImageDrawable(getDrawable(R.drawable.header8));
         }else if (CODE==SIGNLANGUAGE_CODE) {
-            imageActivity.setImageDrawable(getDrawable(R.drawable.signlanguage_icon_2));
+            imageActivity.setImageDrawable(getDrawable(R.drawable.header9));
         }
 
         ivScrim.setVisibility(View.GONE);
 
 
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.back_arrow));
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //What to do on back clicked
+                finish();
+            }
+        });
 
         CollapsingToolbarLayout toolBarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
 
         toolBarLayout.setTitle(getTitle());
         FloatingActionButton create = (FloatingActionButton) findViewById(R.id.create_action);
         FloatingActionButton star = (FloatingActionButton) findViewById(R.id.star_action);
-        FloatingActionButton back = (FloatingActionButton) findViewById(R.id.back_action);
+        FloatingActionButton seePosts = (FloatingActionButton) findViewById(R.id.see_posts_action);
 
         //isAlreadyFavorite(fab);
         //FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         currentFragment = new PostsFragment();
         fragmentManager.beginTransaction().replace(R.id.fragmentContainer, currentFragment).addToBackStack(null).commit();
+
 
         create.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,7 +149,7 @@ public class PostsActivity extends AppCompatActivity {
 
                 previousFragment=currentFragment;
                 currentFragment = new CreatePostFragment();
-                fragmentManager.beginTransaction().replace(R.id.fragmentContainer, currentFragment).addToBackStack(null).commit();
+                fragmentManager.beginTransaction().replace(R.id.fragmentContainer, currentFragment,"create").addToBackStack(null).commit();
                 //transaction.addToBackStack("feed");
 
             }
@@ -148,32 +160,51 @@ public class PostsActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 RatingFragment.setTypeService(CODE, objectId, placeToRate);
-                getSupportFragmentManager().beginTransaction().replace(R.id.child_fragment_container, ratingFragment).addToBackStack(null).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.child_fragment_container, ratingFragment,"star").addToBackStack(null).commit();
                 ivScrim.setVisibility(View.VISIBLE);
 
 
             }
         });
 
-        back.setOnClickListener(new View.OnClickListener() {
+        seePosts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //getActivity().onBackPressed();
 
-                if(getSupportFragmentManager().getBackStackEntryCount()<2){
+                /*if(getSupportFragmentManager().getBackStackEntryCount()<2){
                     finish();
 
                 }else{
                     ivScrim.setVisibility(View.GONE);
                     getSupportFragmentManager().popBackStack();
 
-                }
+                }*/
+                ivScrim.setVisibility(View.GONE);
+                previousFragment=currentFragment;
+                currentFragment = new PostsFragment();
+                fragmentManager.beginTransaction().replace(R.id.fragmentContainer, currentFragment,"seePosts").addToBackStack(null).commit();
 
             }
         });
 
+        /*if(fragmentManager.findFragmentById(R.id.child_fragment_container)==null){
+            ivScrim.setVisibility(View.GONE);
+        }*/
 
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        ivScrim.setVisibility(View.GONE);
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ivScrim.setVisibility(View.GONE);
+
+    }
 }

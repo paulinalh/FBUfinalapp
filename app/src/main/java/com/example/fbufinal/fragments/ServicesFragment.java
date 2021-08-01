@@ -37,6 +37,7 @@ import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ServicesFragment extends Fragment {
     private static final String TAG = "Services fragment";
@@ -279,7 +280,7 @@ public class ServicesFragment extends Fragment {
                         parseException.printStackTrace();
                     }
                     DetailsFragment.setServices(availableServicesList);
-                    if(ParseUser.getCurrentUser().getList("needs").equals(availableServicesList)){
+                    if(Objects.equals(ParseUser.getCurrentUser().getList("needs"), availableServicesList)){
                         ivTextNeeds.setVisibility(View.VISIBLE);
                     }else{
                         ivTextNeeds.setVisibility(View.GONE);

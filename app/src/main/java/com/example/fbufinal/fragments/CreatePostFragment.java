@@ -1,13 +1,18 @@
 package com.example.fbufinal.fragments;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -21,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.fbufinal.R;
+import com.example.fbufinal.activities.PostsActivity;
 import com.example.fbufinal.models.PlaceServicesRating;
 import com.example.fbufinal.models.Post;
 import com.parse.FindCallback;
@@ -40,6 +46,7 @@ import static android.app.Activity.RESULT_OK;
 public class CreatePostFragment extends Fragment {
 
     public static final String TAG = "MainActivity";
+    public static final int PICK_IMAGE = 100;
     public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 42;
     private EditText etDescription;
     private Button btnCaptureImage;
@@ -51,24 +58,86 @@ public class CreatePostFragment extends Fragment {
     static PlaceServicesRating place;
     static int CODE;
     String KEY;
+    FragmentManager fragmentManager;
 
     public CreatePostFragment() {
         // Required empty public constructor
     }
 
     public static void setPlace(PlaceServicesRating placeToRate, int code) {
-        place=placeToRate;
-        CODE=code;
+        place = placeToRate;
+        CODE = code;
     }
 
     // The onCreateView method is called when Fragment should create its View object hierarchy,
     // either dynamically or via XML layout inflation.
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        View view =inflater.inflate(R.layout.fragment_create_post, parent, false);
+        View view = inflater.inflate(R.layout.fragment_create_post, parent, false);
         // Defines the xml file for the fragment
         return view;
     }
+
+    private void selectImage(Context context) {
+        final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Choose your  picture");
+
+        builder.setItems(options, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+
+                if (options[item].equals("Take Photo")) {
+                    /*Intent takePicture = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(takePicture, 0);*/
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    //launchCamera();
+                    photoFile = getPhotoFileUri(photoFileName);
+
+                    // wrap File object into a content provider
+                    // required for API >= 24
+                    // See https://guides.codepath.com/android/Sharing-Content-with-Intents#sharing-files-with-api-24-or-higher
+                    Uri fileProvider = FileProvider.getUriForFile(getContext(), "com.codepath.fileprovider", photoFile);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
+
+                    // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
+                    // So as long as the result is not null, it's safe to use the intent.
+                    if (intent.resolveActivity(getContext().getPackageManager()) != null) {
+                        // Start the image capture intent to take photo
+                        startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+                    }
+
+                } else if (options[item].equals("Choose from Gallery")) {
+                    Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+                    photoFile = getPhotoFileUri(photoFileName);
+
+                    // wrap File object into a content provider
+                    // required for API >= 24
+                    // See https://guides.codepath.com/android/Sharing-Content-with-Intents#sharing-files-with-api-24-or-higher
+                    Uri fileProvider = FileProvider.getUriForFile(getContext(), "com.codepath.fileprovider", photoFile);
+                    pickPhoto.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
+
+                    // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
+                    // So as long as the result is not null, it's safe to use the intent.
+                    if (pickPhoto.resolveActivity(getContext().getPackageManager()) != null) {
+                        // Start the image capture intent to take photo
+                        startActivityForResult(pickPhoto, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+                    }
+
+                    //startActivityForResult(pickPhoto, PICK_IMAGE);
+
+
+                } else if (options[item].equals("Cancel")) {
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.show();
+    }
+
 
     // This event is triggered soon after onCreateView().
     // Any view setup should occur here.  E.g., view lookups and attaching view listeners.
@@ -85,8 +154,10 @@ public class CreatePostFragment extends Fragment {
         btnCaptureImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                launchCamera();
+                selectImage(getContext());
+
             }
+
         });
 /*
         btnGoToFeed.setOnClickListener(new View.OnClickListener() {
@@ -97,6 +168,7 @@ public class CreatePostFragment extends Fragment {
                 //finish();
             }
         });*/
+
 
         //queryPosts();
         btnSubmit.setOnClickListener(new View.OnClickListener() {
@@ -113,6 +185,8 @@ public class CreatePostFragment extends Fragment {
                 }
                 ParseUser currentUser = ParseUser.getCurrentUser();
                 savePost(description, currentUser, photoFile);
+                getFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new PostsFragment()).commit();
+
             }
         });
 
@@ -150,6 +224,29 @@ public class CreatePostFragment extends Fragment {
                 ivPostImage.setImageBitmap(takenImage);
             } else { // Result was a failure
                 Toast.makeText(getContext(), "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
+            }
+        } else if (requestCode == PICK_IMAGE) {
+
+            if (resultCode == RESULT_OK && data != null) {
+                Uri selectedImage = data.getData();
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+            /*if (selectedImage != null) {
+                Cursor cursor = getActivity().getContentResolver().query(selectedImage,
+                        filePathColumn, null, null, null);
+                if (cursor != null) {
+                    cursor.moveToFirst();
+
+                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                    String picturePath = cursor.getString(columnIndex);
+                    ivPostImage.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+                    cursor.close();
+                }
+            }*/
+
+                Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
+                ivPostImage.setImageURI(selectedImage);
+
             }
         }
     }
@@ -195,11 +292,11 @@ public class CreatePostFragment extends Fragment {
         addToPlace();
     }
 
-    private void getKey(Post post){
-        if(CODE==0){
-            KEY="WheelchairPosts";
-            List<Post> list= new ArrayList<>();
-            list= place.getWheelchairPosts();
+    private void getKey(Post post) {
+        if (CODE == 0) {
+            KEY = "WheelchairPosts";
+            List<Post> list = new ArrayList<>();
+            list = place.getWheelchairPosts();
             list.add(post);
             place.setWheelchairPosts(list);
             place.saveInBackground(new SaveCallback() {
@@ -209,10 +306,10 @@ public class CreatePostFragment extends Fragment {
 
                 }
             });
-        }else if(CODE==1){
-            KEY="RampPosts";
-            List<Post> list= new ArrayList<>();
-            list= place.getRampPosts();
+        } else if (CODE == 1) {
+            KEY = "RampPosts";
+            List<Post> list = new ArrayList<>();
+            list = place.getRampPosts();
             list.add(post);
             place.setRampPosts(list);
             place.saveInBackground(new SaveCallback() {
@@ -222,10 +319,10 @@ public class CreatePostFragment extends Fragment {
 
                 }
             });
-        }else if(CODE==2){
-            KEY="ParkingPosts";
-            List<Post> list= new ArrayList<>();
-            list= place.getParkingPosts();
+        } else if (CODE == 2) {
+            KEY = "ParkingPosts";
+            List<Post> list = new ArrayList<>();
+            list = place.getParkingPosts();
             list.add(post);
             place.setParkingPosts(list);
             place.saveInBackground(new SaveCallback() {
@@ -235,10 +332,10 @@ public class CreatePostFragment extends Fragment {
 
                 }
             });
-        }else if(CODE==3){
-            KEY="ElevatorPosts";
-            List<Post> list= new ArrayList<>();
-            list= place.getElevatorPosts();
+        } else if (CODE == 3) {
+            KEY = "ElevatorPosts";
+            List<Post> list = new ArrayList<>();
+            list = place.getElevatorPosts();
             list.add(post);
             place.setElevatorPosts(list);
             place.saveInBackground(new SaveCallback() {
@@ -248,10 +345,10 @@ public class CreatePostFragment extends Fragment {
 
                 }
             });
-        }else if(CODE==4){
-            KEY="DogPosts";
-            List<Post> list= new ArrayList<>();
-            list= place.getDogPosts();
+        } else if (CODE == 4) {
+            KEY = "DogPosts";
+            List<Post> list = new ArrayList<>();
+            list = place.getDogPosts();
             list.add(post);
             place.setDogPosts(list);
             place.saveInBackground(new SaveCallback() {
@@ -261,10 +358,10 @@ public class CreatePostFragment extends Fragment {
 
                 }
             });
-        }else if(CODE==5){
-            KEY="BraillePosts";
-            List<Post> list= new ArrayList<>();
-            list= place.getBraillePosts();
+        } else if (CODE == 5) {
+            KEY = "BraillePosts";
+            List<Post> list = new ArrayList<>();
+            list = place.getBraillePosts();
             list.add(post);
             place.setBraillePosts(list);
             place.saveInBackground(new SaveCallback() {
@@ -274,10 +371,10 @@ public class CreatePostFragment extends Fragment {
 
                 }
             });
-        }else if(CODE==6){
-            KEY="LightsPosts";
-            List<Post> list= new ArrayList<>();
-            list= place.getLightsPosts();
+        } else if (CODE == 6) {
+            KEY = "LightsPosts";
+            List<Post> list = new ArrayList<>();
+            list = place.getLightsPosts();
             list.add(post);
             place.setLightsPosts(list);
             place.saveInBackground(new SaveCallback() {
@@ -287,10 +384,10 @@ public class CreatePostFragment extends Fragment {
 
                 }
             });
-        }else if(CODE==7){
-            KEY="SoundPosts";
-            List<Post> list= new ArrayList<>();
-            list= place.getSoundPosts();
+        } else if (CODE == 7) {
+            KEY = "SoundPosts";
+            List<Post> list = new ArrayList<>();
+            list = place.getSoundPosts();
             list.add(post);
             place.setSoundPosts(list);
             place.saveInBackground(new SaveCallback() {
@@ -300,10 +397,10 @@ public class CreatePostFragment extends Fragment {
 
                 }
             });
-        }else if(CODE==8){
-            KEY="SignLanguagePosts";
-            List<Post> list= new ArrayList<>();
-            list= place.getSignPosts();
+        } else if (CODE == 8) {
+            KEY = "SignLanguagePosts";
+            List<Post> list = new ArrayList<>();
+            list = place.getSignPosts();
             list.add(post);
             place.setSignPosts(list);
             place.saveInBackground(new SaveCallback() {
@@ -318,7 +415,7 @@ public class CreatePostFragment extends Fragment {
     }
 
     private void addToPlace() {
-         place.getWheelchairPosts();
+        place.getWheelchairPosts();
     }
 
     private void queryPosts() {
