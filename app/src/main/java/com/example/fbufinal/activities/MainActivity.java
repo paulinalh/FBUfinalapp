@@ -3,29 +3,22 @@ package com.example.fbufinal.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentContainer;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.slidingpanelayout.widget.SlidingPaneLayout;
 
 import android.Manifest;
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.fbufinal.R;
 import com.example.fbufinal.adapters.FavoritePlacesAdapter;
@@ -39,33 +32,10 @@ import com.example.fbufinal.fragments.SectionsFragment;
 import com.example.fbufinal.fragments.SpecificSearchFragment;
 import com.example.fbufinal.models.Favorite;
 import com.example.fbufinal.models.Place;
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.common.api.Status;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.libraries.places.api.Places;
-import com.google.android.libraries.places.api.model.AutocompletePrediction;
-import com.google.android.libraries.places.api.model.AutocompleteSessionToken;
-import com.google.android.libraries.places.api.model.RectangularBounds;
-import com.google.android.libraries.places.api.model.TypeFilter;
-import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest;
-import com.google.android.libraries.places.api.net.PlacesClient;
-import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
-import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
@@ -90,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements PlacesAdapter.IPl
     //boolean hasLocationPermission = false;
     SlidingPaneLayout slider;
     int backStackCount;
-    boolean lastIsPanel;
+    boolean lastIsPanel, backNavigation = true;
 
 
     public void addFragmentOnTop(Fragment fragment) {
@@ -105,78 +75,77 @@ public class MainActivity extends AppCompatActivity implements PlacesAdapter.IPl
 
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        /*switch (item.getItemId()) {
-            case android.R.id.home:
-                this.finish();
-                return true;
-        }*/
+    public void backNavigation() {
         SlidingUpPanelLayout slideLayout = findViewById(R.id.slide_layout);
 
+        String tag;
+        BottomNavigationView bottomNavigation = (BottomNavigationView) findViewById(R.id.bottomNavigation);
+        if (slideLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED) {
+            slideLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+            //lastIsPanel = true;
+            backNavigation = true;
+        } else if (slideLayout.getPanelState() == SlidingUpPanelLayout.PanelState.COLLAPSED) {
+            getSupportFragmentManager().popBackStackImmediate();
+            int index = getSupportFragmentManager().getBackStackEntryCount() - 1;
+            FragmentManager.BackStackEntry backEntry = getSupportFragmentManager().getBackStackEntryAt(index);
+            tag = backEntry.getName();
+            assert tag != null;
+            if (tag.equals("home")) {
+                bottomNavigation.setSelectedItemId(R.id.action_home);
+            } else if (tag.equals("search")) {
+                bottomNavigation.setSelectedItemId(R.id.action_compose);
 
-        if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
+            } else if (tag.equals("favorites")) {
+                bottomNavigation.setSelectedItemId(R.id.action_favorites);
 
-            String tag;
-            BottomNavigationView bottomNavigation = (BottomNavigationView) findViewById(R.id.bottomNavigation);
-             if (slideLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED) {
-                slideLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-                lastIsPanel = true;
-                //index ++;
-            }else if (slideLayout.getPanelState() == SlidingUpPanelLayout.PanelState.COLLAPSED) {
-                 getSupportFragmentManager().popBackStack();
-                 int index = getSupportFragmentManager().getBackStackEntryCount() - 2;
-                 FragmentManager.BackStackEntry backEntry = getSupportFragmentManager().getBackStackEntryAt(index);
-                 tag = backEntry.getName();
-                 assert tag != null;
-                if (tag.equals("home")) {
-                    bottomNavigation.setSelectedItemId(R.id.action_home);
-                    backStackCount -= 1;
-                } else if (tag.equals("search")) {
-                    bottomNavigation.setSelectedItemId(R.id.action_compose);
-                    backStackCount -= 1;
+            } else if (tag.equals("profile")) {
+                bottomNavigation.setSelectedItemId(R.id.action_profile);
 
-                } else if (tag.equals("favorites")) {
-                    bottomNavigation.setSelectedItemId(R.id.action_favorites);
-                    backStackCount -= 1;
-
-                } else if (tag.equals("profile")) {
-                    bottomNavigation.setSelectedItemId(R.id.action_profile);
-                    backStackCount -= 1;
-
-                }else if(tag.equals("specificSearch")){
-                    android.app.Fragment fragment = getFragmentManager().findFragmentByTag(tag);
-                    getSupportFragmentManager().popBackStackImmediate();
-                }
-
-                if(!tag.equals("specificSearch")){
-                    getSupportFragmentManager().popBackStack();
-                }
-
+            } else if (tag.equals("specificSearch")) {
+                android.app.Fragment fragment = getFragmentManager().findFragmentByTag(tag);
+                getSupportFragmentManager().popBackStackImmediate();
             }
 
+            if (!tag.equals("specificSearch")) {
+                getSupportFragmentManager().popBackStack();
+            }
+            backNavigation = true;
 
+        } else {
+            //slideLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+            //super.onBackPressed();
+            backNavigation = false;
+            onBackPressed();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        //backNavigation=backNavigation();
+        if (backNavigation) {
+            backNavigation();
+        } else {
+            super.onBackPressed();
         }
 
-        //Fragment fragment = getFragmentManager().findFragmentByTag(tag);
-/*
-        if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
+        //super.onBackPressed();
+        // super.onOptionsItemSelected(item);
 
+    }
 
-            SlidingUpPanelLayout slideLayout= findViewById(R.id.slide_layout);
-            if(slideLayout.getPanelState()== SlidingUpPanelLayout.PanelState.EXPANDED){
-                slideLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-            }else if(slideLayout.getPanelState()== SlidingUpPanelLayout.PanelState.COLLAPSED){
-                getSupportFragmentManager().popBackStackImmediate();
+        if (backNavigation) {
+            backNavigation();
+        } else {
+            onBackPressed();
+        }
+        //backNavigation();
+        //return super.onOptionsItemSelected(item);
+        return true;
 
-            }
-            //getSupportFragmentManager().popBackStackImmediate();
-            //fm.popBackStackImmediate();
-
-        }*/
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -225,7 +194,7 @@ public class MainActivity extends AppCompatActivity implements PlacesAdapter.IPl
                 Fragment currentFragment = null;
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                 slideLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-                String tag="specificSearch";
+                String tag = "specificSearch";
 
                 if (position == 1) {
                     bottomNavigation.setSelectedItemId(R.id.action_compose);
