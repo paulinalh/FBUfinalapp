@@ -1,23 +1,36 @@
 package com.example.fbufinal.adapters;
 
 import android.content.Context;
+import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.fbufinal.R;
+import com.example.fbufinal.models.Favorite;
+import com.example.fbufinal.models.Post;
 import com.example.fbufinal.models.Review;
+import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.util.List;
 
-public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewViewHolder> {
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
+
+public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHolder> {
 
     private List<Review> mReviews;
     private Context mContext;
@@ -42,14 +55,26 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewVi
 
 
     public ReviewsAdapter(Context context, String placeId, List<Review> reviews) {
-        mReviews = reviews;
+        this.mReviews = reviews;
         this.mPlaceId = placeId;
-        mContext = context;
+        this.mContext = context;
     }
+
+    @NonNull
     @Override
-    public void onBindViewHolder(ReviewViewHolder holder, int position) {
+    public ReviewsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_review, parent, false);
+        return new ReviewsAdapter.ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ReviewsAdapter.ViewHolder holder, int position) {
         Review review = mReviews.get(position);
-        holder.bindReview(review);
+        try {
+            holder.bind(review);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -57,104 +82,88 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewVi
         return mReviews.size();
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        //return CORRECT_PLACE;
 
 
-        if (isCurrentPlace(position)) {
-            return CORRECT_PLACE;
-        } else {
-            return INCORRECT_PLACE;
-        }
-
+    public void clear() {
+        mReviews.clear();
+        notifyDataSetChanged();
     }
 
-    private boolean isCurrentPlace(int position) {
-        Review review = mReviews.get(position);
-        return review.getPlaceId() != null && review.getPlaceId().equals(mPlaceId);
-    }
-
-    @Override
-    public ReviewViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Context context = parent.getContext();
-        LayoutInflater inflater = LayoutInflater.from(context);
-
-     if (viewType == CORRECT_PLACE) {
-            View contactView = inflater.inflate(R.layout.review_outgoing, parent, false);
-            return new OutgoingReviewViewHolder(contactView);
-        } else if (viewType == INCORRECT_PLACE){
-         View contactView = inflater.inflate(R.layout.no_review_layout, parent, false);
-         return new IncorrectReviewViewHolder(contactView);
-
-     }else {
-            throw new IllegalArgumentException("Unknown view type");
-        }
-
+    public void addAll(List<Review> list) {
+        mReviews.addAll(list);
+        notifyDataSetChanged();
     }
 
 
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-    public abstract class ReviewViewHolder extends RecyclerView.ViewHolder {
-
-        public ReviewViewHolder(@NonNull View itemView) {
-            super(itemView);
-        }
-
-        abstract void bindReview(Review review);
-    }
-
-
-    public class OutgoingReviewViewHolder extends ReviewViewHolder {
-        ImageView imageMe;
+        ImageView imageUser;
         TextView body;
         TextView name;
 
-        public OutgoingReviewViewHolder(View itemView) {
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageMe = (ImageView)itemView.findViewById(R.id.ivProfileMe);
+            imageUser = (ImageView)itemView.findViewById(R.id.ivProfileMe);
             body = (TextView)itemView.findViewById(R.id.tvBody);
             name = (TextView)itemView.findViewById(R.id.tvName);
 
+
         }
 
-        @Override
-        public void bindReview(Review review) {
+        public void bind(Review review) throws ParseException {
+
+
             String userId = review.getUserId();
             //File img= user1.png;
 
-            /*Glide.with(mContext)
-                    .load()
-                    .circleCrop() // create an effect of a round profile picture
-                    .into(imageMe);*/
+            //ParseFile userImage= review.getUserReview().getParseFile("picture");
+            ParseFile userImage = review.fetchIfNeeded().getParseUser("user").fetchIfNeeded().getParseFile("picture");
+
+            if(userImage!=null) {
+                Glide.with(mContext)
+                        .load(userImage.getUrl())
+                        .circleCrop() // create an effect of a round profile picture
+                        .into(imageUser);
+            }
             body.setText(review.getTextReview());
-            name.setText(review.getUsername()); // in addition to message show user ID
+            name.setText(review.getUsername());
+
+
 
 
         }
-    }
-    public class IncorrectReviewViewHolder extends ReviewViewHolder {
 
-        ImageView imageOther;
-        TextView body;
-        TextView name;
 
-        public IncorrectReviewViewHolder(View itemView) {
-            super(itemView);
-            itemView.setVisibility(View.GONE);
-            itemView.setVisibility(View.INVISIBLE);
-            /*
-            imageOther = (ImageView)itemView.findViewById(R.id.ivProfileOther);
-            body = (TextView)itemView.findViewById(R.id.tvBody);
-            name = (TextView)itemView.findViewById(R.id.tvName);*/
+        public void deleteObject(Post post) {
+
+            ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
+
+            // Retrieve the object by id
+            query.getInBackground(post.getObjectId(), (object, e) -> {
+                if (e == null) {
+                    //Object was fetched
+                    //Deletes the fetched ParseObject from the database
+                    object.deleteInBackground(e2 -> {
+                        if(e2==null){
+                            Toast.makeText(mContext, "Delete Successful", Toast.LENGTH_SHORT).show();
+                        }else{
+                            //Something went wrong while deleting the Object
+                            Toast.makeText(mContext, "Error: "+e2.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }else{
+                    //Something went wrong
+                    Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+
         }
 
         @Override
-        public void bindReview(Review review) {
-            // TODO: implement later
+        public void onClick(View v) {
+
         }
     }
-
 
 
 }

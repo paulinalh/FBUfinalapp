@@ -195,6 +195,7 @@ public class QuickDetailsFragment extends Fragment {
                 Log.d(TAG, FINAL_URL);
                 JSONObject jsonObject = json.jsonObject;
                 try {
+
                     JSONObject result = jsonObject.getJSONObject("result");
                     Log.i(TAG, "Result: " + result.toString());
                     title = result.getString("name");
