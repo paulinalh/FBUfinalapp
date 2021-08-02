@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements PlacesAdapter.IPl
 
         String tag;
         BottomNavigationView bottomNavigation = (BottomNavigationView) findViewById(R.id.bottomNavigation);
+        if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
         if (slideLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED) {
             slideLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
             //lastIsPanel = true;
@@ -111,11 +112,11 @@ public class MainActivity extends AppCompatActivity implements PlacesAdapter.IPl
             }
             backNavigation = true;
 
-        } else {
-            //slideLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+        }} else {
+            slideLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
             //super.onBackPressed();
             backNavigation = false;
-            onBackPressed();
+            //onBackPressed();
         }
     }
 
@@ -137,9 +138,12 @@ public class MainActivity extends AppCompatActivity implements PlacesAdapter.IPl
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
+        //backNavigation();
         if (backNavigation) {
             backNavigation();
-        } else {
+        }
+
+        if(!backNavigation){
             onBackPressed();
         }
         //backNavigation();
