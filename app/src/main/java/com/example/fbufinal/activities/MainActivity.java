@@ -47,8 +47,6 @@ public class MainActivity extends AppCompatActivity implements PlacesAdapter.IPl
     String TAG_FRAGMENT;
     final FragmentManager fragmentManager = getSupportFragmentManager();
     public String TAG = "MainActivity";
-    int backStackCount;
-    boolean backNavigation = true;
 
     private boolean backNavigation() {
         SlidingUpPanelLayout slideLayout = findViewById(R.id.slide_layout);
@@ -58,8 +56,6 @@ public class MainActivity extends AppCompatActivity implements PlacesAdapter.IPl
         if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
             if (slideLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED) {
                 slideLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-                //lastIsPanel = true;
-                backNavigation = true;
                 return true;
             } else if (slideLayout.getPanelState() == SlidingUpPanelLayout.PanelState.COLLAPSED) {
                 getSupportFragmentManager().popBackStackImmediate();
@@ -86,12 +82,10 @@ public class MainActivity extends AppCompatActivity implements PlacesAdapter.IPl
                 if (!tag.equals("specificSearch")) {
                     getSupportFragmentManager().popBackStack();
                 }
-                backNavigation = true;
                 return true;
             }
         } else {
             slideLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-            backNavigation = false;
             return false;
         }
 
@@ -267,7 +261,6 @@ public class MainActivity extends AppCompatActivity implements PlacesAdapter.IPl
 
             }
             fragmentManager.beginTransaction().replace(R.id.flContainer, currentFragment).addToBackStack(TAG_FRAGMENT).commit();
-            backStackCount = fragmentManager.getBackStackEntryCount();
             return true;
         }
 
