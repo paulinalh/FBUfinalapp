@@ -127,7 +127,8 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             if (image != null) {
                 Glide.with(context).load(image.getUrl()).into(ivImage);
             }
-            Glide.with(context).load(userPicture.getUrl()).transform(new RoundedCornersTransformation(500, 0)).into(ivPicture);
+            //Glide.with(context).load(userPicture.getUrl()).transform(new RoundedCornersTransformation(500, 0)).into(ivPicture);
+            Glide.with(context).load(userPicture.getUrl()).circleCrop().into(ivPicture);
 
 
             //Double tap to like gesture

@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentContainer;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,6 +27,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.fbufinal.R;
+import com.example.fbufinal.activities.MainActivity;
 import com.example.fbufinal.adapters.PlacesAdapter;
 import com.example.fbufinal.models.Place;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -54,7 +56,7 @@ public class FeedFragment extends Fragment implements PlacesAdapter.IPlaceRecycl
     public static final String PLACES_API_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=";
     public static final String API_KEY = "AIzaSyDdVbIsNC0NVYooAS-NazR92E6pH5IBtzw";
     public static final String RADIUS = "1500";
-    Fragment lastFragment = new Fragment();
+    public Fragment lastFragment = new Fragment();
     Fragment currentFragment = new Fragment();
     private FragmentContainer flContainer;
     protected PlacesAdapter placesAdapter;
@@ -231,11 +233,13 @@ public class FeedFragment extends Fragment implements PlacesAdapter.IPlaceRecycl
 
     Fragment sectionsFragment = new SectionsFragment();
     Fragment quickDetails= new QuickDetailsFragment();
+    //addFragmentOnTop(quickDetails);
 
     @Override
     public void goToPlaceDetails(Place place) {
 
         lastFragment = currentFragment;
+
 
         String placeId = place.getPlaceId();
         String imagePath = place.getImagePath();
@@ -248,7 +252,10 @@ public class FeedFragment extends Fragment implements PlacesAdapter.IPlaceRecycl
         SectionsFragment.setImage(imagePath, placeName);
         MapFragment.setLatLng(latitude, longitude, placeName);
 
-        getChildFragmentManager().beginTransaction().replace(R.id.child_fragment_container, quickDetails).commit();
+        //getParentFragmentManager()
+        getFragmentManager().beginTransaction().replace(R.id.child_fragment_container,quickDetails).addToBackStack("details").commit();
+        //getChildFragmentManager().beginTransaction().replace(R.id.child_fragment_container, quickDetails).commit();
+
 
     }
 

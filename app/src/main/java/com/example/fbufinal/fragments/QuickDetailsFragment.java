@@ -49,9 +49,10 @@ public class QuickDetailsFragment extends Fragment {
     String objectId;
     ServicesAdapter servicesAdapter;
     PlaceServicesRating placeToRate;
+    int fragment=0;
     static String placeId;
     static String imagePath;
-    ImageView ivDetailsImage,ivClose;
+    ImageView ivDetailsImage, ivClose;
     TextView tvTitle, tvAddress, tvPhone, tvPrice, tvRating, tvMonday, tvTuesday, tvWednesday, tvThursday, tvFriday, tvSaturday, tvSunday;
     Place place;
     String title, description, formatted_phone_number, formatted_address, price_level;
@@ -59,7 +60,7 @@ public class QuickDetailsFragment extends Fragment {
     RelativeLayout lottieLike, lottieComment, lottieMap, lottieDetails;
     int rating;
     RatingBar rbQuickPlace;
-    List <Integer>availableServicesList = new ArrayList<>();
+    List<Integer> availableServicesList = new ArrayList<>();
     protected List<Place> placeDetailsList;
     private static final String FIELDS_FOR_URL = "&fields=name,rating,formatted_phone_number,opening_hours,formatted_address,price_level";
 
@@ -96,14 +97,12 @@ public class QuickDetailsFragment extends Fragment {
 
         //Views of details fragment
         tvTitle = (TextView) view.findViewById(R.id.tvQuickName);
-        ivDetailsImage=(ImageView) view.findViewById(R.id.ivQuickPlace);
-        rbQuickPlace=(RatingBar) view.findViewById(R.id.rbQuickPlaceRating);
-        lottieComment=(RelativeLayout) view.findViewById(R.id.lottieComment);
-        lottieMap=(RelativeLayout) view.findViewById(R.id.lottieMap);
-        lottieDetails=(RelativeLayout) view.findViewById(R.id.lottieDetails);
-        ivClose=view.findViewById(R.id.ivClose);
-
-
+        ivDetailsImage = (ImageView) view.findViewById(R.id.ivQuickPlace);
+        rbQuickPlace = (RatingBar) view.findViewById(R.id.rbQuickPlaceRating);
+        lottieComment = (RelativeLayout) view.findViewById(R.id.lottieComment);
+        lottieMap = (RelativeLayout) view.findViewById(R.id.lottieMap);
+        lottieDetails = (RelativeLayout) view.findViewById(R.id.lottieDetails);
+        ivClose = view.findViewById(R.id.ivClose);
 
 
         return view;
@@ -120,28 +119,16 @@ public class QuickDetailsFragment extends Fragment {
 
         getJson();
 
-        //rvServices = view.findViewById(R.id.rvServices);
-/*
-        availableServicesList=checkAvailableServices();
-
-        if(availableServicesList!=null){
-            servicesAdapter = new ServicesAdapter(getContext(), availableServicesList);
-            rvServices.setAdapter(servicesAdapter);
-            LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-            rvServices.setLayoutManager(horizontalLayoutManager);
-        }*/
-
-        //queryObject();
-        //RecyclerView rvServices = getView().findViewById(R.id.rvServices);
 
 
         lottieComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getContext(), PlaceDetailsActivity.class);
-                i.putExtra("searchPlaceId",placeId);
-                i.putExtra("searchPlaceName",title);
-
+                fragment =3;
+                i.putExtra("searchPlaceId", placeId);
+                i.putExtra("searchPlaceName", title);
+                i.putExtra("fragment", fragment);
                 startActivity(i);
 
             }
@@ -150,9 +137,11 @@ public class QuickDetailsFragment extends Fragment {
         lottieMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                fragment=2;
                 Intent i = new Intent(getContext(), PlaceDetailsActivity.class);
-                i.putExtra("searchPlaceId",placeId);
-                i.putExtra("searchPlaceName",title);
+                i.putExtra("searchPlaceId", placeId);
+                i.putExtra("searchPlaceName", title);
+                i.putExtra("fragment", fragment);
 
                 startActivity(i);
 
@@ -162,10 +151,11 @@ public class QuickDetailsFragment extends Fragment {
         lottieDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                fragment=0;
                 Intent i = new Intent(getContext(), PlaceDetailsActivity.class);
-                i.putExtra("searchPlaceId",placeId);
-                i.putExtra("searchPlaceName",title);
-
+                i.putExtra("searchPlaceId", placeId);
+                i.putExtra("searchPlaceName", title);
+                i.putExtra("fragment", fragment);
                 startActivity(i);
 
             }
@@ -178,8 +168,6 @@ public class QuickDetailsFragment extends Fragment {
 
             }
         });
-
-
 
 
     }
@@ -202,7 +190,7 @@ public class QuickDetailsFragment extends Fragment {
                     title = result.getString("name");
                     //placeId = jsonObject.getString("place_id");
                     rating = result.getInt("rating");
-                    float rateFl= (float) (rating);
+                    float rateFl = (float) (rating);
                     formatted_phone_number = result.getString("formatted_phone_number");
                     opening_hours = result.getJSONObject("opening_hours").getJSONArray("weekday_text");
                     formatted_address = result.getString("formatted_address");
@@ -212,7 +200,6 @@ public class QuickDetailsFragment extends Fragment {
 
                     tvTitle.setText(title);
                     rbQuickPlace.setRating(rateFl);
-
 
 
                     if (imagePath != "") {
@@ -240,125 +227,6 @@ public class QuickDetailsFragment extends Fragment {
         imagePath = path;
 
     }
-
-    //public void queryObject() {
-        /*ParseQuery<ParseObject> query = ParseQuery.getQuery("PlaceInclusionServices");
-        //ParseQuery<PlaceServicesRating> query= ParseQuery.getQuery(PlaceServicesRating.class);
-
-        // Finds only the comments that has placeId
-        query.whereEqualTo("placeId", placeId);
-
-        query.findInBackground((objects, e) -> {
-            if(e == null){
-                for (ParseObject result : objects) {
-                    Log.d("Object found Details ",result.getObjectId());
-                    this.objectId=result.getObjectId();
-                    placeToRate= (PlaceServicesRating) result;
-                    //objectId=placeToRate.getObjectId();
-
-                    rvServices.setAdapter(servicesAdapter);
-                    LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-                    rvServices.setLayoutManager(horizontalLayoutManager);
-                    availableServicesList=checkAvailableServices();
-                    servicesAdapter = new ServicesAdapter(getContext(), availableServicesList, placeToRate);
-                }
-            }else{
-                Toast.makeText(getContext(), "Error: "+e.getMessage(), Toast.LENGTH_SHORT).show();
-
-            }
-            if(this.objectId==null){
-                createObject();
-            }
-
-        });
-    }
-/*
-    private List<Integer> checkAvailableServices() {
-        List<Integer> listServices = new ArrayList<>();
-        int WEELCHAIR_CODE= 0;
-        int RAMP_CODE= 1;
-        int PARKING_CODE= 2;
-        int ELEVATOR_CODE= 3;
-        int DOG_CODE= 4;
-        int BRAILLE_CODE= 5;
-        int LIGHT_CODE= 6;
-        int SOUND_CODE= 7;
-        int SIGNLANGUAGE_CODE= 8;
-
-        if(placeToRate.getWheelchairRatings().get(0)!=0){
-            listServices.add(WEELCHAIR_CODE);
-        } if(placeToRate.getRampRatings().get(0)!=0){
-            listServices.add(RAMP_CODE);
-        } if(placeToRate.getParkingRatings().get(0)!=0){
-            listServices.add(PARKING_CODE);
-        } if(placeToRate.getElevatorRatings().get(0)!=0){
-            listServices.add(ELEVATOR_CODE);
-        } if(placeToRate.getDogRatings().get(0)!=0){
-            listServices.add(DOG_CODE);
-        } if(placeToRate.getBrailleRatings().get(0)!=0){
-            listServices.add(BRAILLE_CODE);
-        } if(placeToRate.getLightsRatings().get(0)!=0){
-            listServices.add(LIGHT_CODE);
-        } if(placeToRate.getSoundRatings().get(0)!=0){
-            listServices.add(SOUND_CODE);
-        } if(placeToRate.getSignlanguageRatings().get(0)!=0){
-            listServices.add(SIGNLANGUAGE_CODE);
-        }
-
-        return listServices;
-    }
-
-    public void createObject() {
-
-    //ESTO YA ESTABA COMENTADO
- */
-        /*ParseObject newObject = new ParseObject("PlaceInclusionServices");
-
-
-        newObject.put("placeId", placeId);
-        newObject.put("wheelchairRatings", new JSONArray());
-        newObject.put("rampRatings", new JSONArray());
-        newObject.put("parkingRatings", new JSONArray());
-        newObject.put("elevatorRatings", new JSONArray());
-        newObject.put("dogRatings", new JSONArray());
-        newObject.put("brailleRatings", new JSONArray());
-        newObject.put("lightsRatings", new JSONArray());
-        newObject.put("soundRatings", new JSONArray());
-        newObject.put("signlanguageRatings", new JSONArray());*/
-
-//ESTO NO ESTABA COMENTADO
-    /*
-        List <Integer>emptyList=new ArrayList<>();
-        emptyList.add(0);
-
-        PlaceServicesRating newObject = new PlaceServicesRating();
-        newObject.setRatingPlaceId(placeId);
-        newObject.setWheelchairRatings(emptyList);
-        newObject.setRampRatings(emptyList);
-        newObject.setParkingRatings(emptyList);
-        newObject.setElevatorRatings(emptyList);
-        newObject.setDogRatings(emptyList);
-        newObject.setBrailleRatings(emptyList);
-        newObject.setLightsRatings(emptyList);
-        newObject.setSoundRatings(emptyList);
-        newObject.setSignlanguageRatings(emptyList);
-
-        // Saves the new object.
-        // Notice that the SaveCallback is totally optional!
-        newObject.saveInBackground(e -> {
-            if (e==null){
-                //Save was done
-                queryObject();
-
-            }else{
-                //Something went wrong
-                Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
-
-    }*/
 
 
 }

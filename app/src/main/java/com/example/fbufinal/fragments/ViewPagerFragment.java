@@ -29,6 +29,7 @@ public class ViewPagerFragment extends Fragment {
     ImageView ivPlace;
     TextView tvName;
     static String placeId, imagePath, placeName;
+    static int fragment;
     Fragment detailsFragment = new QuickDetailsFragment();
 
 
@@ -46,6 +47,10 @@ public class ViewPagerFragment extends Fragment {
     public static void setImage(String path, String name) {
         imagePath=path;
         placeName=name;
+    }
+
+    public static void setFragment(int f) {
+        fragment =f;
     }
 
     @Override
@@ -68,6 +73,7 @@ public class ViewPagerFragment extends Fragment {
         tabLayout = view.findViewById(R.id.tabLayout2);
         //ivPlace=view.findViewById(R.id.ivPlace);
         //tvName=view.findViewById(R.id.tvName);
+
 
         return view;
     }
@@ -98,6 +104,9 @@ public class ViewPagerFragment extends Fragment {
 
             }
         });
+
+        viewPager.setCurrentItem(fragment, false);
+
     }
 
     private void setUpViewPager(ViewPager viewPager) {

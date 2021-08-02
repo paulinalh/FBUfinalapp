@@ -267,8 +267,6 @@ public class RatingFragment extends Fragment {
                 object.saveInBackground();
                 getFragmentManager().beginTransaction().remove(RatingFragment.this).commit();
 
-
-
             } else {
                 // something went wrong
                 Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();

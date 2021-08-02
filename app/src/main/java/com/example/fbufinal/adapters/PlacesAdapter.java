@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.fbufinal.R;
+import com.example.fbufinal.activities.MainActivity;
 import com.example.fbufinal.models.Place;
 
 

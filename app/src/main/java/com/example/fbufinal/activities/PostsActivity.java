@@ -31,9 +31,11 @@ import com.example.fbufinal.fragments.RatingFragment;
 import com.example.fbufinal.fragments.ViewPagerFragment;
 import com.example.fbufinal.models.PlaceServicesRating;
 import com.example.fbufinal.models.Post;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.FindCallback;
@@ -50,7 +52,7 @@ public class PostsActivity extends AppCompatActivity {
     protected PostsAdapter adapter;
     protected List<Post> allPosts;
     protected View post;
-    public String TAG = "Feed activity";
+    public String TAG = "PostsActivity";
     private SwipeRefreshLayout swipeContainer;
     public final FragmentManager fragmentManager = getSupportFragmentManager();
     Fragment currentFragment = null;
@@ -65,9 +67,10 @@ public class PostsActivity extends AppCompatActivity {
     int SOUND_CODE = 7;
     int SIGNLANGUAGE_CODE = 8;
     int CODE;
-    String objectId,placeName;
+    String objectId, placeName;
+
     Fragment ratingFragment = new RatingFragment();
-    public ImageView ivScrim,imageActivity;
+    public ImageView ivScrim, imageActivity;
 
 
     @Override
@@ -76,45 +79,44 @@ public class PostsActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_posts_view);
 
-        Intent i=getIntent();
+        Intent i = getIntent();
         PlaceServicesRating placeToRate = (PlaceServicesRating) Parcels.unwrap(getIntent().getParcelableExtra(PlaceServicesRating.class.getSimpleName()));
 
 
-        objectId=i.getStringExtra("objectId");
-        placeName=i.getStringExtra("namePlace");
-        CODE = i.getIntExtra("code",11);
+        objectId = i.getStringExtra("objectId");
+        placeName = i.getStringExtra("namePlace");
+        CODE = i.getIntExtra("code", 11);
         setTitle(placeName);
 
-        ivScrim =findViewById(R.id.ivScrim);
+        ivScrim = findViewById(R.id.ivScrim);
         imageActivity = findViewById(R.id.ivServiceOnPosts);
 
-        PostsFragment.setPlace(placeToRate,CODE);
-        CreatePostFragment.setPlace(placeToRate,CODE);
+        PostsFragment.setPlace(placeToRate, CODE);
+        CreatePostFragment.setPlace(placeToRate, CODE);
 
-        if (CODE==WEELCHAIR_CODE) {
+        if (CODE == WEELCHAIR_CODE) {
             imageActivity.setImageDrawable(getDrawable(R.drawable.header1));
             //Glide.with(this).load(imageActivity).into(imageActivity);
 
-        }else if (CODE==RAMP_CODE) {
+        } else if (CODE == RAMP_CODE) {
             imageActivity.setImageDrawable(getDrawable(R.drawable.header2));
-        }else if (CODE==PARKING_CODE) {
+        } else if (CODE == PARKING_CODE) {
             imageActivity.setImageDrawable(getDrawable(R.drawable.header3));
-        }else if (CODE==ELEVATOR_CODE) {
+        } else if (CODE == ELEVATOR_CODE) {
             imageActivity.setImageDrawable(getDrawable(R.drawable.header4));
-        }else if (CODE==DOG_CODE) {
+        } else if (CODE == DOG_CODE) {
             imageActivity.setImageDrawable(getDrawable(R.drawable.header5));
-        }else if (CODE==BRAILLE_CODE) {
+        } else if (CODE == BRAILLE_CODE) {
             imageActivity.setImageDrawable(getDrawable(R.drawable.header6));
-        }else if (CODE==LIGHT_CODE) {
+        } else if (CODE == LIGHT_CODE) {
             imageActivity.setImageDrawable(getDrawable(R.drawable.header7));
-        }else if (CODE==SOUND_CODE) {
+        } else if (CODE == SOUND_CODE) {
             imageActivity.setImageDrawable(getDrawable(R.drawable.header9));
-        }else if (CODE==SIGNLANGUAGE_CODE) {
+        } else if (CODE == SIGNLANGUAGE_CODE) {
             imageActivity.setImageDrawable(getDrawable(R.drawable.header8));
         }
 
         ivScrim.setVisibility(View.GONE);
-
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -124,7 +126,27 @@ public class PostsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //What to do on back clicked
-                finish();
+                //getActivity().onBackPressed();
+
+                if (getSupportFragmentManager().getBackStackEntryCount() < 2) {
+                    finish();
+
+                } else {
+                    ivScrim.setVisibility(View.GONE);
+                    //getSupportFragmentManager().popBackStackImmediate();
+                    String tag;
+                    //getSupportFragmentManager().popBackStack();
+                    int index = getSupportFragmentManager().getBackStackEntryCount() - 1;
+                    FragmentManager.BackStackEntry backEntry = getSupportFragmentManager().getBackStackEntryAt(index);
+                    tag = backEntry.getName();
+                    /*if (tag.equals("star")) {
+                        RatingFragment.setTypeService(CODE, objectId, placeToRate);
+                        getSupportFragmentManager().beginTransaction().replace(R.id.child_fragment_container, ratingFragment).addToBackStack("star").commit();
+                    }else{*/
+                        getSupportFragmentManager().popBackStackImmediate();
+                    //}
+
+                }
             }
         });
 
@@ -139,7 +161,7 @@ public class PostsActivity extends AppCompatActivity {
         //FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         currentFragment = new PostsFragment();
-        fragmentManager.beginTransaction().replace(R.id.fragmentContainer, currentFragment).addToBackStack(null).commit();
+        fragmentManager.beginTransaction().replace(R.id.fragmentContainer, currentFragment).addToBackStack("posts").commit();
 
 
         create.setOnClickListener(new View.OnClickListener() {
@@ -147,9 +169,9 @@ public class PostsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 ivScrim.setVisibility(View.GONE);
 
-                previousFragment=currentFragment;
+                previousFragment = currentFragment;
                 currentFragment = new CreatePostFragment();
-                fragmentManager.beginTransaction().replace(R.id.fragmentContainer, currentFragment,"create").addToBackStack(null).commit();
+                fragmentManager.beginTransaction().replace(R.id.fragmentContainer, currentFragment).addToBackStack("create").commit();
                 //transaction.addToBackStack("feed");
 
             }
@@ -160,8 +182,8 @@ public class PostsActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 RatingFragment.setTypeService(CODE, objectId, placeToRate);
-                getSupportFragmentManager().beginTransaction().replace(R.id.child_fragment_container, ratingFragment,"star").addToBackStack(null).commit();
-                ivScrim.setVisibility(View.VISIBLE);
+                getSupportFragmentManager().beginTransaction().replace(R.id.child_fragment_container, ratingFragment).addToBackStack("star").commit();
+                ivScrim.setVisibility(View.GONE);
 
 
             }
@@ -170,20 +192,11 @@ public class PostsActivity extends AppCompatActivity {
         seePosts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //getActivity().onBackPressed();
 
-                /*if(getSupportFragmentManager().getBackStackEntryCount()<2){
-                    finish();
-
-                }else{
-                    ivScrim.setVisibility(View.GONE);
-                    getSupportFragmentManager().popBackStack();
-
-                }*/
                 ivScrim.setVisibility(View.GONE);
-                previousFragment=currentFragment;
+                previousFragment = currentFragment;
                 currentFragment = new PostsFragment();
-                fragmentManager.beginTransaction().replace(R.id.fragmentContainer, currentFragment,"seePosts").addToBackStack(null).commit();
+                fragmentManager.beginTransaction().replace(R.id.fragmentContainer, currentFragment, "seePosts").addToBackStack(null).commit();
 
             }
         });

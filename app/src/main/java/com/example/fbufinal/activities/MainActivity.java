@@ -1,7 +1,9 @@
 package com.example.fbufinal.activities;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentContainer;
 import androidx.fragment.app.FragmentManager;
@@ -49,6 +51,7 @@ import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRe
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -71,6 +74,7 @@ import pub.devrel.easypermissions.PermissionRequest;
 
 public class MainActivity extends AppCompatActivity implements PlacesAdapter.IPlaceRecyclerView {
     private static final int RC_CAMERA_AND_LOCATION = 123;
+    String TAG_FRAGMENT;
     final FragmentManager fragmentManager = getSupportFragmentManager();
     private BottomNavigationView bottomNavigation;
     private FragmentContainer flContainer;
@@ -79,29 +83,110 @@ public class MainActivity extends AppCompatActivity implements PlacesAdapter.IPl
     private TextView mSearchResult;
     private StringBuilder mResult;
     public String TAG = "MainActivity";
+    android.app.FragmentManager fm = getFragmentManager();
     RecyclerView rvFavorites;
     List<Favorite> favorites = new ArrayList<>();
     FavoritePlacesAdapter favAdapter;
     //boolean hasLocationPermission = false;
     SlidingPaneLayout slider;
+    int backStackCount;
+    boolean lastIsPanel;
+
+
+    public void addFragmentOnTop(Fragment fragment) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container, fragment)
+                .addToBackStack("details")
+                .commit();
+
+
+        //fragmentManager.beginTransaction().replace(R.id.flContainer, currentFragment).addToBackStack(TAG_FRAGMENT).commit();
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        /*switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
+        }*/
+        SlidingUpPanelLayout slideLayout = findViewById(R.id.slide_layout);
+
+
+        if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
+
+            String tag;
+            BottomNavigationView bottomNavigation = (BottomNavigationView) findViewById(R.id.bottomNavigation);
+             if (slideLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED) {
+                slideLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+                lastIsPanel = true;
+                //index ++;
+            }else if (slideLayout.getPanelState() == SlidingUpPanelLayout.PanelState.COLLAPSED) {
+                 getSupportFragmentManager().popBackStack();
+                 int index = getSupportFragmentManager().getBackStackEntryCount() - 2;
+                 FragmentManager.BackStackEntry backEntry = getSupportFragmentManager().getBackStackEntryAt(index);
+                 tag = backEntry.getName();
+                 assert tag != null;
+                if (tag.equals("home")) {
+                    bottomNavigation.setSelectedItemId(R.id.action_home);
+                    backStackCount -= 1;
+                } else if (tag.equals("search")) {
+                    bottomNavigation.setSelectedItemId(R.id.action_compose);
+                    backStackCount -= 1;
+
+                } else if (tag.equals("favorites")) {
+                    bottomNavigation.setSelectedItemId(R.id.action_favorites);
+                    backStackCount -= 1;
+
+                } else if (tag.equals("profile")) {
+                    bottomNavigation.setSelectedItemId(R.id.action_profile);
+                    backStackCount -= 1;
+
+                }else if(tag.equals("specificSearch")){
+                    android.app.Fragment fragment = getFragmentManager().findFragmentByTag(tag);
+                    getSupportFragmentManager().popBackStackImmediate();
+                }
+
+                if(!tag.equals("specificSearch")){
+                    getSupportFragmentManager().popBackStack();
+                }
+
+            }
+
+
+        }
+
+        //Fragment fragment = getFragmentManager().findFragmentByTag(tag);
+/*
+        if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
+
+
+            SlidingUpPanelLayout slideLayout= findViewById(R.id.slide_layout);
+            if(slideLayout.getPanelState()== SlidingUpPanelLayout.PanelState.EXPANDED){
+                slideLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+
+            }else if(slideLayout.getPanelState()== SlidingUpPanelLayout.PanelState.COLLAPSED){
+                getSupportFragmentManager().popBackStackImmediate();
+
+            }
+            //getSupportFragmentManager().popBackStackImmediate();
+            //fm.popBackStackImmediate();
+
+        }*/
+
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //flContainer.onFindViewById(R.id.flContainer);
-        //String apiKey = getString(R.string.api_key);
 
-
-/*
-        rvFavorites= findViewById(R.id.rvFavorites);
-        rvFavorites.setAdapter(favAdapter);
-        rvFavorites.setLayoutManager(new LinearLayoutManager(this));
-        queryFavorites();
-
-        favAdapter = new FavoritePlacesAdapter(this, favorites);*/
         BottomNavigationView bottomNavigation = (BottomNavigationView) findViewById(R.id.bottomNavigation);
         bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
 
         // Set default selection
         bottomNavigation.setSelectedItemId(R.id.action_home);
@@ -110,6 +195,7 @@ public class MainActivity extends AppCompatActivity implements PlacesAdapter.IPl
         //slider = findViewById(R.id.slide);
         //Slide down panel
         ListView listView = findViewById(R.id.listView);
+
         ArrayAdapter adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1,
                 new String[]{"Recommended Places",
@@ -126,6 +212,12 @@ public class MainActivity extends AppCompatActivity implements PlacesAdapter.IPl
                 });
         listView.setAdapter(adapter);
 
+        // calling the action bar
+        ActionBar actionBar = getSupportActionBar();
+
+        // showing the back button in action bar
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -133,46 +225,51 @@ public class MainActivity extends AppCompatActivity implements PlacesAdapter.IPl
                 Fragment currentFragment = null;
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                 slideLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+                String tag="specificSearch";
 
                 if (position == 1) {
                     bottomNavigation.setSelectedItemId(R.id.action_compose);
 
                 } else if (position == 2) {
                     currentFragment = new SpecificSearchFragment();
-                    fragmentManager.beginTransaction().replace(R.id.flContainer, currentFragment).commit();
+                    fragmentManager.beginTransaction().replace(R.id.flContainer, currentFragment).addToBackStack(tag).commit();
                     SpecificSearchFragment.setKey("wheelchairRatings");
                 } else if (position == 3) {
                     currentFragment = new SpecificSearchFragment();
-                    fragmentManager.beginTransaction().replace(R.id.flContainer, currentFragment).commit();
+                    fragmentManager.beginTransaction().replace(R.id.flContainer, currentFragment).addToBackStack(tag).commit();
                     SpecificSearchFragment.setKey("rampRatings");
                 } else if (position == 4) {
                     currentFragment = new SpecificSearchFragment();
-                    fragmentManager.beginTransaction().replace(R.id.flContainer, currentFragment).commit();
+                    fragmentManager.beginTransaction().replace(R.id.flContainer, currentFragment).addToBackStack(tag).commit();
                     SpecificSearchFragment.setKey("parkingRatings");
                 } else if (position == 5) {
                     currentFragment = new SpecificSearchFragment();
-                    fragmentManager.beginTransaction().replace(R.id.flContainer, currentFragment).commit();
+                    fragmentManager.beginTransaction().replace(R.id.flContainer, currentFragment).addToBackStack(tag).commit();
                     SpecificSearchFragment.setKey("elevatorRatings");
                 } else if (position == 6) {
                     currentFragment = new SpecificSearchFragment();
-                    fragmentManager.beginTransaction().replace(R.id.flContainer, currentFragment).commit();
+                    fragmentManager.beginTransaction().replace(R.id.flContainer, currentFragment).addToBackStack(tag).commit();
                     SpecificSearchFragment.setKey("dogRatings");
                 } else if (position == 7) {
                     currentFragment = new SpecificSearchFragment();
-                    fragmentManager.beginTransaction().replace(R.id.flContainer, currentFragment).commit();
+                    fragmentManager.beginTransaction().replace(R.id.flContainer, currentFragment).addToBackStack(tag).commit();
                     SpecificSearchFragment.setKey("brailleRatings");
                 } else if (position == 8) {
                     currentFragment = new SpecificSearchFragment();
-                    fragmentManager.beginTransaction().replace(R.id.flContainer, currentFragment).commit();
+                    fragmentManager.beginTransaction().replace(R.id.flContainer, currentFragment).addToBackStack(tag).commit();
                     SpecificSearchFragment.setKey("lightsRatings");
                 } else if (position == 9) {
                     currentFragment = new SpecificSearchFragment();
-                    fragmentManager.beginTransaction().replace(R.id.flContainer, currentFragment).commit();
+                    fragmentManager.beginTransaction().replace(R.id.flContainer, currentFragment).addToBackStack(tag).commit();
                     SpecificSearchFragment.setKey("soundRatings");
                 } else if (position == 10) {
                     currentFragment = new SpecificSearchFragment();
-                    fragmentManager.beginTransaction().replace(R.id.flContainer, currentFragment).commit();
+                    fragmentManager.beginTransaction().replace(R.id.flContainer, currentFragment).addToBackStack(tag).commit();
                     SpecificSearchFragment.setKey("signlanguageRatings");
+                } else if (position == 0) {
+                    currentFragment = new SpecificSearchFragment();
+                    fragmentManager.beginTransaction().replace(R.id.flContainer, currentFragment).addToBackStack(tag).commit();
+                    SpecificSearchFragment.setKey("recommendedPlaces");
                 }
 
 
@@ -206,28 +303,35 @@ public class MainActivity extends AppCompatActivity implements PlacesAdapter.IPl
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            Fragment currentFragment = null;
+            Fragment currentFragment = new Fragment();
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             switch (item.getItemId()) {
                 case R.id.action_home:
                     currentFragment = new FeedFragment();
-
-
+                    TAG_FRAGMENT = "home";
                     break;
                 case R.id.action_compose:
 
                     currentFragment = new SearchFragment();
+                    TAG_FRAGMENT = "search";
 
                     break;
                 case R.id.action_favorites:
                     currentFragment = new FavoritesFragment();
+                    TAG_FRAGMENT = "favorites";
+
                     break;
                 case R.id.action_profile:
                     currentFragment = new ProfileFragment();
+                    TAG_FRAGMENT = "profile";
+
                     break;
 
             }
-            fragmentManager.beginTransaction().replace(R.id.flContainer, currentFragment).commit();
+            fragmentManager.beginTransaction().replace(R.id.flContainer, currentFragment).addToBackStack(TAG_FRAGMENT).commit();
+            backStackCount = fragmentManager.getBackStackEntryCount();
+            //fm.beginTransaction().replace(R.id.flContainer, currentFragment).addToBackStack(TAG_FRAGMENT).commit();
+
             return true;
         }
 

@@ -14,6 +14,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.fbufinal.R;
 import com.example.fbufinal.activities.PlaceDetailsActivity;
+import com.example.fbufinal.fragments.MapFragment;
+import com.example.fbufinal.fragments.QuickDetailsFragment;
+import com.example.fbufinal.fragments.ReviewsFragment;
+import com.example.fbufinal.fragments.SectionsFragment;
+import com.example.fbufinal.fragments.ServicesFragment;
 import com.example.fbufinal.models.Favorite;
 import com.example.fbufinal.models.PlaceServicesRating;
 
@@ -98,6 +103,12 @@ public class SpecificSearchAdapter extends RecyclerView.Adapter<SpecificSearchAd
                 intent.putExtra("searchPlaceId", search.getRatingPlaceId());
                 intent.putExtra("searchPlaceName", search.getNameofPlace22());
 
+                QuickDetailsFragment.setDetails(search.getRatingPlaceId(), search.getImageofPlace22());
+                ReviewsFragment.setDetails(search.getRatingPlaceId(), search.getImageofPlace22());
+                ServicesFragment.setPlace(search.getRatingPlaceId(), search.getNameofPlace22(), search.getImageofPlace22());
+                SectionsFragment.setImage(search.getImageofPlace22(), search.getNameofPlace22());
+                //MapFragment.setLatLng(latitude, longitude, placeName);
+
                 // create intent for the new activity
                 //Intent intent = new Intent(context, PlaceDetailsActivity.class);
                 // serialize the movie using parceler, use its short name as a key
@@ -106,6 +117,8 @@ public class SpecificSearchAdapter extends RecyclerView.Adapter<SpecificSearchAd
                 context.startActivity(intent);
 
             }
+
+
 
         }
     }

@@ -77,6 +77,7 @@ public class ServicesFragment extends Fragment {
     }
 
     private void refreshPlaceData() {
+
         ParseQuery<PlaceServicesRating> query = new ParseQuery<PlaceServicesRating>(PlaceServicesRating.class);
         if(placeToRate!=null){
             query.getInBackground(placeToRate.getObjectId(), (object, e) -> {

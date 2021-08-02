@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.example.fbufinal.R;
 import com.example.fbufinal.activities.MainActivity;
 import com.example.fbufinal.activities.PlaceDetailsActivity;
+import com.example.fbufinal.fragments.FavoritesFragment;
 import com.example.fbufinal.models.Favorite;
 import com.example.fbufinal.models.Place;
 import com.parse.Parse;
@@ -36,6 +37,7 @@ public class FavoritePlacesAdapter extends RecyclerView.Adapter<FavoritePlacesAd
     private Context context;
     private List<Favorite> favorites;
 
+
     public FavoritePlacesAdapter(Context context, List<Favorite> favorites) {
         this.context = context;
         this.favorites = favorites;
@@ -50,6 +52,7 @@ public class FavoritePlacesAdapter extends RecyclerView.Adapter<FavoritePlacesAd
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_favorite_place, parent, false);
+
         return new ViewHolder(view);
     }
 
@@ -80,12 +83,13 @@ public class FavoritePlacesAdapter extends RecyclerView.Adapter<FavoritePlacesAd
         private TextView tvTimeStamp;
         private ImageView ivPicture;
 
-        public ViewHolder(@NonNull View itemView) {
+
+        public ViewHolder(@NonNull View itemView
+        ) {
             super(itemView);
             tvTitle = itemView.findViewById(R.id.tvTitleFavorite);
             ivImage = itemView.findViewById(R.id.ivImageFavorite);
             itemView.setOnClickListener(this);
-
 
 
         }
@@ -110,14 +114,14 @@ public class FavoritePlacesAdapter extends RecyclerView.Adapter<FavoritePlacesAd
                             //Object was fetched
                             //Deletes the fetched ParseObject from the database
                             object.deleteInBackground(e2 -> {
-                                if(e2==null){
+                                if (e2 == null) {
                                     Toast.makeText(context, "Delete Successful", Toast.LENGTH_SHORT).show();
-                                }else{
+                                } else {
                                     //Something went wrong while deleting the Object
-                                    Toast.makeText(context, "Error: "+e2.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, "Error: " + e2.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             });
-                        }else{
+                        } else {
                             //Something went wrong
                             Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
@@ -154,6 +158,7 @@ public class FavoritePlacesAdapter extends RecyclerView.Adapter<FavoritePlacesAd
 
         }
     }
+
 
 }
 

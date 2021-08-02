@@ -45,7 +45,7 @@ public class PlaceDetailsActivity extends AppCompatActivity {
     String placeName;
     String placeId;
     ParseUser currentUser = ParseUser.getCurrentUser();
-    int favorite = 0;
+    int fragment;
     public static final String KEY = BuildConfig.API_KEY;
     public static final String DETAILS_API_URL = "https://maps.googleapis.com/maps/api/place/details/json?place_id=";
     private static final String FIELDS_FOR_URL = "&fields=name,rating,formatted_phone_number,photos,opening_hours,formatted_address,price_level,geometry";
@@ -69,6 +69,15 @@ public class PlaceDetailsActivity extends AppCompatActivity {
         Intent i = getIntent();
         this.placeId = i.getStringExtra("searchPlaceId");
         this.placeName = i.getStringExtra("searchPlaceName");
+        this.fragment=i.getIntExtra("fragment",0);
+
+        ViewPagerFragment.setFragment(fragment);
+        Fragment currentFragment = null;
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        currentFragment = new ViewPagerFragment();
+        fragmentManager.beginTransaction().replace(R.id.fragmentContainer, currentFragment).commit();
+
+
 
         ParseUser user = ParseUser.getCurrentUser();
 
@@ -116,10 +125,7 @@ public class PlaceDetailsActivity extends AppCompatActivity {
 
 
 
-        Fragment currentFragment = null;
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        currentFragment = new ViewPagerFragment();
-        fragmentManager.beginTransaction().replace(R.id.fragmentContainer, currentFragment).commit();
+
 
         DetailsFragment.setId(placeId);
         ReviewsFragment.setId(placeId);
