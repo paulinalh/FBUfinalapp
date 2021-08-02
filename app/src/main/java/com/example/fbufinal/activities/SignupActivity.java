@@ -63,7 +63,7 @@ public class SignupActivity extends AppCompatActivity {
         user.setUsername(username);
         user.setPassword(password);
         // Set custom properties
-        user.put("phone", "650-253-0000");
+        //user.put("phone", "650-253-0000");
 
         List<Integer> userNeedsList = new ArrayList<Integer>(userNeedsArr.length);
 

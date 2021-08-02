@@ -35,6 +35,7 @@ import java.util.Objects;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> {
+    //Adapts posts queried from back 4 app database and place them into Recycler view from PostsFragmemt
     private Context context;
     private List<Post> posts;
     private PlaceServicesRating place;
@@ -78,7 +79,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         notifyDataSetChanged();
     }
 
-    // Add a list of items -- change to type used
+    // Add a list of posts
     public void addAll(List<Post> list) {
         posts.addAll(list);
         notifyDataSetChanged();
@@ -108,17 +109,8 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
 
         public void bind(Post post) throws ParseException {
             // Bind the post data to the view elements
-            /*tvDescription.setText(post.getTextPost());
-            tvUsername.setText("@" + post.getUsernamePost().getUsername());
-            ParseFile image = post.getImagePost();
-            ParseFile userPicture = post.getUsernamePost().getParseFile("picture");
-            if (image != null) {
-                Glide.with(context).load(image.getUrl()).into(ivImage);
-            }
-            Glide.with(context).load(userPicture.getUrl()).transform(new RoundedCornersTransformation(500, 0)).into(ivPicture);*/
 
             tvDescription.setText(post.fetchIfNeeded().getString("textPost"));
-            //tvDescription.setText((CharSequence) post.getUsernamePost().fetchIfNeeded());
             likes = post.fetchIfNeeded().getInt("likes");
             tvLikes.setText("" + likes);
             tvUsername.setText(post.fetchIfNeeded().getParseUser("username").fetchIfNeeded().getString("username"));
@@ -127,7 +119,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             if (image != null) {
                 Glide.with(context).load(image.getUrl()).into(ivImage);
             }
-            //Glide.with(context).load(userPicture.getUrl()).transform(new RoundedCornersTransformation(500, 0)).into(ivPicture);
             Glide.with(context).load(userPicture.getUrl()).circleCrop().into(ivPicture);
 
 
@@ -138,9 +129,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
                     @Override
                     public boolean onDoubleTap(MotionEvent e) {
 
-                        /*Toast toast = Toast.makeText(context, "<3", Toast.LENGTH_SHORT);
-                        toast.setGravity(Gravity.CENTER, 0, 0);
-                        toast.show();*/
                         if (likedByUser == 0) {
                             likedByUser = 1;
                             ivHeart.setImageDrawable(context.getResources().getDrawable(R.drawable.ufi_heart_active));

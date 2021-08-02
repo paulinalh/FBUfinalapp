@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SectionDetailsAdapter extends FragmentPagerAdapter {
+
     private List<Fragment> fragmentList = new ArrayList<>();
     private List<String> titleList = new ArrayList<>();
 

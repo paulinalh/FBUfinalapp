@@ -46,21 +46,16 @@ public class QuickDetailsFragment extends Fragment {
     public static final String KEY = BuildConfig.API_KEY;
     public static final String DETAILS_API_URL = "https://maps.googleapis.com/maps/api/place/details/json?place_id=";
     private static final String TAG = "detailsFragment";
-    String objectId;
-    ServicesAdapter servicesAdapter;
-    PlaceServicesRating placeToRate;
     int fragment=0;
     static String placeId;
     static String imagePath;
     ImageView ivDetailsImage, ivClose;
-    TextView tvTitle, tvAddress, tvPhone, tvPrice, tvRating, tvMonday, tvTuesday, tvWednesday, tvThursday, tvFriday, tvSaturday, tvSunday;
-    Place place;
-    String title, description, formatted_phone_number, formatted_address, price_level;
+    TextView tvTitle;
+    String title, formatted_phone_number, formatted_address;
     JSONArray opening_hours;
-    RelativeLayout lottieLike, lottieComment, lottieMap, lottieDetails;
+    RelativeLayout lottieComment, lottieMap, lottieDetails;
     int rating;
     RatingBar rbQuickPlace;
-    List<Integer> availableServicesList = new ArrayList<>();
     protected List<Place> placeDetailsList;
     private static final String FIELDS_FOR_URL = "&fields=name,rating,formatted_phone_number,opening_hours,formatted_address,price_level";
 
@@ -83,9 +78,6 @@ public class QuickDetailsFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         placeDetailsList = new ArrayList<>();
-
-        //queryObject();
-
     }
 
     @Override

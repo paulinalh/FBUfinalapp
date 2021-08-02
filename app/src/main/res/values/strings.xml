@@ -12,14 +12,14 @@
     <string name="android_desserts">Android Desserts</string>
     <string name="action_settings">Settings</string>
 
-    <string name="Wheelchair">General wheelchair accesibility</string>
+    <string name="Wheelchair">General wheelchair accessibility</string>
     <string name="Ramp">Quality ramps for independency</string>
-    <string name="Parking">Accesible parking spot</string>
+    <string name="Parking">Accessible parking spot</string>
     <string name="Elevator">Elevator(s)</string>
     <string name="Dog">Access to service dogs</string>
     <string name="Braille">Braille assistance</string>
     <string name="Lights">Lights control for sensitivity</string>
-    <string name="Sound">Sound for sensitivity</string>
+    <string name="Sound">Sound control for sensitivity</string>
     <string name="Sign_Language">Service in sign language</string>
 
     <string name="large_text">

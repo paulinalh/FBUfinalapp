@@ -169,18 +169,7 @@ public class CreatePostFragment extends Fragment {
             }
 
         });
-/*
-        btnGoToFeed.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getContext(), FeedActivity.class);
-                startActivity(i);
-                //finish();
-            }
-        });*/
 
-
-        //queryPosts();
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -242,49 +231,20 @@ public class CreatePostFragment extends Fragment {
                 Uri selectedImage = data.getData();
                 String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
-
-            /*if (selectedImage != null) {
-                Cursor cursor = getActivity().getContentResolver().query(selectedImage,
-                        filePathColumn, null, null, null);
-                if (cursor != null) {
-                    cursor.moveToFirst();
-
-                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                    String picturePath = cursor.getString(columnIndex);
-                    ivPostImage.setImageBitmap(BitmapFactory.decodeFile(picturePath));
-                    cursor.close();
-                }
-            }*/
-
-                /*InputStream imageStream = null;
-                try {
-                    imageStream = getContext().getContentResolver().openInputStream(selectedImage);
-                    Bitmap takenImage = BitmapFactory.decodeStream(imageStream);
-                    takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
-                    ivPostImage.setImageBitmap(takenImage);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }*/
-
-
                 ivPostImage.setImageURI(selectedImage);
-
-                //photoFile = new File(getPath(selectedImage));
 
             }
         }
 
-       // saveNewProfileImage(photoFile);
     }
 
-    public String getPath(Uri uri)
-    {
-        String[] projection = { MediaStore.Images.Media.DATA };
+    public String getPath(Uri uri) {
+        String[] projection = {MediaStore.Images.Media.DATA};
         Cursor cursor = getContext().getContentResolver().query(uri, projection, null, null, null);
         if (cursor == null) return null;
-        int column_index =             cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
         cursor.moveToFirst();
-        String s=cursor.getString(column_index);
+        String s = cursor.getString(column_index);
         cursor.close();
         return s;
     }
@@ -293,7 +253,7 @@ public class CreatePostFragment extends Fragment {
         Bitmap image = null;
         try {
             // check version of Android on device
-            if(Build.VERSION.SDK_INT > 27){
+            if (Build.VERSION.SDK_INT > 27) {
                 // on newer versions of Android, use the new decodeBitmap method
                 ImageDecoder.Source source = ImageDecoder.createSource(getContext().getContentResolver(), photoUri);
                 image = ImageDecoder.decodeBitmap(source);
@@ -306,7 +266,6 @@ public class CreatePostFragment extends Fragment {
         }
         return image;
     }
-
 
 
     // Returns the File for a photo stored on disk given the fileName
@@ -346,8 +305,7 @@ public class CreatePostFragment extends Fragment {
             }
         });
         getKey(post);
-        //queryPostsfromPlace();
-        //addToPlace();
+
     }
 
     private void getKey(Post post) {
@@ -477,7 +435,6 @@ public class CreatePostFragment extends Fragment {
     }
 
     private void queryPosts() {
-        //ParseQuery<PlaceServicesRating> query = ParseQuery.getQuery(PlaceServicesRating.class);
 
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.include(Post.KEY_USERNAME);

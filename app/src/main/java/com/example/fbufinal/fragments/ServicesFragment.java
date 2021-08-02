@@ -309,11 +309,7 @@ public class ServicesFragment extends Fragment {
                         ivTextNeeds.setVisibility(View.GONE);
 
                     }
-/*
-                    rvServices.setAdapter(servicesAdapter);
-                    LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-                    rvServices.setLayoutManager(horizontalLayoutManager);
-                    servicesAdapter = new ServicesAdapter(getContext(), availableServicesList, placeToRate);*/
+
                 }
             } else {
                 Toast.makeText(getContext(), "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();

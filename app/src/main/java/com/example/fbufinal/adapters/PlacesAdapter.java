@@ -21,10 +21,10 @@ import com.example.fbufinal.models.Place;
 import java.util.List;
 
 public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.ViewHolder> {
+    //Google Places queried from Google Places API adapt to horizontal recycler view on FeedFragment
     private Context context;
     private List<Place> places;
     Place place = null;
-    //final FragmentManager fragmentManager = getSupportFragmentManager();
     private IPlaceRecyclerView mListener;
 
     public PlacesAdapter(Context context, List<Place> places, IPlaceRecyclerView mListener) {
@@ -39,7 +39,6 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.ViewHolder
         View view = LayoutInflater.from(context).inflate(R.layout.item_quick_place, parent, false);
         ViewHolder viewHolder = new ViewHolder(view, mListener);
         return viewHolder;
-        //return new ViewHolder(view);
     }
 
     @Override
@@ -61,8 +60,7 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView tvTitle;
         private ImageView ivImage;
-        private TextView tvDescription;
-        private Button btn;
+
         IPlaceRecyclerView mListener;
 
         public ViewHolder(@NonNull View itemView, IPlaceRecyclerView mListener) {

@@ -34,6 +34,7 @@ import java.util.List;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class FavoritePlacesAdapter extends RecyclerView.Adapter<FavoritePlacesAdapter.ViewHolder> {
+    //Adapts favorite places query in the FavoritesFragment and puts them in recycler view
     private Context context;
     private List<Favorite> favorites;
 
@@ -68,7 +69,7 @@ public class FavoritePlacesAdapter extends RecyclerView.Adapter<FavoritePlacesAd
         notifyDataSetChanged();
     }
 
-    // Add a list of items -- change to type used
+    // Add the list of favorite places
     public void addAll(List<Favorite> list) {
         favorites.addAll(list);
         notifyDataSetChanged();
@@ -79,10 +80,6 @@ public class FavoritePlacesAdapter extends RecyclerView.Adapter<FavoritePlacesAd
 
         private TextView tvTitle;
         private ImageView ivImage;
-        private TextView tvDescription;
-        private TextView tvTimeStamp;
-        private ImageView ivPicture;
-
 
         public ViewHolder(@NonNull View itemView
         ) {
@@ -147,11 +144,6 @@ public class FavoritePlacesAdapter extends RecyclerView.Adapter<FavoritePlacesAd
                 intent.putExtra("searchPlaceId", fav.getFavPlaceId());
                 intent.putExtra("searchPlaceName", fav.getFavName());
 
-                // create intent for the new activity
-                //Intent intent = new Intent(context, PlaceDetailsActivity.class);
-                // serialize the movie using parceler, use its short name as a key
-                //intent.putExtra(Favorite.class.getSimpleName(), Parcels.wrap(fav));
-                // show the activity
                 context.startActivity(intent);
 
             }

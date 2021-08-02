@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.fbufinal.R;
 
 public class UserNeedsActivity extends AppCompatActivity {
+    //Activity that lets the user choose their needs after sign up
     ImageView ivWheelchair, ivRamp, ivParking, ivElevator, ivDog, ivBraille, ivLight, ivSound, ivSignlanguage, ivNext;
     int[] userNeedsArr = {0, 0, 0, 0, 0, 0, 0, 0, 0};
     int WEELCHAIR_CODE = 0;

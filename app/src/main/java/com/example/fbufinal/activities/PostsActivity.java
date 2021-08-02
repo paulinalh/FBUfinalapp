@@ -49,11 +49,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PostsActivity extends AppCompatActivity {
+    //Activity that shows all the posts each service of each place has
+    // Queries all posts from back 4 app database, as an array of pointers
     protected PostsAdapter adapter;
     protected List<Post> allPosts;
     protected View post;
     public String TAG = "PostsActivity";
-    private SwipeRefreshLayout swipeContainer;
     public final FragmentManager fragmentManager = getSupportFragmentManager();
     Fragment currentFragment = null;
     Fragment previousFragment = null;
@@ -80,7 +81,7 @@ public class PostsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_posts_view);
 
         Intent i = getIntent();
-        PlaceServicesRating placeToRate = (PlaceServicesRating) Parcels.unwrap(getIntent().getParcelableExtra(PlaceServicesRating.class.getSimpleName()));
+        PlaceServicesRating placeToRate = Parcels.unwrap(getIntent().getParcelableExtra(PlaceServicesRating.class.getSimpleName()));
 
 
         objectId = i.getStringExtra("objectId");
@@ -119,7 +120,7 @@ public class PostsActivity extends AppCompatActivity {
         ivScrim.setVisibility(View.GONE);
 
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.back_arrow));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -133,33 +134,20 @@ public class PostsActivity extends AppCompatActivity {
 
                 } else {
                     ivScrim.setVisibility(View.GONE);
-                    //getSupportFragmentManager().popBackStackImmediate();
-                    String tag;
-                    //getSupportFragmentManager().popBackStack();
-                    int index = getSupportFragmentManager().getBackStackEntryCount() - 1;
-                    FragmentManager.BackStackEntry backEntry = getSupportFragmentManager().getBackStackEntryAt(index);
-                    tag = backEntry.getName();
-                    /*if (tag.equals("star")) {
-                        RatingFragment.setTypeService(CODE, objectId, placeToRate);
-                        getSupportFragmentManager().beginTransaction().replace(R.id.child_fragment_container, ratingFragment).addToBackStack("star").commit();
-                    }else{*/
-                        getSupportFragmentManager().popBackStackImmediate();
-                    //}
+                    getSupportFragmentManager().popBackStackImmediate();
 
                 }
             }
         });
 
-        CollapsingToolbarLayout toolBarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
+        CollapsingToolbarLayout toolBarLayout = findViewById(R.id.toolbar_layout);
 
         toolBarLayout.setTitle(getTitle());
-        FloatingActionButton create = (FloatingActionButton) findViewById(R.id.create_action);
-        FloatingActionButton star = (FloatingActionButton) findViewById(R.id.star_action);
-        FloatingActionButton seePosts = (FloatingActionButton) findViewById(R.id.see_posts_action);
+        FloatingActionButton create = findViewById(R.id.create_action);
+        FloatingActionButton star = findViewById(R.id.star_action);
+        FloatingActionButton seePosts = findViewById(R.id.see_posts_action);
 
-        //isAlreadyFavorite(fab);
-        //FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
         currentFragment = new PostsFragment();
         fragmentManager.beginTransaction().replace(R.id.fragmentContainer, currentFragment).addToBackStack("posts").commit();
 
@@ -172,8 +160,6 @@ public class PostsActivity extends AppCompatActivity {
                 previousFragment = currentFragment;
                 currentFragment = new CreatePostFragment();
                 fragmentManager.beginTransaction().replace(R.id.fragmentContainer, currentFragment).addToBackStack("create").commit();
-                //transaction.addToBackStack("feed");
-
             }
         });
 
@@ -200,10 +186,6 @@ public class PostsActivity extends AppCompatActivity {
 
             }
         });
-
-        /*if(fragmentManager.findFragmentById(R.id.child_fragment_container)==null){
-            ivScrim.setVisibility(View.GONE);
-        }*/
 
     }
 

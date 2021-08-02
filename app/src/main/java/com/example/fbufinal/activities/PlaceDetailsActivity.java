@@ -41,6 +41,9 @@ import java.util.List;
 import okhttp3.Headers;
 
 public class PlaceDetailsActivity extends AppCompatActivity {
+    //Activity that shows the details of the selected or searched place.
+    // This activity contains a the place image, name and viewPager fragment where the
+    // details, services, map and review fragments are displayed.
     private String imagePath;
     String placeName;
     String placeId;
@@ -54,12 +57,8 @@ public class PlaceDetailsActivity extends AppCompatActivity {
     List<String> favList;
     boolean alreadyFav;
     String favPlaceId;
-    Button btnBack;
     final FragmentManager fragmentManager = getSupportFragmentManager();
 
-    public static void setImage2(String imagePath) {
-        //imageURL = String.format("https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=%s", imagePath + "&key=" + KEY);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,24 +68,26 @@ public class PlaceDetailsActivity extends AppCompatActivity {
         Intent i = getIntent();
         this.placeId = i.getStringExtra("searchPlaceId");
         this.placeName = i.getStringExtra("searchPlaceName");
-        this.fragment=i.getIntExtra("fragment",0);
+        this.fragment = i.getIntExtra("fragment", 0);
 
         ViewPagerFragment.setFragment(fragment);
         Fragment currentFragment = null;
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         currentFragment = new ViewPagerFragment();
-        fragmentManager.beginTransaction().replace(R.id.fragmentContainer, currentFragment).addToBackStack("details").commit();
+        fragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer, currentFragment)
+                .addToBackStack("details").commit();
 
         //Get image of place to display on activity
         getImagePath();
 
         setTitle(placeName);
         setContentView(R.layout.activity_place_details);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        CollapsingToolbarLayout toolBarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
+        CollapsingToolbarLayout toolBarLayout = findViewById(R.id.toolbar_layout);
         toolBarLayout.setTitle(getTitle());
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
 
         //Check if the place is favorite of the user
         isAlreadyFavorite(fab);
@@ -97,9 +98,9 @@ public class PlaceDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //What to do on back clicked
-                if(fragmentManager.getBackStackEntryCount()>1){
+                if (fragmentManager.getBackStackEntryCount() > 1) {
                     fragmentManager.popBackStackImmediate();
-                }else{
+                } else {
                     finish();
 
                 }
@@ -178,15 +179,14 @@ public class PlaceDetailsActivity extends AppCompatActivity {
                     Toast.makeText(PlaceDetailsActivity.this, "Error while saving!", Toast.LENGTH_SHORT).show();
                 }
                 Log.i(TAG, "Favorite save was successful");
-                //etDescription.setText("");
-                //ivPostImage.setImageResource(0);
+
             }
         });
 
     }
 
     public void deleteFavorite() {
-// Retrieve the object by id
+        // Retrieve the object by id
         ParseQuery<Favorite> query = ParseQuery.getQuery(Favorite.class);
         query.getInBackground(favPlaceId, (object, e) -> {
             if (e == null) {
@@ -219,7 +219,6 @@ public class PlaceDetailsActivity extends AppCompatActivity {
                     return;
                 }
                 for (Favorite favorite : favs) {
-                    //Log.i(TAG, "Fav:" + favorite.getFavPlaceId() + ", username: " + favorite.getUser().getUsername());
                     if (favorite.getFavPlaceId().equals(placeId)) {
                         alreadyFav = true;
                         favPlaceId = favorite.getObjectId();
@@ -235,7 +234,7 @@ public class PlaceDetailsActivity extends AppCompatActivity {
     private void showImage() {
         imageURL = String.format("https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=%s", imagePath + "&key=" + KEY);
         ImageView ivSearchPlace = (ImageView) findViewById(R.id.ivSearchPlace);
-        if (imageURL != "") {
+        if (!imageURL.equals("")) {
             Glide.with(this).load(imageURL).into(ivSearchPlace);
         }
     }

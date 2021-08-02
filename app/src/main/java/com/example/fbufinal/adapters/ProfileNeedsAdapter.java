@@ -21,10 +21,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.List;
 
 public class ProfileNeedsAdapter extends RecyclerView.Adapter<ProfileNeedsAdapter.ViewHolder> {
+    //Adapts the user needs on profile as a horizontal recycler view
     private Context context;
     List<Integer> userNeedsList;
-    Place place = null;
-
 
     public ProfileNeedsAdapter(Context context, List<Integer> needs) {
         this.context = context;
@@ -37,7 +36,6 @@ public class ProfileNeedsAdapter extends RecyclerView.Adapter<ProfileNeedsAdapte
         View view = LayoutInflater.from(context).inflate(R.layout.item_profile_need, parent, false);
         ProfileNeedsAdapter.ViewHolder viewHolder = new ProfileNeedsAdapter.ViewHolder(view);
         return viewHolder;
-        //return new ViewHolder(view);
     }
 
     @Override
@@ -82,10 +80,6 @@ public class ProfileNeedsAdapter extends RecyclerView.Adapter<ProfileNeedsAdapte
 
             if (indexNeed == WEELCHAIR_CODE) {
                 tvDescription.setText("General access of wheelchairs");
-                /*Glide.with(context)
-                        .load(R.drawable.wheelchair_icon_1)
-                        .circleCrop() // create an effect of a round profile picture
-                        .into(ivImageNeed);*/
                 ivImageNeed.setImageDrawable(context.getResources().getDrawable(R.drawable.wheelchair_icon_2));
 
             } else if (indexNeed == RAMP_CODE) {

@@ -25,6 +25,7 @@ import com.example.fbufinal.models.PlaceServicesRating;
 import java.util.List;
 
 public class SpecificSearchAdapter extends RecyclerView.Adapter<SpecificSearchAdapter.ViewHolder> {
+    //Adapts to vertical Recycler view all the places that correspond to the specific search
     private Context context;
     private List<PlaceServicesRating> specificSearchList;
 
@@ -57,7 +58,7 @@ public class SpecificSearchAdapter extends RecyclerView.Adapter<SpecificSearchAd
         notifyDataSetChanged();
     }
 
-    // Add a list of items -- change to type used
+    // Add a list of Places from specific search
     public void addAll(List<PlaceServicesRating> list) {
         specificSearchList.addAll(list);
         notifyDataSetChanged();
@@ -82,12 +83,10 @@ public class SpecificSearchAdapter extends RecyclerView.Adapter<SpecificSearchAd
         public void bind(PlaceServicesRating search) {
             // Bind the post data to the view elements
             tvTitle.setText(search.getNameofPlace22());
-            //ParseUser image = fav.getUser();
             String picture = search.getImageofPlace22();
             if (picture != null) {
                 Glide.with(context).load(picture).into(ivImage);
             }
-            //Glide.with(context).load(picture.getUrl()).transform(new RoundedCornersTransformation(500, 0)).into(ivPicture);
         }
 
 
@@ -95,9 +94,7 @@ public class SpecificSearchAdapter extends RecyclerView.Adapter<SpecificSearchAd
         public void onClick(View v) {
             // gets item position
             int position = getAdapterPosition();
-            // make sure the position is valid, i.e. actually exists in the view
             if (position != RecyclerView.NO_POSITION) {
-                // get the movie at the position, this won't work if the class is static
                 PlaceServicesRating search = specificSearchList.get(position);
                 Intent intent = new Intent(context, PlaceDetailsActivity.class);
                 intent.putExtra("searchPlaceId", search.getRatingPlaceId());
@@ -107,17 +104,10 @@ public class SpecificSearchAdapter extends RecyclerView.Adapter<SpecificSearchAd
                 ReviewsFragment.setDetails(search.getRatingPlaceId(), search.getImageofPlace22());
                 ServicesFragment.setPlace(search.getRatingPlaceId(), search.getNameofPlace22(), search.getImageofPlace22());
                 SectionsFragment.setImage(search.getImageofPlace22(), search.getNameofPlace22());
-                //MapFragment.setLatLng(latitude, longitude, placeName);
 
-                // create intent for the new activity
-                //Intent intent = new Intent(context, PlaceDetailsActivity.class);
-                // serialize the movie using parceler, use its short name as a key
-                //intent.putExtra(Favorite.class.getSimpleName(), Parcels.wrap(fav));
-                // show the activity
                 context.startActivity(intent);
 
             }
-
 
 
         }

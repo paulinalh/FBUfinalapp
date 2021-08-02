@@ -31,27 +31,10 @@ import java.util.List;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHolder> {
-
+//Adapts all review form the place in a vertical Recycler view
     private List<Review> mReviews;
     private Context mContext;
-    private String mUserId;
-    private  String mPlaceId;
-    private static final int CORRECT_PLACE = 123;
-    private static final int INCORRECT_PLACE = 321;
-
-    // Create a gravatar image based on the hash value obtained from userId
-    private static String getProfileUrl(final String userId) {
-        String hex = "";
-        try {
-            final MessageDigest digest = MessageDigest.getInstance("MD5");
-            final byte[] hash = digest.digest(userId.getBytes());
-            final BigInteger bigInt = new BigInteger(hash);
-            hex = bigInt.abs().toString(16);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "https://www.gravatar.com/avatar/" + hex + "?d=identicon";
-    }
+    private String mPlaceId;
 
 
     public ReviewsAdapter(Context context, String placeId, List<Review> reviews) {
@@ -83,7 +66,6 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHold
     }
 
 
-
     public void clear() {
         mReviews.clear();
         notifyDataSetChanged();
@@ -103,32 +85,28 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHold
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageUser = (ImageView)itemView.findViewById(R.id.ivProfileMe);
-            body = (TextView)itemView.findViewById(R.id.tvBody);
-            name = (TextView)itemView.findViewById(R.id.tvName);
+            imageUser = itemView.findViewById(R.id.ivProfileMe);
+            body = itemView.findViewById(R.id.tvBody);
+            name = itemView.findViewById(R.id.tvName);
 
 
         }
 
         public void bind(Review review) throws ParseException {
 
+            ParseFile userImage = review.fetchIfNeeded()
+                    .getParseUser("user")
+                    .fetchIfNeeded()
+                    .getParseFile("picture");
 
-            String userId = review.getUserId();
-            //File img= user1.png;
-
-            //ParseFile userImage= review.getUserReview().getParseFile("picture");
-            ParseFile userImage = review.fetchIfNeeded().getParseUser("user").fetchIfNeeded().getParseFile("picture");
-
-            if(userImage!=null) {
+            if (userImage != null) {
                 Glide.with(mContext)
                         .load(userImage.getUrl())
-                        .circleCrop() // create an effect of a round profile picture
+                        .circleCrop()
                         .into(imageUser);
             }
             body.setText(review.getTextReview());
             name.setText(review.getUsername());
-
-
 
 
         }
@@ -144,14 +122,14 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHold
                     //Object was fetched
                     //Deletes the fetched ParseObject from the database
                     object.deleteInBackground(e2 -> {
-                        if(e2==null){
+                        if (e2 == null) {
                             Toast.makeText(mContext, "Delete Successful", Toast.LENGTH_SHORT).show();
-                        }else{
+                        } else {
                             //Something went wrong while deleting the Object
-                            Toast.makeText(mContext, "Error: "+e2.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mContext, "Error: " + e2.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
-                }else{
+                } else {
                     //Something went wrong
                     Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
