@@ -9,9 +9,10 @@
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lottieSearch"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="400dp"
+        android:layout_alignParentTop="true"
         android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp"
+        android:layout_marginTop="200dp"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
         app:lottie_rawRes="@raw/search" />
@@ -20,7 +21,9 @@
     <fragment android:id="@+id/autocomplete_fragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="130dp"
+        android:layout_centerHorizontal="true"
         android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
 
         />

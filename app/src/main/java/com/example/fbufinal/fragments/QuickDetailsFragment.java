@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,7 +56,7 @@ public class QuickDetailsFragment extends Fragment {
     Place place;
     String title, description, formatted_phone_number, formatted_address, price_level;
     JSONArray opening_hours;
-    LottieAnimationView lottieLike, lottieComment, lottieMap, lottieDetails;
+    RelativeLayout lottieLike, lottieComment, lottieMap, lottieDetails;
     int rating;
     RatingBar rbQuickPlace;
     List <Integer>availableServicesList = new ArrayList<>();
@@ -97,9 +98,9 @@ public class QuickDetailsFragment extends Fragment {
         tvTitle = (TextView) view.findViewById(R.id.tvQuickName);
         ivDetailsImage=(ImageView) view.findViewById(R.id.ivQuickPlace);
         rbQuickPlace=(RatingBar) view.findViewById(R.id.rbQuickPlaceRating);
-        lottieComment=(LottieAnimationView) view.findViewById(R.id.lottieComment);
-        lottieMap=(LottieAnimationView) view.findViewById(R.id.lottieMap);
-        lottieDetails=(LottieAnimationView) view.findViewById(R.id.lottieDetails);
+        lottieComment=(RelativeLayout) view.findViewById(R.id.lottieComment);
+        lottieMap=(RelativeLayout) view.findViewById(R.id.lottieMap);
+        lottieDetails=(RelativeLayout) view.findViewById(R.id.lottieDetails);
         ivClose=view.findViewById(R.id.ivClose);
 
 

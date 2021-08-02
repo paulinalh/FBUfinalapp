@@ -82,39 +82,43 @@ public class ProfileNeedsAdapter extends RecyclerView.Adapter<ProfileNeedsAdapte
 
             if (indexNeed == WEELCHAIR_CODE) {
                 tvDescription.setText("General access of wheelchairs");
-                ivImageNeed.setImageDrawable(context.getResources().getDrawable(R.drawable.wheelchair_icon_1));
+                /*Glide.with(context)
+                        .load(R.drawable.wheelchair_icon_1)
+                        .circleCrop() // create an effect of a round profile picture
+                        .into(ivImageNeed);*/
+                ivImageNeed.setImageDrawable(context.getResources().getDrawable(R.drawable.wheelchair_icon_2));
 
             } else if (indexNeed == RAMP_CODE) {
                 tvDescription.setText("Need of quality ramps");
-                ivImageNeed.setImageDrawable(context.getResources().getDrawable(R.drawable.ramp_icon_1));
+                ivImageNeed.setImageDrawable(context.getResources().getDrawable(R.drawable.ramp_icon_2));
 
             } else if (indexNeed == PARKING_CODE) {
                 tvDescription.setText("Accessible parking");
-                ivImageNeed.setImageDrawable(context.getResources().getDrawable(R.drawable.parking_icon_1));
+                ivImageNeed.setImageDrawable(context.getResources().getDrawable(R.drawable.parking_icon_2));
 
             } else if (indexNeed == ELEVATOR_CODE) {
                 tvDescription.setText("Need of quality elevators");
-                ivImageNeed.setImageDrawable(context.getResources().getDrawable(R.drawable.elevator_icon_1));
+                ivImageNeed.setImageDrawable(context.getResources().getDrawable(R.drawable.elevator_icon_2));
 
             } else if (indexNeed == DOG_CODE) {
                 tvDescription.setText("Access to service dogs");
-                ivImageNeed.setImageDrawable(context.getResources().getDrawable(R.drawable.dog_icon_1));
+                ivImageNeed.setImageDrawable(context.getResources().getDrawable(R.drawable.dog_icon_2));
 
             } else if (indexNeed == BRAILLE_CODE) {
                 tvDescription.setText("Braille services");
-                ivImageNeed.setImageDrawable(context.getResources().getDrawable(R.drawable.braille_icon_1));
+                ivImageNeed.setImageDrawable(context.getResources().getDrawable(R.drawable.braille_icon_2));
 
             } else if (indexNeed == LIGHT_CODE) {
                 tvDescription.setText("Lights control in case of sensitivity");
-                ivImageNeed.setImageDrawable(context.getResources().getDrawable(R.drawable.light_icon_1));
+                ivImageNeed.setImageDrawable(context.getResources().getDrawable(R.drawable.light_icon_2));
 
             } else if (indexNeed == SOUND_CODE) {
                 tvDescription.setText("Sound control in case of sensitivity");
-                ivImageNeed.setImageDrawable(context.getResources().getDrawable(R.drawable.sound_icon_1));
+                ivImageNeed.setImageDrawable(context.getResources().getDrawable(R.drawable.sound_icon_2));
 
             } else if (indexNeed == SIGNLANGUAGE_CODE) {
                 tvDescription.setText("Sign language services");
-                ivImageNeed.setImageDrawable(context.getResources().getDrawable(R.drawable.signlanguage_icon_1));
+                ivImageNeed.setImageDrawable(context.getResources().getDrawable(R.drawable.signlanguage_icon_2));
 
             } else if (indexNeed == 10) {
                 itemView.setVisibility(View.GONE);
