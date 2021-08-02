@@ -46,108 +46,73 @@ public class MainActivity extends AppCompatActivity implements PlacesAdapter.IPl
     private static final int RC_CAMERA_AND_LOCATION = 123;
     String TAG_FRAGMENT;
     final FragmentManager fragmentManager = getSupportFragmentManager();
-    private BottomNavigationView bottomNavigation;
-    private FragmentContainer flContainer;
-    private View queryText;
-    private Button mSearchButton;
-    private TextView mSearchResult;
-    private StringBuilder mResult;
     public String TAG = "MainActivity";
-    android.app.FragmentManager fm = getFragmentManager();
-    RecyclerView rvFavorites;
-    List<Favorite> favorites = new ArrayList<>();
-    FavoritePlacesAdapter favAdapter;
-    //boolean hasLocationPermission = false;
-    SlidingPaneLayout slider;
     int backStackCount;
-    boolean lastIsPanel, backNavigation = true;
+    boolean backNavigation = true;
 
-
-    public void addFragmentOnTop(Fragment fragment) {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.container, fragment)
-                .addToBackStack("details")
-                .commit();
-
-
-        //fragmentManager.beginTransaction().replace(R.id.flContainer, currentFragment).addToBackStack(TAG_FRAGMENT).commit();
-
-    }
-
-    public void backNavigation() {
+    private boolean backNavigation() {
         SlidingUpPanelLayout slideLayout = findViewById(R.id.slide_layout);
 
         String tag;
         BottomNavigationView bottomNavigation = (BottomNavigationView) findViewById(R.id.bottomNavigation);
         if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
-        if (slideLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED) {
-            slideLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-            //lastIsPanel = true;
-            backNavigation = true;
-        } else if (slideLayout.getPanelState() == SlidingUpPanelLayout.PanelState.COLLAPSED) {
-            getSupportFragmentManager().popBackStackImmediate();
-            int index = getSupportFragmentManager().getBackStackEntryCount() - 1;
-            FragmentManager.BackStackEntry backEntry = getSupportFragmentManager().getBackStackEntryAt(index);
-            tag = backEntry.getName();
-            assert tag != null;
-            if (tag.equals("home")) {
-                bottomNavigation.setSelectedItemId(R.id.action_home);
-            } else if (tag.equals("search")) {
-                bottomNavigation.setSelectedItemId(R.id.action_compose);
-
-            } else if (tag.equals("favorites")) {
-                bottomNavigation.setSelectedItemId(R.id.action_favorites);
-
-            } else if (tag.equals("profile")) {
-                bottomNavigation.setSelectedItemId(R.id.action_profile);
-
-            } else if (tag.equals("specificSearch")) {
-                android.app.Fragment fragment = getFragmentManager().findFragmentByTag(tag);
+            if (slideLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED) {
+                slideLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+                //lastIsPanel = true;
+                backNavigation = true;
+                return true;
+            } else if (slideLayout.getPanelState() == SlidingUpPanelLayout.PanelState.COLLAPSED) {
                 getSupportFragmentManager().popBackStackImmediate();
-            }
+                int index = getSupportFragmentManager().getBackStackEntryCount() - 1;
+                FragmentManager.BackStackEntry backEntry = getSupportFragmentManager().getBackStackEntryAt(index);
+                tag = backEntry.getName();
+                assert tag != null;
+                if (tag.equals("home")) {
+                    bottomNavigation.setSelectedItemId(R.id.action_home);
+                } else if (tag.equals("search")) {
+                    bottomNavigation.setSelectedItemId(R.id.action_compose);
 
-            if (!tag.equals("specificSearch")) {
-                getSupportFragmentManager().popBackStack();
-            }
-            backNavigation = true;
+                } else if (tag.equals("favorites")) {
+                    bottomNavigation.setSelectedItemId(R.id.action_favorites);
 
-        }} else {
+                } else if (tag.equals("profile")) {
+                    bottomNavigation.setSelectedItemId(R.id.action_profile);
+
+                } else if (tag.equals("specificSearch")) {
+                    android.app.Fragment fragment = getFragmentManager().findFragmentByTag(tag);
+                    getSupportFragmentManager().popBackStackImmediate();
+                }
+
+                if (!tag.equals("specificSearch")) {
+                    getSupportFragmentManager().popBackStack();
+                }
+                backNavigation = true;
+                return true;
+            }
+        } else {
             slideLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-            //super.onBackPressed();
             backNavigation = false;
-            //onBackPressed();
+            return false;
         }
+
+        return false;
     }
 
     @Override
     public void onBackPressed() {
 
-        //backNavigation=backNavigation();
-        if (backNavigation) {
-            backNavigation();
-        } else {
+        if (!backNavigation()) {
             super.onBackPressed();
         }
-
-        //super.onBackPressed();
-        // super.onOptionsItemSelected(item);
 
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        //backNavigation();
-        if (backNavigation) {
-            backNavigation();
-        }
-
-        if(!backNavigation){
+        if (!backNavigation()) {
             onBackPressed();
         }
-        //backNavigation();
-        //return super.onOptionsItemSelected(item);
         return true;
 
     }
@@ -303,8 +268,6 @@ public class MainActivity extends AppCompatActivity implements PlacesAdapter.IPl
             }
             fragmentManager.beginTransaction().replace(R.id.flContainer, currentFragment).addToBackStack(TAG_FRAGMENT).commit();
             backStackCount = fragmentManager.getBackStackEntryCount();
-            //fm.beginTransaction().replace(R.id.flContainer, currentFragment).addToBackStack(TAG_FRAGMENT).commit();
-
             return true;
         }
 
@@ -312,7 +275,6 @@ public class MainActivity extends AppCompatActivity implements PlacesAdapter.IPl
 
 
     Fragment detailsFragment = new QuickDetailsFragment();
-    Fragment sectionsFragment = new SectionsFragment();
 
     @Override
     public void goToPlaceDetails(Place place) {

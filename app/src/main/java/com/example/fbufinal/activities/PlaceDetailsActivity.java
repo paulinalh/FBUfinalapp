@@ -75,34 +75,34 @@ public class PlaceDetailsActivity extends AppCompatActivity {
         Fragment currentFragment = null;
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         currentFragment = new ViewPagerFragment();
-        fragmentManager.beginTransaction().replace(R.id.fragmentContainer, currentFragment).commit();
+        fragmentManager.beginTransaction().replace(R.id.fragmentContainer, currentFragment).addToBackStack("details").commit();
 
-
-
-        ParseUser user = ParseUser.getCurrentUser();
-
+        //Get image of place to display on activity
         getImagePath();
-
 
         setTitle(placeName);
         setContentView(R.layout.activity_place_details);
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         CollapsingToolbarLayout toolBarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
-
         toolBarLayout.setTitle(getTitle());
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
+        //Check if the place is favorite of the user
         isAlreadyFavorite(fab);
 
+        //Back
         toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.back_arrow));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //What to do on back clicked
-                finish();
+                if(fragmentManager.getBackStackEntryCount()>1){
+                    fragmentManager.popBackStackImmediate();
+                }else{
+                    finish();
+
+                }
             }
         });
         fab.setOnClickListener(new View.OnClickListener() {
@@ -122,10 +122,6 @@ public class PlaceDetailsActivity extends AppCompatActivity {
 
             }
         });
-
-
-
-
 
         DetailsFragment.setId(placeId);
         ReviewsFragment.setId(placeId);
@@ -167,23 +163,6 @@ public class PlaceDetailsActivity extends AppCompatActivity {
 
     }
 
-    public void updateObject(List<String> favList) {
-
-        //ParseQuery<ParseUser> query = ParseQuery.getQuery("User");
-        ParseUser currentUser = ParseUser.getCurrentUser();
-        currentUser.put("favorites", favList);
-
-        // Saves the object.
-        currentUser.saveInBackground(e -> {
-            if (e == null) {
-                //Save successfull
-                Toast.makeText(this, "Save Successful", Toast.LENGTH_SHORT).show();
-            } else {
-                // Something went wrong while saving
-                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 
     private void saveFavorite() {
         Favorite favorite = new Favorite();
