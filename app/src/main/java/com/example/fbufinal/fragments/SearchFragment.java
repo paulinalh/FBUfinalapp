@@ -25,11 +25,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
 import java.util.Objects;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SearchFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+//Show Google autocomplete widget
 public class SearchFragment extends Fragment {
 
 
@@ -39,14 +35,6 @@ public class SearchFragment extends Fragment {
         // Required empty public constructor
     }
 
-
-    // TODO: Rename and change types and number of parameters
-    public static SearchFragment newInstance(String param1, String param2) {
-        SearchFragment fragment = new SearchFragment();
-        Bundle args = new Bundle();
-
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,13 +49,8 @@ public class SearchFragment extends Fragment {
 
         View view =inflater.inflate(R.layout.fragment_search, container, false);
         // Inflate the layout for this fragment
-
         String apiKey = getString(R.string.google_android_key);
 
-        /**
-         * Initialize Places. For simplicity, the API key is hard-coded. In a production
-         * environment we recommend using a secure mechanism to manage API keys.
-         */
         if (!Places.isInitialized()) {
             Places.initialize(getActivity(), apiKey);
         }
@@ -86,7 +69,6 @@ public class SearchFragment extends Fragment {
 
 
                 // TODO: Get info about the selected place.
-                //Toast.makeText(MainActivity.this,autocompleteFragment.getHint(), Toast.LENGTH_SHORT ).show();
                 Log.i(TAG, "Place: " + searchPlace.getName() + ", " + searchPlace.getId());
                 Intent i = new Intent(getContext(), PlaceDetailsActivity.class);
                 i.putExtra("searchPlaceId",searchPlace.getId());

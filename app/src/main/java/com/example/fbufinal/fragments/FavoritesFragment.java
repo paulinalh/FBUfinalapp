@@ -29,7 +29,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class FavoritesFragment extends Fragment  {
+//Shows all favorite places saved by the user
+public class FavoritesFragment extends Fragment {
     private static final String TAG = "FavoritesFragment";
     List<Favorite> favorites;
     FavoritePlacesAdapter favAdapter;
@@ -38,18 +39,9 @@ public class FavoritesFragment extends Fragment  {
         // Required empty public constructor
     }
 
-    public static FavoritesFragment newInstance(String param1, String param2) {
-        FavoritesFragment fragment = new FavoritesFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //favorites = new ArrayList<>();
-        //favAdapter = new FavoritePlacesAdapter(getContext(), favorites);
         queryFavorites();
         myHandler.postDelayed(mRefreshMessagesRunnable, POLL_INTERVAL);
 
@@ -60,7 +52,8 @@ public class FavoritesFragment extends Fragment  {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =inflater.inflate(R.layout.fragment_favorites, container, false);
+        View view = inflater.inflate(R.layout.fragment_favorites, container, false);
+        //Handler that automatically updates the favorite places every 2 seconds
         myHandler.postDelayed(mRefreshMessagesRunnable, POLL_INTERVAL);
 
         return view;
@@ -69,8 +62,6 @@ public class FavoritesFragment extends Fragment  {
     @Override
     public void onResume() {
         super.onResume();
-        //myHandler.postDelayed(mRefreshMessagesRunnable, POLL_INTERVAL);
-
     }
 
     @Override
@@ -84,11 +75,9 @@ public class FavoritesFragment extends Fragment  {
         rvPlaces.setAdapter(favAdapter);
         rvPlaces.setLayoutManager(new LinearLayoutManager(getContext()));
 
-
-        /*LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        rvPlaces.setLayoutManager(horizontalLayoutManager);*/
     }
-    // Create a handler which can run code periodically
+
+    // handler to update favorites every 2 seconds
     static final long POLL_INTERVAL = TimeUnit.SECONDS.toMillis(2);
     Handler myHandler = new android.os.Handler();
     Runnable mRefreshMessagesRunnable = new Runnable() {
@@ -100,24 +89,10 @@ public class FavoritesFragment extends Fragment  {
     };
 
 
-
-
     private void queryFavorites() {
         ParseQuery<Favorite> query = ParseQuery.getQuery(Favorite.class);
         query.include(Favorite.KEY_USER);
         query.whereEqualTo("user", ParseUser.getCurrentUser());
-        /*
-        query.findInBackground((objects, e) -> {
-            if(e == null){
-                for (ParseObject result : objects) {
-                    Log.d("Object found ",result.getObjectId());
-                    favorites=objects;
-                }
-            }else{
-                Toast.makeText(this, "Error: "+e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });*/
-
         query.findInBackground(new FindCallback<Favorite>() {
             @Override
             public void done(List<Favorite> favs, ParseException e) {
@@ -125,10 +100,6 @@ public class FavoritesFragment extends Fragment  {
                     Log.e(TAG, "Issue with getting posts", e);
                     return;
                 }
-                //Log.i(TAG, "Fav:" + favorite.getFavPlaceId() + ", username: " + favorite.getUser().getUsername());
-                /*favorites.addAll(favs);
-                favorites=favs;
-                favAdapter.notifyDataSetChanged();*/
                 favAdapter.clear();
                 favAdapter.addAll(favs);
             }

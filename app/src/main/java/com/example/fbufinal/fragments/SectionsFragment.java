@@ -17,29 +17,17 @@ import com.example.fbufinal.R;
 import com.example.fbufinal.adapters.SectionDetailsAdapter;
 import com.google.android.material.tabs.TabLayout;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SectionsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+//
 public class SectionsFragment extends Fragment {
     ViewPager viewPager;
     TabLayout tabLayout;
     ImageView ivPlace;
     TextView tvName;
-    static String placeId, imagePath, placeName;
-    Fragment detailsFragment = new QuickDetailsFragment();
+    static String imagePath, placeName;
 
 
     public SectionsFragment() {
         // Required empty public constructor
-    }
-
-    public static SectionsFragment newInstance(String placeId, String imagePath) {
-        SectionsFragment fragment = new SectionsFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
     }
 
     public static void setImage(String path, String name) {

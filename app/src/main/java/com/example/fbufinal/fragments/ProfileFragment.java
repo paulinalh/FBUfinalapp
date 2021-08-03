@@ -63,6 +63,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 
 import static android.app.Activity.RESULT_OK;
 
+//Shows profile image, recycler view of user needs, user name and lets the user change picture and save it
 public class ProfileFragment extends Fragment {
     public static final int PICK_IMAGE = 100;
     public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 42;
@@ -75,31 +76,10 @@ public class ProfileFragment extends Fragment {
     public String photoFileName = "photo.jpg";
     List<Integer> userNeedsList;
     protected ProfileNeedsAdapter profileNeedsAdapter;
-    String imageId;
-    File newPicture;
     Button btnLogout;
-    User profileUser;
-    ParseObject profileImage;
-    List<User> images;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Use for monitoring Parse network traffic
-        OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
-        // Can be Level.BASIC, Level.HEADERS, or Level.BODY
-        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        // any network interceptors must be added with the Configuration Builder given this syntax
-        builder.networkInterceptors().add(httpLoggingInterceptor);
-
-        // Set applicationId and server based on the values in the Back4App settings.
-        Parse.initialize(new Parse.Configuration.Builder(getContext())
-                .applicationId("MRjGoRuk6WryotgaNXvpBv2B0ntvUO4kRS4ZxwbS") // ⚠️ TYPE IN A VALID APPLICATION ID HERE
-                .clientKey("c3Zl3ou44eUPgiM3PrRU7WKAUSSdyKQSbRxnfFps") // ⚠️ TYPE IN A VALID CLIENT KEY HERE
-                .clientBuilder(builder)
-                .server("https://parseapi.back4app.com/").build());  // ⚠️ TYPE IN A VALID SERVER URL HERE
-
         userNeedsList = new ArrayList<>();
         userNeedsList = user.getList("needs");
 
@@ -175,8 +155,9 @@ public class ProfileFragment extends Fragment {
 
         // navigate backwards to Login screen
         Intent i = new Intent(getContext(), LoginActivity.class);
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // this makes sure the Back button won't work
-        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // same as above
+        // this makes sure the Back button won't work
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(i);
         getActivity().finish();
 
@@ -203,20 +184,14 @@ public class ProfileFragment extends Fragment {
             public void onClick(DialogInterface dialog, int item) {
 
                 if (options[item].equals("Take Photo")) {
-                    /*Intent takePicture = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(takePicture, 0);*/
+
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    //launchCamera();
                     photoFile = getPhotoFileUri(photoFileName);
 
-                    // wrap File object into a content provider
-                    // required for API >= 24
-                    // See https://guides.codepath.com/android/Sharing-Content-with-Intents#sharing-files-with-api-24-or-higher
                     Uri fileProvider = FileProvider.getUriForFile(getContext(), "com.codepath.fileprovider", photoFile);
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
 
-                    // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
-                    // So as long as the result is not null, it's safe to use the intent.
+                    // As long as the result is not null, it's safe to use the intent.
                     if (intent.resolveActivity(getContext().getPackageManager()) != null) {
                         // Start the image capture intent to take photo
                         startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
@@ -226,22 +201,14 @@ public class ProfileFragment extends Fragment {
                     Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
                     photoFile = getPhotoFileUri(photoFileName);
-
-                    // wrap File object into a content provider
-                    // required for API >= 24
-                    // See https://guides.codepath.com/android/Sharing-Content-with-Intents#sharing-files-with-api-24-or-higher
                     Uri fileProvider = FileProvider.getUriForFile(getContext(), "com.codepath.fileprovider", photoFile);
                     pickPhoto.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
 
-                    // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
-                    // So as long as the result is not null, it's safe to use the intent.
+                    // As long as the result is not null, it's safe to use the intent.
                     if (pickPhoto.resolveActivity(getContext().getPackageManager()) != null) {
                         // Start the image capture intent to take photo
                         startActivityForResult(pickPhoto, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
                     }
-
-                    //startActivityForResult(pickPhoto, PICK_IMAGE);
-
 
                 } else if (options[item].equals("Cancel")) {
                     dialog.dismiss();
@@ -259,9 +226,8 @@ public class ProfileFragment extends Fragment {
             if (resultCode == RESULT_OK) {
                 // by this point we have the camera photo on disk
                 Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
-                // RESIZE BITMAP, see section below
-                // Load the taken image into a preview
-                ivProfileImage.setImageBitmap(takenImage);
+                // Load the taken image into a image view
+                Glide.with(this).load(takenImage).circleCrop().into(ivProfileImage);
             } else { // Result was a failure
                 Toast.makeText(getContext(), "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
             }
@@ -269,21 +235,6 @@ public class ProfileFragment extends Fragment {
 
             if (resultCode == RESULT_OK && data != null) {
                 Uri selectedImage = data.getData();
-                String[] filePathColumn = {MediaStore.Images.Media.DATA};
-
-            /*if (selectedImage != null) {
-                Cursor cursor = getActivity().getContentResolver().query(selectedImage,
-                        filePathColumn, null, null, null);
-                if (cursor != null) {
-                    cursor.moveToFirst();
-
-                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                    String picturePath = cursor.getString(columnIndex);
-                    ivPostImage.setImageBitmap(BitmapFactory.decodeFile(picturePath));
-                    cursor.close();
-                }
-            }*/
-
                 Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
                 ivProfileImage.setImageURI(selectedImage);
 
@@ -295,9 +246,6 @@ public class ProfileFragment extends Fragment {
 
     // Returns the File for a photo stored on disk given the fileName
     public File getPhotoFileUri(String fileName) {
-        // Get safe storage directory for photos
-        // Use `getExternalFilesDir` on Context to access package-specific directories.
-        // This way, we don't need to request external read/write runtime permissions.
         File mediaStorageDir = new File(getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES), TAG);
 
         // Create the storage directory if it does not exist
@@ -314,14 +262,12 @@ public class ProfileFragment extends Fragment {
     private void saveNewProfileImage(File file) {
 
         ParseFile newImage = new ParseFile(file);
-        //ParseQuery<ParseObject> query = ParseQuery.getQuery("User");
-
         user.put("picture", newImage);
 
         user.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
-                Toast.makeText(getContext(),"Change successful",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Change successful", Toast.LENGTH_SHORT).show();
             }
         });
 

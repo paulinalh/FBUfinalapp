@@ -47,7 +47,7 @@ import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 
-
+//Creates a new posts, launches camera, lets the user select image from gallery and saves the image to parse database.
 public class CreatePostFragment extends Fragment {
 
     public static final String TAG = "MainActivity";
@@ -58,12 +58,10 @@ public class CreatePostFragment extends Fragment {
     private ImageView ivPostImage;
     private Button btnSubmit;
     private File photoFile;
-    private Button btnGoToFeed;
     public String photoFileName = "photo.jpg";
     static PlaceServicesRating place;
     static int CODE;
     String KEY;
-    FragmentManager fragmentManager;
 
     public CreatePostFragment() {
         // Required empty public constructor
@@ -74,15 +72,15 @@ public class CreatePostFragment extends Fragment {
         CODE = code;
     }
 
-    // The onCreateView method is called when Fragment should create its View object hierarchy,
-    // either dynamically or via XML layout inflation.
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_create_post, parent, false);
-        // Defines the xml file for the fragment
         return view;
     }
 
+    //Shows a dialog box and asks the user whether they want to take a picture (launch camera)
+    // or select an image from gallery, then calls startActivity for result with the provided answer
     private void selectImage(Context context) {
         final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
 
@@ -95,22 +93,16 @@ public class CreatePostFragment extends Fragment {
             public void onClick(DialogInterface dialog, int item) {
 
                 if (options[item].equals("Take Photo")) {
-                    /*Intent takePicture = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(takePicture, 0);*/
+
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    //launchCamera();
                     photoFile = getPhotoFileUri(photoFileName);
 
-                    // wrap File object into a content provider
-                    // required for API >= 24
-                    // See https://guides.codepath.com/android/Sharing-Content-with-Intents#sharing-files-with-api-24-or-higher
+
                     Uri fileProvider = FileProvider.getUriForFile(getContext(), "com.codepath.fileprovider", photoFile);
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
 
-                    // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
-                    // So as long as the result is not null, it's safe to use the intent.
+
                     if (intent.resolveActivity(getContext().getPackageManager()) != null) {
-                        // Start the image capture intent to take photo
                         startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
                     }
 
@@ -119,25 +111,15 @@ public class CreatePostFragment extends Fragment {
 
                     photoFile = getPhotoFileUri(photoFileName);
 
-                    /*final File file = new File(Environment.getExternalStorageDirectory(), "read.me");
-                    Uri uri = Uri.fromFile(file);
-                    File auxFile = new File(uri.getPath());
-                    assertEquals(file.getAbsolutePath(), auxFile.getAbsolutePath());*/
 
-                    // wrap File object into a content provider
-                    // required for API >= 24
-                    // See https://guides.codepath.com/android/Sharing-Content-with-Intents#sharing-files-with-api-24-or-higher
                     Uri fileProvider = FileProvider.getUriForFile(getContext(), "com.codepath.fileprovider", photoFile);
                     pickPhoto.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
 
-                    // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
-                    // So as long as the result is not null, it's safe to use the intent.
+
                     if (pickPhoto.resolveActivity(getContext().getPackageManager()) != null) {
                         // Start the image capture intent to take photo
                         startActivityForResult(pickPhoto, PICK_IMAGE);
                     }
-
-                    //startActivityForResult(pickPhoto, PICK_IMAGE);
 
 
                 } else if (options[item].equals("Cancel")) {
@@ -149,17 +131,13 @@ public class CreatePostFragment extends Fragment {
     }
 
 
-    // This event is triggered soon after onCreateView().
-    // Any view setup should occur here.  E.g., view lookups and attaching view listeners.
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        // Setup any handles to view objects here
-        // EditText etFoo = (EditText) view.findViewById(R.id.etFoo);
+
         etDescription = view.findViewById(R.id.etDescription);
         btnCaptureImage = view.findViewById(R.id.btnCaptureImage);
         ivPostImage = view.findViewById(R.id.ivPostImage);
         btnSubmit = view.findViewById(R.id.btnSubmit);
-        //btnGoToFeed= view.findViewById(R.id.btnGoToFeed);
 
         btnCaptureImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -191,26 +169,6 @@ public class CreatePostFragment extends Fragment {
 
     }
 
-    /*
-    private void launchCamera() {
-        // create Intent to take a picture and return control to the calling application
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Create a File reference for future access
-        photoFile = getPhotoFileUri(photoFileName);
-
-        // wrap File object into a content provider
-        // required for API >= 24
-        // See https://guides.codepath.com/android/Sharing-Content-with-Intents#sharing-files-with-api-24-or-higher
-        Uri fileProvider = FileProvider.getUriForFile(getContext(), "com.codepath.fileprovider", photoFile);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
-
-        // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
-        // So as long as the result is not null, it's safe to use the intent.
-        if (intent.resolveActivity(getContext().getPackageManager()) != null) {
-            // Start the image capture intent to take photo
-            startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
-        }
-    }*/
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -229,8 +187,6 @@ public class CreatePostFragment extends Fragment {
 
             if (resultCode == RESULT_OK && data != null) {
                 Uri selectedImage = data.getData();
-                String[] filePathColumn = {MediaStore.Images.Media.DATA};
-
                 ivPostImage.setImageURI(selectedImage);
 
             }
@@ -238,34 +194,6 @@ public class CreatePostFragment extends Fragment {
 
     }
 
-    public String getPath(Uri uri) {
-        String[] projection = {MediaStore.Images.Media.DATA};
-        Cursor cursor = getContext().getContentResolver().query(uri, projection, null, null, null);
-        if (cursor == null) return null;
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        String s = cursor.getString(column_index);
-        cursor.close();
-        return s;
-    }
-
-    public Bitmap loadFromUri(Uri photoUri) {
-        Bitmap image = null;
-        try {
-            // check version of Android on device
-            if (Build.VERSION.SDK_INT > 27) {
-                // on newer versions of Android, use the new decodeBitmap method
-                ImageDecoder.Source source = ImageDecoder.createSource(getContext().getContentResolver(), photoUri);
-                image = ImageDecoder.decodeBitmap(source);
-            } else {
-                // support older versions of Android by using getBitmap
-                image = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), photoUri);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return image;
-    }
 
 
     // Returns the File for a photo stored on disk given the fileName
@@ -289,7 +217,6 @@ public class CreatePostFragment extends Fragment {
         Post post = new Post();
         post.setTextPost(description);
         post.setImagePost(new ParseFile(photoFile));
-        //post.setImage(image);
         post.setUsernamePost(currentUser);
         post.saveInBackground(new SaveCallback() {
             @Override
@@ -429,30 +356,5 @@ public class CreatePostFragment extends Fragment {
         }
 
     }
-
-    private void addToPlace() {
-        place.getWheelchairPosts();
-    }
-
-    private void queryPosts() {
-
-        ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
-        query.include(Post.KEY_USERNAME);
-        query.findInBackground(new FindCallback<Post>() {
-            @Override
-            public void done(List<Post> posts, ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "Issue with getting posts", e);
-                    return;
-                }
-                for (Post post : posts) {
-                    Log.i(TAG, "Post:" + post.getTextPost() + ", username: " + post.getUsernamePost().getUsername());
-                }
-
-            }
-        });
-
-    }
-
 
 }

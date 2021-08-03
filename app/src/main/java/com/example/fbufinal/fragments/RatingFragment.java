@@ -26,11 +26,7 @@ import org.json.JSONArray;
 
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link RatingFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+//Shows small fragment over fragment where user can rate the specific service of each place
 public class RatingFragment extends Fragment {
     private static int CODE;
     private static String objectId;
@@ -54,16 +50,6 @@ public class RatingFragment extends Fragment {
 
     public RatingFragment() {
         // Required empty public constructor
-    }
-
-
-    public static RatingFragment newInstance(String param1, String param2) {
-        RatingFragment fragment = new RatingFragment();
-        Bundle args = new Bundle();
-        //args.putString(ARG_PARAM1, param1);
-        //args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     public static void setTypeService(int code, String id, PlaceServicesRating place){
@@ -177,7 +163,6 @@ public class RatingFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 getKey();
-                //PostsActivity.ivScrim.setVisibility(View.GONE);
             }
         });
 
@@ -219,9 +204,6 @@ public class RatingFragment extends Fragment {
 
     private void updateParse() {
         ParseQuery<PlaceServicesRating> query = ParseQuery.getQuery(PlaceServicesRating.class);
-
-        //ParseQuery<ParseObject> query = ParseQuery.getQuery("PlaceInclusionServices");
-
         // Retrieve the object by id
         query.getInBackground(objectId, (object, e) -> {
             if (e == null) {
@@ -229,39 +211,30 @@ public class RatingFragment extends Fragment {
                 // Update the fields we want to
                 if(CODE==0){
                     object.setWheelchairRatings(ratingsList);
-                    //object.put("wheelchairRatings", ratingsList);
                 }else if(CODE==1){
                     object.setRampRatings(ratingsList);
 
-                    //object.put("rampRatings", ratingsList);
                 }else if(CODE==2){
                     object.setParkingRatings(ratingsList);
 
-                    //object.put("parkingRatings", ratingsList);
                 }else if(CODE==3){
                     object.setElevatorRatings(ratingsList);
 
-                    //object.put("elevatorRatings", ratingsList);
                 }else if(CODE==4){
                     object.setDogRatings(ratingsList);
 
-                    //object.put("dogRatings", ratingsList);
                 }else if(CODE==5){
                     object.setBrailleRatings(ratingsList);
 
-                    //object.put("brailleRatings", ratingsList);
                 }else if(CODE==6){
                     object.setLightsRatings(ratingsList);
 
-                    //object.put("lightsRatings", ratingsList);
                 }else if(CODE==7){
                     object.setSoundRatings(ratingsList);
 
-                    //object.put("soundRatings", ratingsList);
                 }else if(CODE==8){
                     object.setSignlanguageRatings(ratingsList);
 
-                    //object.put("signlanguageRatings", ratingsList);
                 }
                 //All other fields will remain the same
                 object.saveInBackground();

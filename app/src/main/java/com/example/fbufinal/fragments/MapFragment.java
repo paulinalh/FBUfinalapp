@@ -20,15 +20,16 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.jetbrains.annotations.NotNull;
 
+//Use of Google Maps Android SDK to show the place's location with marker
 public class MapFragment extends Fragment {
     static double latitude, longitude;
     static String placeName;
 
 
     public static void setLatLng(double lat, double lng, String name) {
-        latitude=lat;
-        longitude=lng;
-        placeName=name;
+        latitude = lat;
+        longitude = lng;
+        placeName = name;
     }
 
     @Nullable
@@ -36,10 +37,10 @@ public class MapFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_map, container, false);
+        View view = inflater.inflate(R.layout.fragment_map, container, false);
 
         //initialize map fragment
-        SupportMapFragment supportMapFragment=(SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.google_map);
+        SupportMapFragment supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.google_map);
 
 
         //Async map
@@ -47,10 +48,7 @@ public class MapFragment extends Fragment {
             @Override
             public void onMapReady(GoogleMap googleMap) {
                 LatLng latLng = new LatLng(latitude, longitude);
-                /*googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-                googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));*/
-
-                MarkerOptions markerOptions= new MarkerOptions();
+                MarkerOptions markerOptions = new MarkerOptions();
                 //set position of marker
                 markerOptions.position(latLng);
                 //set title of marker
@@ -58,13 +56,13 @@ public class MapFragment extends Fragment {
                 //remove al marker
                 googleMap.clear();
                 //animating to zoom the marker
-                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,15));
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
                 //add marker on map
                 googleMap.addMarker(markerOptions);
             }
         });
 
-    return view;
+        return view;
     }
 
 

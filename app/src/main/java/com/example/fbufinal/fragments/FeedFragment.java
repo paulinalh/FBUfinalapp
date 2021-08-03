@@ -51,34 +51,29 @@ import okhttp3.Headers;
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
+//Queries places from the Google Places API Json fila and show them in a recycler view
 public class FeedFragment extends Fragment implements PlacesAdapter.IPlaceRecyclerView {
+
     private static final int RC_CAMERA_AND_LOCATION = 345;
     public static final String PLACES_API_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=";
     public static final String API_KEY = "AIzaSyDdVbIsNC0NVYooAS-NazR92E6pH5IBtzw";
     public static final String RADIUS = "1500";
     public Fragment lastFragment = new Fragment();
     Fragment currentFragment = new Fragment();
-    private FragmentContainer flContainer;
+    Fragment quickDetails = new QuickDetailsFragment();
     protected PlacesAdapter placesAdapter;
     protected List<Place> places;
     protected View place;
     public String TAG = "FeedFragment";
     public String currentLatitude;
     public String currentLongitude;
-    public double  longitude,latitude;
+    public double longitude, latitude;
     //Initialize location client
     FusedLocationProviderClient client;
 
     public FeedFragment() {
         // Required empty public constructor
     }
-
-    public static FeedFragment newInstance(String param1, String param2) {
-        FeedFragment fragment = new FeedFragment();
-
-        return fragment;
-    }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -101,7 +96,6 @@ public class FeedFragment extends Fragment implements PlacesAdapter.IPlaceRecycl
                 && ContextCompat.checkSelfPermission(getActivity(),
                 Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             //when permission is granted call method
-            //Toast.makeText(getContext(), "Permissions already accepted", Toast.LENGTH_SHORT).show();
             getCurrentLocation();
         } else {
             //when permission is denied, request permission
@@ -121,8 +115,6 @@ public class FeedFragment extends Fragment implements PlacesAdapter.IPlaceRecycl
         places = new ArrayList<>();
         placesAdapter = new PlacesAdapter(getContext(), places, this);
         rvPlaces.setAdapter(placesAdapter);
-        //rvPlaces.setLayoutManager(new LinearLayoutManager(getContext()));
-
 
         LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         rvPlaces.setLayoutManager(horizontalLayoutManager);
@@ -147,7 +139,6 @@ public class FeedFragment extends Fragment implements PlacesAdapter.IPlaceRecycl
                         latitude = location.getLatitude();
                         currentLatitude = String.valueOf(longitude);
                         currentLongitude = String.valueOf(latitude);
-                        //Toast.makeText(getContext(), currentLongitude, Toast.LENGTH_SHORT).show();
                         Log.i(TAG, "Longitude: " + currentLongitude);
                         getJson();
                     } else {
@@ -231,9 +222,6 @@ public class FeedFragment extends Fragment implements PlacesAdapter.IPlaceRecycl
         }
     }
 
-    Fragment sectionsFragment = new SectionsFragment();
-    Fragment quickDetails= new QuickDetailsFragment();
-    //addFragmentOnTop(quickDetails);
 
     @Override
     public void goToPlaceDetails(Place place) {
@@ -248,12 +236,11 @@ public class FeedFragment extends Fragment implements PlacesAdapter.IPlaceRecycl
 
         QuickDetailsFragment.setDetails(placeId, imagePath);
         ReviewsFragment.setDetails(placeId, imagePath);
-        ServicesFragment.setPlace(placeId,placeName,imagePath);
+        ServicesFragment.setPlace(placeId, placeName, imagePath);
         SectionsFragment.setImage(imagePath, placeName);
         MapFragment.setLatLng(latitude, longitude, placeName);
 
-        //getParentFragmentManager()
-        getFragmentManager().beginTransaction().replace(R.id.child_fragment_container,quickDetails).addToBackStack("details").commit();
+        getFragmentManager().beginTransaction().replace(R.id.child_fragment_container, quickDetails).addToBackStack("details").commit();
         //getChildFragmentManager().beginTransaction().replace(R.id.child_fragment_container, quickDetails).commit();
 
 

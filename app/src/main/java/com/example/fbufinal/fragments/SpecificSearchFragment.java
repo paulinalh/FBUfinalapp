@@ -33,11 +33,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SpecificSearchFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+//Receives a key of what the user wants to search and show the corresponding places in a vertical recycler view
 public class SpecificSearchFragment extends Fragment {
 
     private static final String TAG = "SpecificSearchFragment";
@@ -50,13 +46,6 @@ public class SpecificSearchFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static FavoritesFragment newInstance(String param1, String param2) {
-        FavoritesFragment fragment = new FavoritesFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     public static void setKey(String key) {
         KEY = key;
     }
@@ -66,7 +55,6 @@ public class SpecificSearchFragment extends Fragment {
         super.onCreate(savedInstanceState);
         specificSearchList = new ArrayList<>();
         searchAdapter = new SpecificSearchAdapter(getContext(), specificSearchList);
-        //querySearch();
 
     }
 
@@ -145,18 +133,14 @@ public class SpecificSearchFragment extends Fragment {
 
         } else if (KEY.equals("recommendedPlaces")) {
             Glide.with(getContext())
-                        .load((ParseUser.getCurrentUser().getParseFile("picture")).getUrl())
-                        .circleCrop() // create an effect of a round profile picture
-                        .into(ivSSearch);
-            //ivSSearch.setImageDrawable(getContext().getResources().getDrawable(R.drawable.signlanguage_icon_2));
+                    .load((ParseUser.getCurrentUser().getParseFile("picture")).getUrl())
+                    .circleCrop() // create an effect of a round profile picture
+                    .into(ivSSearch);
             tvSSearch.setText("all your needs");
             queryRecommended();
 
         }
 
-
-        /*LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        rvPlaces.setLayoutManager(horizontalLayoutManager);*/
     }
 
     private void querySearch() {
@@ -170,10 +154,9 @@ public class SpecificSearchFragment extends Fragment {
             @Override
             public void done(List<PlaceServicesRating> list, ParseException e) {
                 if (e != null) {
-                    Log.e(TAG, "Issue with getting posts", e);
+                    Log.e(TAG, "Issue with getting places", e);
                     return;
                 }
-                //Log.i(TAG, "Fav:" + favorite.getFavPlaceId() + ", username: " + favorite.getUser().getUsername());
                 specificSearchList.addAll(list);
                 searchAdapter.notifyDataSetChanged();
             }
@@ -192,7 +175,7 @@ public class SpecificSearchFragment extends Fragment {
             @Override
             public void done(List<PlaceServicesRating> list, ParseException e) {
                 if (e != null) {
-                    Log.e(TAG, "Issue with getting posts", e);
+                    Log.e(TAG, "Issue with getting places", e);
                     return;
                 }
                 for (PlaceServicesRating place : list) {
@@ -206,7 +189,6 @@ public class SpecificSearchFragment extends Fragment {
                 searchAdapter.notifyDataSetChanged();
             }
         });
-        //specificSearchList.addAll(places);
-        //searchAdapter.notifyDataSetChanged();
+
     }
 }

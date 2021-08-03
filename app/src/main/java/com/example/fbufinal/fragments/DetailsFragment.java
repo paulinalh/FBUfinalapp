@@ -32,18 +32,16 @@ import java.util.List;
 
 import okhttp3.Headers;
 
+//ViewPager and fragment inside Place Details Activity where the place details are shown
 public class DetailsFragment extends Fragment {
 
     public static final String KEY = BuildConfig.API_KEY;
     public static final String DETAILS_API_URL = "https://maps.googleapis.com/maps/api/place/details/json?place_id=";
     private static final String TAG = "detailsFragment";
-    PlaceServicesRating placeToRate;
     static String placeId;
     static String imagePath;
-    ImageView ivDetailsImage;
-    TextView tvTitle, tvAddress, tvPhone, tvPrice, tvRating, tvMonday, tvTuesday, tvWednesday, tvThursday, tvFriday, tvSaturday, tvSunday;
-    Place place;
-    String title, description, formatted_phone_number, formatted_address, price_level;
+    TextView tvAddress, tvPhone, tvPrice, tvRating, tvMonday, tvTuesday, tvWednesday, tvThursday, tvFriday, tvSaturday, tvSunday;
+    String title, formatted_phone_number, formatted_address, price_level;
     JSONArray opening_hours;
     int rating;
     double latitude, longitude;
@@ -66,8 +64,6 @@ public class DetailsFragment extends Fragment {
     public static void setId(String id) {
         placeId = id;
     }
-
-
 
 
     @Override
@@ -110,20 +106,17 @@ public class DetailsFragment extends Fragment {
     }
 
     public static void setServices(List<Integer> list) {
-        availableServicesList=list;
+        availableServicesList = list;
 
 
     }
+
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //RecyclerView rvPlaces = view.findViewById(R.id.rvPlaces);
         PlacesAdapter.IPlaceRecyclerView mListener = null;
 
         getJson();
-
-        //rvServices = view.findViewById(R.id.rvServices2);
-
 
     }
 
@@ -168,20 +161,7 @@ public class DetailsFragment extends Fragment {
                     tvSaturday.setText(opening_hours.getString(5));
                     tvSunday.setText(opening_hours.getString(6));
                     tvPhone.setText(formatted_phone_number);
-                    //tvPrice.setText(price_level);
                     tvRating.setText("" + rating);
-
-                    //boolean hasNeeds=false;
-                    //List <Integer> userList=ParseUser.getCurrentUser().getList("needs");
-
-
-
-
-
-
-                  /*  if (imagePath != "") {
-                        Glide.with(getContext()).load(imagePath).into(ivDetailsImage);
-                    }*/
 
                 } catch (JSONException e) {
                     Log.e(TAG, "Hit Json exception", e);

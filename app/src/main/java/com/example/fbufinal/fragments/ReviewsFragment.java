@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+//Fragment wher the user can send a review and see other user reviews
 public class ReviewsFragment extends Fragment {
     static final String USER_ID_KEY = "userId";
     static final String BODY_KEY = "text";
@@ -53,16 +54,6 @@ public class ReviewsFragment extends Fragment {
         // Required empty public constructor
     }
 
-    // Create a handler which can run code periodically
-    /*static final long POLL_INTERVAL = TimeUnit.SECONDS.toMillis(3);
-    Handler myHandler = new android.os.Handler();
-    Runnable mRefreshMessagesRunnable = new Runnable() {
-        @Override
-        public void run() {
-            refreshReviews();
-            myHandler.postDelayed(this, POLL_INTERVAL);
-        }
-    };*/
 
     public static void setId(String id) {
         placeId=id;
@@ -72,7 +63,6 @@ public class ReviewsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //refreshReviews();
 
     }
 
@@ -86,7 +76,6 @@ public class ReviewsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //setContentView(R.layout.activity_feed);
 
         etMessage = view.findViewById(R.id.etMessage);
         ibSend = view.findViewById(R.id.ibSend);
@@ -98,12 +87,10 @@ public class ReviewsFragment extends Fragment {
         rvReviews.setAdapter(adapter);
 
         rvReviews.setLayoutManager(new LinearLayoutManager(getContext()));
-        //linearLayoutManager.setReverseLayout(true);
 
         mFirstLoad = true;
 
         refreshReviews();
-        //setupAdapter();
 
         ibSend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -181,53 +168,23 @@ public class ReviewsFragment extends Fragment {
     }
     // Query messages from Parse so we can load them into the chat adapter
     void refreshReviews() {
-
-        // Construct query to execute
         ParseQuery<Review> query = ParseQuery.getQuery(Review.class);
         // Configure limit and sort order
         query.setLimit(50);
         query.include(Review.USER_KEY);
-        // get the latest 50 messages, order will show up newest to oldest of this group
-        //query.orderByDescending("createdAt");
-        // Execute query to fetch all messages from Parse asynchronously
-        // This is equivalent to a SELECT query with SQL
         query.whereEqualTo("placeId",placeId);
         query.findInBackground(new FindCallback<Review>() {
             public void done(List<Review> reviews, ParseException e) {
                 if (e == null) {
                     allReviews=reviews;
-                    //adapter.clear();
                     adapter.addAll(reviews);
-                    //adapter.notifyDataSetChanged(); // update adapter
-                    // Scroll to the bottom of the list on initial load
-                    /*if (mFirstLoad) {
-                        rvReviews.scrollToPosition(0);
-                        mFirstLoad = false;
-                    }*/
+
                 } else {
                     Log.e("message", "Error Loading Messages" + e);
                 }
             }
         });
         adapter.notifyDataSetChanged(); // update adapter
-
-
-       /* ParseQuery<ParseObject> query = ParseQuery.getQuery("Review");
-
-        // The query will search for a ParseObject, given its objectId.
-        // When the query finishes running, it will invoke the GetCallback
-        // with either the object, or the exception thrown
-        query.whereEqualTo("placeId", placeId);
-
-        query.findInBackground((objects, e) -> {
-            if(e == null){
-                for (ParseObject result : objects) {
-                    Log.d("Object found ",result.getObjectId());
-                }
-            }else{
-                Toast.makeText(getContext(), "Error: "+e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });*/
 
     }
 
@@ -237,15 +194,11 @@ public class ReviewsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
-        // Only start checking for new messages when the app becomes active in foreground
-        //myHandler.postDelayed(mRefreshMessagesRunnable, POLL_INTERVAL);
     }
 
     @Override
     public void onPause() {
-        // Stop background task from refreshing messages, to avoid unnecessary traffic & battery drain
-        //myHandler.removeCallbacksAndMessages(null);
+
         super.onPause();
     }
     public static void setDetails(String id, String path) {
