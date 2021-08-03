@@ -237,7 +237,6 @@ public class FeedFragment extends Fragment implements PlacesAdapter.IPlaceRecycl
         QuickDetailsFragment.setDetails(placeId, imagePath);
         ReviewsFragment.setDetails(placeId, imagePath);
         ServicesFragment.setPlace(placeId, placeName, imagePath);
-        //SectionsFragment.setImage(imagePath, placeName);
         MapFragment.setLatLng(latitude, longitude, placeName);
 
         getFragmentManager().beginTransaction().replace(R.id.child_fragment_container, quickDetails).addToBackStack("details").commit();
