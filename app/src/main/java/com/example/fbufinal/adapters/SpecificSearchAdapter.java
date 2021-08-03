@@ -14,12 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.fbufinal.R;
 import com.example.fbufinal.activities.PlaceDetailsActivity;
-import com.example.fbufinal.fragments.MapFragment;
 import com.example.fbufinal.fragments.QuickDetailsFragment;
 import com.example.fbufinal.fragments.ReviewsFragment;
-import com.example.fbufinal.fragments.SectionsFragment;
 import com.example.fbufinal.fragments.ServicesFragment;
-import com.example.fbufinal.models.Favorite;
 import com.example.fbufinal.models.PlaceServicesRating;
 
 import java.util.List;
@@ -103,7 +100,7 @@ public class SpecificSearchAdapter extends RecyclerView.Adapter<SpecificSearchAd
                 QuickDetailsFragment.setDetails(search.getRatingPlaceId(), search.getImageofPlace22());
                 ReviewsFragment.setDetails(search.getRatingPlaceId(), search.getImageofPlace22());
                 ServicesFragment.setPlace(search.getRatingPlaceId(), search.getNameofPlace22(), search.getImageofPlace22());
-                SectionsFragment.setImage(search.getImageofPlace22(), search.getNameofPlace22());
+                //SectionsFragment.setImage(search.getImageofPlace22(), search.getNameofPlace22());
 
                 context.startActivity(intent);
 

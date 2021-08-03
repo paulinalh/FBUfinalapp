@@ -4,11 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentContainer;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.slidingpanelayout.widget.SlidingPaneLayout;
 
 import android.Manifest;
 import android.os.Bundle;
@@ -16,27 +13,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.example.fbufinal.R;
-import com.example.fbufinal.adapters.FavoritePlacesAdapter;
 import com.example.fbufinal.adapters.PlacesAdapter;
 import com.example.fbufinal.fragments.FavoritesFragment;
 import com.example.fbufinal.fragments.QuickDetailsFragment;
 import com.example.fbufinal.fragments.FeedFragment;
 import com.example.fbufinal.fragments.ProfileFragment;
 import com.example.fbufinal.fragments.SearchFragment;
-import com.example.fbufinal.fragments.SectionsFragment;
 import com.example.fbufinal.fragments.SpecificSearchFragment;
-import com.example.fbufinal.models.Favorite;
 import com.example.fbufinal.models.Place;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;

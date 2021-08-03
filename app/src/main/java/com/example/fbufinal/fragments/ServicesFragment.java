@@ -12,27 +12,19 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.fbufinal.R;
 import com.example.fbufinal.activities.PostsActivity;
-import com.example.fbufinal.adapters.PlacesAdapter;
-import com.example.fbufinal.adapters.ServicesAdapter;
 import com.example.fbufinal.models.PlaceServicesRating;
-import com.example.fbufinal.models.Post;
-import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
 
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONArray;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
