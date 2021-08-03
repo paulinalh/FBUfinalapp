@@ -17,7 +17,6 @@ public class ParseApplication extends Application {
         super.onCreate();
 
         //register your parse models
-        ParseObject.registerSubclass(Place.class);
         ParseObject.registerSubclass(PlaceServicesRating.class);
         ParseObject.registerSubclass(Favorite.class);
         ParseObject.registerSubclass(Post.class);

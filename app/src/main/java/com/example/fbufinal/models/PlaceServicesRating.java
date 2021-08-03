@@ -34,12 +34,6 @@ public class PlaceServicesRating extends ParseObject {
     public static final String KEY_SOUND_POSTS="SoundPosts";
     public static final String KEY_SIGNLANGUAGE_POSTS="SignLanguagePosts";
 
-
-
-    public String getServicesObjectId(){
-        return getString(KEY_OBJECTID);
-    }
-
     public String getRatingPlaceId(){
         return getString(KEY_PLACEID);
     }

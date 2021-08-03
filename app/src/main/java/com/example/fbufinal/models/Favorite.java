@@ -14,11 +14,6 @@ public class Favorite extends ParseObject {
     public static final String KEY_FAV_NAME = "favName";
     public static final String KEY_FAV_IMAGEURL = "favImageURL";
     public String favPlaceId;
-    //public ParseUser userFav;
-    public String favName;
-    public String favImageURL;
-
-
 
     public String getFavPlaceId() {
         return getString(KEY_FAV_PLACE_ID);

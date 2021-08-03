@@ -12,8 +12,7 @@ import org.parceler.Parcel;
 import java.util.ArrayList;
 import java.util.List;
 
-@ParseClassName("Place")
-public class Place extends ParseObject {
+public class Place {
     public static final String KEY = BuildConfig.API_KEY;
     String title;
     String description;
@@ -60,16 +59,8 @@ public class Place extends ParseObject {
         return title;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
     public String getPlaceId() {
         return placeId;
     }
 
-
-    public void addAll(List<Place> fromJsonArray) {
-
-    }
 }
