@@ -55,13 +55,14 @@ public class ServicesFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        queryObject();
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
         refreshPlaceData();
-        queryObject();
 
     }
 
@@ -135,7 +136,7 @@ public class ServicesFragment extends Fragment {
         ivTextNeeds = view.findViewById(R.id.ivTextNeeds);
 
 
-        queryObject();
+        //queryObject();
         return view;
 
     }
@@ -250,21 +251,19 @@ public class ServicesFragment extends Fragment {
 
     }
 
-    public static void setPlace(String id, String name, String img) {
-
+    public static void setPlace(String id, String name) {
+        //String img
         placeId = id;
         placeName = name;
-        image = img;
+        //image = img;
     }
 
-    public void queryObject() {
+    private void queryObject() {
 
-        //ParseQuery<ParseObject> query = ParseQuery.getQuery("PlaceInclusionServices");
         ParseQuery<PlaceServicesRating> query = ParseQuery.getQuery(PlaceServicesRating.class);
 
         // Finds only the comments that has placeId
         query.whereEqualTo("placeId", placeId);
-
         query.findInBackground((objects, e) -> {
             if (e == null) {
                 for (ParseObject result : objects) {
@@ -297,6 +296,11 @@ public class ServicesFragment extends Fragment {
             }
 
         });
+        /*if (this.objectId == null) {
+                createObject();
+        }*/
+
+
     }
 
     private List<Integer> checkAvailableServices() {
@@ -442,7 +446,10 @@ public class ServicesFragment extends Fragment {
         emptyList.add(0);
 
         PlaceServicesRating newObject = new PlaceServicesRating();
-        newObject.setRatingPlaceId(placeId);
+
+        if(placeId!=null) {
+            newObject.setRatingPlaceId(placeId);
+        }
         newObject.setWheelchairRatings(emptyList);
         newObject.setRampRatings(emptyList);
         newObject.setParkingRatings(emptyList);
@@ -453,10 +460,20 @@ public class ServicesFragment extends Fragment {
         newObject.setSoundRatings(emptyList);
         newObject.setSignlanguageRatings(emptyList);
         newObject.setNameofPlace22(placeName);
-        newObject.setImageofPlace22(image);
+        if(image!=null){
+            newObject.setImageofPlace22(image);
+
+        }
         newObject.setAllServices(emptyList);
         newObject.setWheelchairPosts(new ArrayList<>());
         newObject.setRampPosts(new ArrayList<>());
+        newObject.setParkingPosts(new ArrayList<>());
+        newObject.setElevatorPosts(new ArrayList<>());
+        newObject.setDogPosts(new ArrayList<>());
+        newObject.setBraillePosts(new ArrayList<>());
+        newObject.setLightsPosts(new ArrayList<>());
+        newObject.setSoundPosts(new ArrayList<>());
+        newObject.setSignPosts(new ArrayList<>());
 
 
         // Saves the new object.

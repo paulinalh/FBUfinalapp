@@ -7,7 +7,7 @@ import com.parse.ParseObject;
 
 import java.util.List;
 
-@ParseClassName("PlaceInclusionServices")
+@ParseClassName("PlaceServices")
 public class PlaceServicesRating extends ParseObject {
     public static final String KEY_OBJECTID="objectId";
     public static final String KEY_PLACEID= "placeId";

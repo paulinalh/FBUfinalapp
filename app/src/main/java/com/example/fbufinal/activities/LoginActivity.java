@@ -65,7 +65,6 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "Issue wth login", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                //TODO: navigate to main activity if the user has logged in correctly
                 goMainActivity();
                 Toast.makeText(LoginActivity.this, "Success!", Toast.LENGTH_SHORT).show();
 

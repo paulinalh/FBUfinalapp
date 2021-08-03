@@ -99,7 +99,7 @@ public class SpecificSearchAdapter extends RecyclerView.Adapter<SpecificSearchAd
 
                 QuickDetailsFragment.setDetails(search.getRatingPlaceId(), search.getImageofPlace22());
                 ReviewsFragment.setDetails(search.getRatingPlaceId(), search.getImageofPlace22());
-                ServicesFragment.setPlace(search.getRatingPlaceId(), search.getNameofPlace22(), search.getImageofPlace22());
+                ServicesFragment.setPlace(search.getRatingPlaceId(), search.getNameofPlace22());
                 //SectionsFragment.setImage(search.getImageofPlace22(), search.getNameofPlace22());
 
                 context.startActivity(intent);

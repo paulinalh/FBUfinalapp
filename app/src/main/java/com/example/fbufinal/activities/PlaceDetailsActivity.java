@@ -9,6 +9,7 @@ import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.fbufinal.BuildConfig;
 import com.example.fbufinal.fragments.DetailsFragment;
 import com.example.fbufinal.fragments.ReviewsFragment;
+import com.example.fbufinal.fragments.ServicesFragment;
 import com.example.fbufinal.fragments.ViewPagerFragment;
 import com.example.fbufinal.models.Favorite;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -126,6 +127,7 @@ public class PlaceDetailsActivity extends AppCompatActivity {
 
         DetailsFragment.setId(placeId);
         ReviewsFragment.setId(placeId);
+        //ServicesFragment.setPlace(placeId, placeName, imageURL);
 
     }
 

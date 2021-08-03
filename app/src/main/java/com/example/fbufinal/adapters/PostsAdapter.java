@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide;
 import com.example.fbufinal.R;
 import com.example.fbufinal.models.PlaceServicesRating;
 import com.example.fbufinal.models.Post;
+import com.example.fbufinal.models.User;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -29,6 +30,7 @@ import com.parse.ParseUser;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -37,18 +39,20 @@ import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> {
     //Adapts posts queried from back 4 app database and place them into Recycler view from PostsFragmemt
     private Context context;
+    private ParseUser currentUser = ParseUser.getCurrentUser();
     private List<Post> posts;
     private PlaceServicesRating place;
+    List<Post> likedPosts, readLikes;
     private int CODE;
-    int likedByUser;
+    boolean likedByUser = false;
     int likes;
 
 
     public PostsAdapter(Context context, List<Post> posts, PlaceServicesRating place, int code) {
         this.context = context;
         this.posts = posts;
-        this.place=place;
-        this.CODE=code;
+        this.place = place;
+        this.CODE = code;
     }
 
     @Override
@@ -85,7 +89,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         notifyDataSetChanged();
     }
 
-
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView tvUsername;
@@ -107,6 +110,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
 
         }
 
+
         public void bind(Post post) throws ParseException {
             // Bind the post data to the view elements
 
@@ -119,8 +123,29 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             if (image != null) {
                 Glide.with(context).load(image.getUrl()).into(ivImage);
             }
-            Glide.with(context).load(userPicture.getUrl()).circleCrop().into(ivPicture);
+            if (userPicture != null) {
+                Glide.with(context).load(userPicture.getUrl()).circleCrop().into(ivPicture);
+            }
 
+            //checks if the post is in user's liked posts list
+            likedPosts = currentUser.fetchIfNeeded().getList("likedPosts");
+            //if list is empty create a new list
+            if (likedPosts == null) {
+                likedPosts = new ArrayList<>();
+            }
+            //checks for each object id of the likedPosts list
+            for (Post eachLikedPost : likedPosts) {
+                if (eachLikedPost.getObjectId().equals(post.getObjectId())) {
+                    likedByUser = true;
+                    break;
+                }
+            }
+            //changes the heart image according to the user likes
+            if (likedByUser) {
+                ivHeart.setImageDrawable(context.getResources().getDrawable(R.drawable.ufi_heart_active));
+            } else if (!likedByUser) {
+                ivHeart.setImageDrawable(context.getResources().getDrawable(R.drawable.ufi_heart));
+            }
 
             //Double tap to like gesture
             itemView.setOnTouchListener(new View.OnTouchListener() {
@@ -129,24 +154,44 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
                     @Override
                     public boolean onDoubleTap(MotionEvent e) {
 
-                        if (likedByUser == 0) {
-                            likedByUser = 1;
+                        if (likedByUser) {
+                            //rest like in post
+                            ivHeart.setImageDrawable(context.getResources().getDrawable(R.drawable.ufi_heart));
+                            likes = post.getLikesPost() - 1;
+                            post.setLikesPost(likes);
+                            post.saveInBackground();
+
+                            //adds new post on user's Likes Array list
+                            for (Post eachLikedPost : likedPosts) {
+                                if (eachLikedPost.getObjectId().equals(post.getObjectId())) {
+                                    likedPosts.remove(eachLikedPost);
+                                    break;
+                                }
+                            }
+                            try {
+                                currentUser.fetchIfNeeded().put("likedPosts", likedPosts);
+                            } catch (ParseException parseException) {
+                                parseException.printStackTrace();
+                            }
+                            currentUser.saveInBackground();
+                            likedByUser = false;
+
+                        } else if (!likedByUser) {
                             ivHeart.setImageDrawable(context.getResources().getDrawable(R.drawable.ufi_heart_active));
+                            //add like in post
                             likes = post.getLikesPost() + 1;
                             //tvLikes.setText(likes);
                             post.setLikesPost(likes);
                             post.saveInBackground();
-
-                        } else if (likedByUser == 1) {
-                            likedByUser = 0;
-                            ivHeart.setImageDrawable(context.getResources().getDrawable(R.drawable.ufi_heart));
-                            likes = post.getLikesPost() - 1;
-                            //tvLikes.setText(likes);
-                            post.setLikesPost(likes);
-                            post.saveInBackground();
-
+                            //adds new post on user's Likes array list 
+                            likedPosts.add(post);
+                            try {
+                                currentUser.fetchIfNeeded().put("likedPosts", likedPosts);
+                            } catch (ParseException parseException) {
+                                parseException.printStackTrace();
+                            }
+                            currentUser.saveInBackground();
                         }
-
 
                         Log.d("TEST", "onDoubleTap");
                         return super.onDoubleTap(e);
@@ -163,9 +208,9 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
 
             });
 
-            String postUser= (post.fetchIfNeeded().getParseUser("username")).fetchIfNeeded().getObjectId();
+            String postUser = (post.fetchIfNeeded().getParseUser("username")).fetchIfNeeded().getObjectId();
 
-            String current=ParseUser.getCurrentUser().getObjectId();
+            String current = ParseUser.getCurrentUser().getObjectId();
             if (postUser.equals(current)) {
 
                 ivTrash.setVisibility(View.VISIBLE);
@@ -178,23 +223,23 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
                     posts.remove(post);
                     deleteObject(post);
 
-                    if(CODE==0){
+                    if (CODE == 0) {
                         place.setWheelchairPosts(posts);
-                    }else if(CODE==1){
+                    } else if (CODE == 1) {
                         place.setRampPosts(posts);
-                    }else if(CODE==2){
+                    } else if (CODE == 2) {
                         place.setParkingPosts(posts);
-                    }else if(CODE==3){
+                    } else if (CODE == 3) {
                         place.setElevatorPosts(posts);
-                    }else if(CODE==4){
+                    } else if (CODE == 4) {
                         place.setDogPosts(posts);
-                    }else if(CODE==5){
+                    } else if (CODE == 5) {
                         place.setBraillePosts(posts);
-                    }else if(CODE==6){
+                    } else if (CODE == 6) {
                         place.setLightsPosts(posts);
-                    }else if(CODE==7){
+                    } else if (CODE == 7) {
                         place.setSoundPosts(posts);
-                    }else if(CODE==8){
+                    } else if (CODE == 8) {
                         place.setSignPosts(posts);
                     }
                     place.saveInBackground();
@@ -203,8 +248,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             });
 
         }
-
-
 
 
         public void deleteObject(Post post) {
@@ -217,14 +260,14 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
                     //Object was fetched
                     //Deletes the fetched ParseObject from the database
                     object.deleteInBackground(e2 -> {
-                        if(e2==null){
+                        if (e2 == null) {
                             Toast.makeText(context, "Delete Successful", Toast.LENGTH_SHORT).show();
-                        }else{
+                        } else {
                             //Something went wrong while deleting the Object
-                            Toast.makeText(context, "Error: "+e2.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Error: " + e2.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
-                }else{
+                } else {
                     //Something went wrong
                     Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }

@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,11 +35,15 @@ import com.example.fbufinal.models.Post;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -186,8 +191,27 @@ public class CreatePostFragment extends Fragment {
         } else if (requestCode == PICK_IMAGE) {
 
             if (resultCode == RESULT_OK && data != null) {
-                Uri selectedImage = data.getData();
-                ivPostImage.setImageURI(selectedImage);
+                //Uri selectedImage = data.getData();
+
+                Uri selectedImage =  data.getData();
+                String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                if (selectedImage != null) {
+                    Cursor cursor = getContext().getContentResolver().query(selectedImage,
+                            filePathColumn, null, null, null);
+                    if (cursor != null) {
+                        cursor.moveToFirst();
+
+                        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                        String picturePath = cursor.getString(columnIndex);
+                        Bitmap takenImage = BitmapFactory.decodeFile(picturePath);
+                        ivPostImage.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+                        //ivPostImage.setImageBitmap(takenImage);
+                        cursor.close();
+                    }
+                }
+
+
+                //ivPostImage.setImageURI(selectedImage);
 
             }
         }

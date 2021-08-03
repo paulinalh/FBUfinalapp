@@ -6,20 +6,27 @@ import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
+import java.util.List;
+
 @ParseClassName("User")
 public class User extends ParseObject {
     public static final String KEY_USERNAME="username";
     public static final String KEY_IMAGE= "image";
     public static final String KEY_PICTURE="picture";
+    public static final String KEY_LIKES= "likedPosts";
     public ParseUser username;
     public ParseFile image;
     public ParseObject profileImage;
 
-    public ParseUser getUsername() {
-        return ParseUser.getCurrentUser().getParseUser(KEY_USERNAME);
+    public ParseUser getUserCurrent() {
+        return ParseUser.getCurrentUser();
     }
 
-    public void setUsername(ParseUser user) {
+    public String getUserName() {
+        return ParseUser.getCurrentUser().getString(KEY_USERNAME);
+    }
+
+    public void setUserName(String user) {
         put(KEY_USERNAME, user);
     }
 
@@ -31,5 +38,12 @@ public class User extends ParseObject {
         put(KEY_PICTURE, profileImage);
     }
 
+    public List<Post> getLikedPosts() {
+        return getList(KEY_LIKES);
+    }
+
+    public void setLikedPosts(List<Post>  likes) {
+        put(KEY_LIKES, likes);
+    }
 
 }

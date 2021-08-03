@@ -28,6 +28,7 @@ import com.example.fbufinal.fragments.CreatePostFragment;
 import com.example.fbufinal.fragments.PostsFragment;
 import com.example.fbufinal.fragments.QuickDetailsFragment;
 import com.example.fbufinal.fragments.RatingFragment;
+import com.example.fbufinal.fragments.ServicesFragment;
 import com.example.fbufinal.fragments.ViewPagerFragment;
 import com.example.fbufinal.models.PlaceServicesRating;
 import com.example.fbufinal.models.Post;
@@ -94,6 +95,7 @@ public class PostsActivity extends AppCompatActivity {
 
         PostsFragment.setPlace(placeToRate, CODE);
         CreatePostFragment.setPlace(placeToRate, CODE);
+        //ServicesFragment.setPlace(placeToRate.getRatingPlaceId(), placeToRate.getNameofPlace22(), placeToRate.getImageofPlace22());
 
         if (CODE == WEELCHAIR_CODE) {
             imageActivity.setImageDrawable(getDrawable(R.drawable.header1));
@@ -127,16 +129,16 @@ public class PostsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //What to do on back clicked
-                //getActivity().onBackPressed();
+                finish();
 
-                if (getSupportFragmentManager().getBackStackEntryCount() < 2) {
+                /*if (getSupportFragmentManager().getBackStackEntryCount() < 2) {
                     finish();
 
                 } else {
                     ivScrim.setVisibility(View.GONE);
                     getSupportFragmentManager().popBackStackImmediate();
 
-                }
+                }*/
             }
         });
 
