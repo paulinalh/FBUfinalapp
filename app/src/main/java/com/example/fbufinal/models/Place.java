@@ -14,10 +14,7 @@ import java.util.List;
 
 public class Place {
     public static final String KEY = BuildConfig.API_KEY;
-    String title;
-    String description;
-    String placeId;
-    String imagePath;
+    private String title, description, placeId, imagePath;
 
     public Place() {
 

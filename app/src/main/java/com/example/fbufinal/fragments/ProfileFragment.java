@@ -27,39 +27,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.data.BufferedOutputStream;
 import com.example.fbufinal.R;
 import com.example.fbufinal.activities.LoginActivity;
-import com.example.fbufinal.activities.MainActivity;
-import com.example.fbufinal.adapters.PlacesAdapter;
 import com.example.fbufinal.adapters.ProfileNeedsAdapter;
-import com.example.fbufinal.models.Post;
-import com.example.fbufinal.models.Review;
-import com.example.fbufinal.models.User;
-import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
-import com.parse.GetCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
-
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 
 import static android.app.Activity.RESULT_OK;
 

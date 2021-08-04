@@ -1,10 +1,8 @@
 package com.example.fbufinal.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.view.GestureDetector;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,21 +18,13 @@ import com.bumptech.glide.Glide;
 import com.example.fbufinal.R;
 import com.example.fbufinal.models.PlaceServicesRating;
 import com.example.fbufinal.models.Post;
-import com.example.fbufinal.models.User;
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-import org.parceler.Parcels;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
-
-import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> {
     //Adapts posts queried from back 4 app database and place them into Recycler view from PostsFragmemt
@@ -45,7 +35,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
     private final int CODE;
     private List<Post> likedPosts;
     boolean likedByUser = false;
-    int likes;
+    private int likes;
 
 
     public PostsAdapter(Context context, List<Post> posts, PlaceServicesRating place, int code) {
