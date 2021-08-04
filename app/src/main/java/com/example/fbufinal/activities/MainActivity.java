@@ -50,24 +50,23 @@ public class MainActivity extends AppCompatActivity {
                 int index = getSupportFragmentManager().getBackStackEntryCount() - 1;
                 FragmentManager.BackStackEntry backEntry = getSupportFragmentManager().getBackStackEntryAt(index);
                 tag = backEntry.getName();
-                assert tag != null;
-                if (tag.equals("home")) {
+                if ("home".equals(tag)) {
                     bottomNavigation.setSelectedItemId(R.id.action_home);
-                } else if (tag.equals("search")) {
+                } else if ("search".equals(tag)) {
                     bottomNavigation.setSelectedItemId(R.id.action_compose);
 
-                } else if (tag.equals("favorites")) {
+                } else if ("favorites".equals(tag)) {
                     bottomNavigation.setSelectedItemId(R.id.action_favorites);
 
-                } else if (tag.equals("profile")) {
+                } else if ("profile".equals(tag)) {
                     bottomNavigation.setSelectedItemId(R.id.action_profile);
 
-                } else if (tag.equals("specificSearch")) {
+                } else if ("specificSearch".equals(tag)) {
                     android.app.Fragment fragment = getFragmentManager().findFragmentByTag(tag);
                     getSupportFragmentManager().popBackStackImmediate();
                 }
 
-                if (!tag.equals("specificSearch")) {
+                if (!"specificSearch".equals(tag)) {
                     getSupportFragmentManager().popBackStack();
                 }
                 return true;
