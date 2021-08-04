@@ -38,12 +38,12 @@ import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> {
     //Adapts posts queried from back 4 app database and place them into Recycler view from PostsFragmemt
-    private Context context;
-    private ParseUser currentUser = ParseUser.getCurrentUser();
-    private List<Post> posts;
-    private PlaceServicesRating place;
-    List<Post> likedPosts, readLikes;
-    private int CODE;
+    private final Context context;
+    private final ParseUser currentUser = ParseUser.getCurrentUser();
+    private final List<Post> posts;
+    private final PlaceServicesRating place;
+    private final int CODE;
+    private List<Post> likedPosts;
     boolean likedByUser = false;
     int likes;
 
@@ -183,7 +183,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
                             //tvLikes.setText(likes);
                             post.setLikesPost(likes);
                             post.saveInBackground();
-                            //adds new post on user's Likes array list 
+                            //adds new post on user's Likes array list
                             likedPosts.add(post);
                             try {
                                 currentUser.fetchIfNeeded().put("likedPosts", likedPosts);

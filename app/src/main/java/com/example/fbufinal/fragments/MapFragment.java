@@ -22,8 +22,8 @@ import org.jetbrains.annotations.NotNull;
 
 //Use of Google Maps Android SDK to show the place's location with marker
 public class MapFragment extends Fragment {
-    static double latitude, longitude;
-    static String placeName;
+    private static double latitude, longitude;
+    private static String placeName;
 
 
     public static void setLatLng(double lat, double lng, String name) {

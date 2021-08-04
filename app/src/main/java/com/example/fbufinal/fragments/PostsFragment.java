@@ -31,12 +31,12 @@ import java.util.List;
 
 //Show posts from that specific place querying parse, and refreshed using pulling up
 public class PostsFragment extends Fragment {
+    private final String TAG = "Posts fragment";
+    private static PlaceServicesRating place;
+    private static int CODE;
     protected PostsAdapter adapter;
     protected List<Post> allPosts;
     protected View post;
-    public String TAG = "Feed activity";
-    static PlaceServicesRating place;
-    static int CODE;
     private SwipeRefreshLayout swipeContainer;
 
 

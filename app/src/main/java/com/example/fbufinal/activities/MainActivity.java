@@ -31,10 +31,9 @@ import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 import pub.devrel.easypermissions.PermissionRequest;
 
-public class MainActivity extends AppCompatActivity implements PlacesAdapter.IPlaceRecyclerView {
+public class MainActivity extends AppCompatActivity {
     private static final int RC_CAMERA_AND_LOCATION = 123;
-    String TAG_FRAGMENT;
-    final FragmentManager fragmentManager = getSupportFragmentManager();
+    private final FragmentManager fragmentManager = getSupportFragmentManager();
     public String TAG = "MainActivity";
 
     private boolean backNavigation() {
@@ -222,6 +221,7 @@ public class MainActivity extends AppCompatActivity implements PlacesAdapter.IPl
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
+        String tagFragment;
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             Fragment currentFragment = new Fragment();
@@ -229,43 +229,31 @@ public class MainActivity extends AppCompatActivity implements PlacesAdapter.IPl
             switch (item.getItemId()) {
                 case R.id.action_home:
                     currentFragment = new FeedFragment();
-                    TAG_FRAGMENT = "home";
+                    tagFragment = "home";
                     break;
                 case R.id.action_compose:
 
                     currentFragment = new SearchFragment();
-                    TAG_FRAGMENT = "search";
+                    tagFragment = "search";
 
                     break;
                 case R.id.action_favorites:
                     currentFragment = new FavoritesFragment();
-                    TAG_FRAGMENT = "favorites";
+                    tagFragment = "favorites";
 
                     break;
                 case R.id.action_profile:
                     currentFragment = new ProfileFragment();
-                    TAG_FRAGMENT = "profile";
+                    tagFragment = "profile";
 
                     break;
 
             }
-            fragmentManager.beginTransaction().replace(R.id.flContainer, currentFragment).addToBackStack(TAG_FRAGMENT).commit();
+            fragmentManager.beginTransaction().replace(R.id.flContainer, currentFragment).addToBackStack(tagFragment).commit();
             return true;
         }
 
     };
-
-
-    Fragment detailsFragment = new QuickDetailsFragment();
-
-    @Override
-    public void goToPlaceDetails(Place place) {
-        String placeId = place.getPlaceId();
-        String imagePath = place.getImagePath();
-        detailsFragment = QuickDetailsFragment.newInstance(placeId, imagePath);
-
-
-    }
 
 
 }

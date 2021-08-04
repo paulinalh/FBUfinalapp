@@ -10,13 +10,9 @@ import java.util.List;
 
 @ParseClassName("User")
 public class User extends ParseObject {
-    public static final String KEY_USERNAME="username";
-    public static final String KEY_IMAGE= "image";
-    public static final String KEY_PICTURE="picture";
-    public static final String KEY_LIKES= "likedPosts";
-    public ParseUser username;
-    public ParseFile image;
-    public ParseObject profileImage;
+    private static final String KEY_USERNAME="username";
+    private static final String KEY_PICTURE="picture";
+    private static final String KEY_LIKES= "likedPosts";
 
     public ParseUser getUserCurrent() {
         return ParseUser.getCurrentUser();

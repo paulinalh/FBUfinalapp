@@ -22,10 +22,10 @@ import java.util.List;
 
 public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.ViewHolder> {
     //Google Places queried from Google Places API adapt to horizontal recycler view on FeedFragment
-    private Context context;
-    private List<Place> places;
+    private final Context context;
+    private final List<Place> places;
+    private final IPlaceRecyclerView mListener;
     Place place = null;
-    private IPlaceRecyclerView mListener;
 
     public PlacesAdapter(Context context, List<Place> places, IPlaceRecyclerView mListener) {
         this.context = context;

@@ -7,11 +7,11 @@ import com.parse.ParseUser;
 
 @ParseClassName("Post")
 public class Post extends ParseObject {
-    public static final String KEY_USERNAME = "username";
-    public static final String KEY_TEXT="textPost";
-    public static final String KEY_IMAGE="imagePost";
-    public static final String KEY_PLACE="place";
-    public static final String KEY_LIKES="likes";
+    private static final String KEY_USERNAME = "username";
+    private static final String KEY_TEXT="textPost";
+    private static final String KEY_IMAGE="imagePost";
+    private static final String KEY_PLACE="place";
+    private static final String KEY_LIKES="likes";
 
 
     public ParseUser getUsernamePost() {

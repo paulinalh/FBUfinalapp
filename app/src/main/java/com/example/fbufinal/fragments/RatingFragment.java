@@ -28,34 +28,32 @@ import java.util.List;
 
 //Shows small fragment over fragment where user can rate the specific service of each place
 public class RatingFragment extends Fragment {
+    private static final int WHEELCHAIR_CODE = 0;
+    private static final int RAMP_CODE = 1;
+    private static final int PARKING_CODE = 2;
+    private static final int ELEVATOR_CODE = 3;
+    private static final int DOG_CODE = 4;
+    private static final int BRAILLE_CODE = 5;
+    private static final int LIGHT_CODE = 6;
+    private static final int SOUND_CODE = 7;
+    private static final int SIGNLANGUAGE_CODE = 8;
     private static int CODE;
     private static String objectId;
-    static PlaceServicesRating placeToUpdate;
-
-    String serviceKey;
-    List <Integer> ratingsList;
-    TextView tvServiceType;
-    ImageView ivService,star1,star2,star3,star4,star5, ivClose,ivScrim;
-    Button btnStars;
-    int WHEELCHAIR_CODE = 0;
-    int RAMP_CODE= 1;
-    int PARKING_CODE= 2;
-    int ELEVATOR_CODE= 3;
-    int DOG_CODE= 4;
-    int BRAILLE_CODE= 5;
-    int LIGHT_CODE= 6;
-    int SOUND_CODE= 7;
-    int SIGNLANGUAGE_CODE= 8;
-    int finalStarsRating;
+    private static PlaceServicesRating placeToUpdate;
+    private List<Integer> ratingsList;
+    private TextView tvServiceType;
+    private ImageView ivService, star1, star2, star3, star4, star5, ivClose, ivScrim;
+    private Button btnStars;
+    private int finalStarsRating;
 
     public RatingFragment() {
         // Required empty public constructor
     }
 
-    public static void setTypeService(int code, String id, PlaceServicesRating place){
-        CODE=code;
+    public static void setTypeService(int code, String id, PlaceServicesRating place) {
+        CODE = code;
         objectId = id;
-        placeToUpdate=place;
+        placeToUpdate = place;
 
     }
 
@@ -64,25 +62,24 @@ public class RatingFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
 
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view= inflater.inflate(R.layout.fragment_rating, container, false);
+        View view = inflater.inflate(R.layout.fragment_rating, container, false);
 
-        tvServiceType= view.findViewById(R.id.tvRateType);
-        ivService=view.findViewById(R.id.ivService);
-        star1=view.findViewById(R.id.star1);
-        star2=view.findViewById(R.id.star2);
-        star3=view.findViewById(R.id.star3);
-        star4=view.findViewById(R.id.star4);
-        star5=view.findViewById(R.id.star5);
-        ivClose=view.findViewById(R.id.ivCloseRating);
-        btnStars=view.findViewById(R.id.btnStars);
-        ivScrim=view.findViewById(R.id.ivScrim);
+        tvServiceType = view.findViewById(R.id.tvRateType);
+        ivService = view.findViewById(R.id.ivService);
+        star1 = view.findViewById(R.id.star1);
+        star2 = view.findViewById(R.id.star2);
+        star3 = view.findViewById(R.id.star3);
+        star4 = view.findViewById(R.id.star4);
+        star5 = view.findViewById(R.id.star5);
+        ivClose = view.findViewById(R.id.ivCloseRating);
+        btnStars = view.findViewById(R.id.btnStars);
+        ivScrim = view.findViewById(R.id.ivScrim);
         checkType();
 
         return view;
@@ -95,61 +92,61 @@ public class RatingFragment extends Fragment {
         star1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                star1.setImageResource(android.R.drawable.star_big_on );
-                star2.setImageResource(android.R.drawable.star_off );
-                star3.setImageResource(android.R.drawable.star_off );
-                star4.setImageResource(android.R.drawable.star_off );
-                star5.setImageResource(android.R.drawable.star_off );
+                star1.setImageResource(android.R.drawable.star_big_on);
+                star2.setImageResource(android.R.drawable.star_off);
+                star3.setImageResource(android.R.drawable.star_off);
+                star4.setImageResource(android.R.drawable.star_off);
+                star5.setImageResource(android.R.drawable.star_off);
 
-                finalStarsRating=1;
+                finalStarsRating = 1;
             }
         });
         star2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                star1.setImageResource(android.R.drawable.star_big_on );
-                star2.setImageResource(android.R.drawable.star_big_on );
-                star3.setImageResource(android.R.drawable.star_off );
-                star4.setImageResource(android.R.drawable.star_off );
-                star5.setImageResource(android.R.drawable.star_off );
+                star1.setImageResource(android.R.drawable.star_big_on);
+                star2.setImageResource(android.R.drawable.star_big_on);
+                star3.setImageResource(android.R.drawable.star_off);
+                star4.setImageResource(android.R.drawable.star_off);
+                star5.setImageResource(android.R.drawable.star_off);
 
-                finalStarsRating=2;
+                finalStarsRating = 2;
             }
         });
         star3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                star1.setImageResource(android.R.drawable.star_big_on );
-                star2.setImageResource(android.R.drawable.star_big_on );
-                star3.setImageResource(android.R.drawable.star_big_on );
-                star4.setImageResource(android.R.drawable.star_off );
-                star5.setImageResource(android.R.drawable.star_off );
+                star1.setImageResource(android.R.drawable.star_big_on);
+                star2.setImageResource(android.R.drawable.star_big_on);
+                star3.setImageResource(android.R.drawable.star_big_on);
+                star4.setImageResource(android.R.drawable.star_off);
+                star5.setImageResource(android.R.drawable.star_off);
 
-                finalStarsRating=3;
+                finalStarsRating = 3;
             }
         });
         star4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                star1.setImageResource(android.R.drawable.star_big_on );
-                star2.setImageResource(android.R.drawable.star_big_on );
-                star3.setImageResource(android.R.drawable.star_big_on );
-                star4.setImageResource(android.R.drawable.star_big_on );
-                star5.setImageResource(android.R.drawable.star_off );
+                star1.setImageResource(android.R.drawable.star_big_on);
+                star2.setImageResource(android.R.drawable.star_big_on);
+                star3.setImageResource(android.R.drawable.star_big_on);
+                star4.setImageResource(android.R.drawable.star_big_on);
+                star5.setImageResource(android.R.drawable.star_off);
 
-                finalStarsRating=4;
+                finalStarsRating = 4;
             }
         });
         star5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                star1.setImageResource(android.R.drawable.star_big_on );
-                star2.setImageResource(android.R.drawable.star_big_on );
-                star3.setImageResource(android.R.drawable.star_big_on );
-                star4.setImageResource(android.R.drawable.star_big_on );
-                star5.setImageResource(android.R.drawable.star_big_on );
+                star1.setImageResource(android.R.drawable.star_big_on);
+                star2.setImageResource(android.R.drawable.star_big_on);
+                star3.setImageResource(android.R.drawable.star_big_on);
+                star4.setImageResource(android.R.drawable.star_big_on);
+                star5.setImageResource(android.R.drawable.star_big_on);
 
-                finalStarsRating=5;
+                finalStarsRating = 5;
             }
         });
         ivClose.setOnClickListener(new View.OnClickListener() {
@@ -170,31 +167,31 @@ public class RatingFragment extends Fragment {
 
     private void getKey() {
 
-        if(CODE==0){
-            ratingsList=placeToUpdate.getWheelchairRatings();
-        }else if(CODE==1){
-            ratingsList=placeToUpdate.getRampRatings();
-        }else if(CODE==2){
-            ratingsList=placeToUpdate.getParkingRatings();
-        }else if(CODE==3){
-            ratingsList=placeToUpdate.getElevatorRatings();
-        }else if(CODE==4){
-            ratingsList=placeToUpdate.getDogRatings();
-        }else if(CODE==5){
-            ratingsList=placeToUpdate.getBrailleRatings();
-        }else if(CODE==6){
-            ratingsList=placeToUpdate.getLightsRatings();
-        }else if(CODE==7){
-            ratingsList=placeToUpdate.getSoundRatings();
-        }else if(CODE==8){
-            ratingsList=placeToUpdate.getSignlanguageRatings();
+        if (CODE == 0) {
+            ratingsList = placeToUpdate.getWheelchairRatings();
+        } else if (CODE == 1) {
+            ratingsList = placeToUpdate.getRampRatings();
+        } else if (CODE == 2) {
+            ratingsList = placeToUpdate.getParkingRatings();
+        } else if (CODE == 3) {
+            ratingsList = placeToUpdate.getElevatorRatings();
+        } else if (CODE == 4) {
+            ratingsList = placeToUpdate.getDogRatings();
+        } else if (CODE == 5) {
+            ratingsList = placeToUpdate.getBrailleRatings();
+        } else if (CODE == 6) {
+            ratingsList = placeToUpdate.getLightsRatings();
+        } else if (CODE == 7) {
+            ratingsList = placeToUpdate.getSoundRatings();
+        } else if (CODE == 8) {
+            ratingsList = placeToUpdate.getSignlanguageRatings();
         }
 
         addNewStar();
     }
 
     private void addNewStar() {
-        if(ratingsList.get(0)==0){
+        if (ratingsList.get(0) == 0) {
             ratingsList.remove(0);
         }
         ratingsList.add(finalStarsRating);
@@ -209,30 +206,30 @@ public class RatingFragment extends Fragment {
             if (e == null) {
                 //Object was successfully retrieved
                 // Update the fields we want to
-                if(CODE==0){
+                if (CODE == 0) {
                     object.setWheelchairRatings(ratingsList);
-                }else if(CODE==1){
+                } else if (CODE == 1) {
                     object.setRampRatings(ratingsList);
 
-                }else if(CODE==2){
+                } else if (CODE == 2) {
                     object.setParkingRatings(ratingsList);
 
-                }else if(CODE==3){
+                } else if (CODE == 3) {
                     object.setElevatorRatings(ratingsList);
 
-                }else if(CODE==4){
+                } else if (CODE == 4) {
                     object.setDogRatings(ratingsList);
 
-                }else if(CODE==5){
+                } else if (CODE == 5) {
                     object.setBrailleRatings(ratingsList);
 
-                }else if(CODE==6){
+                } else if (CODE == 6) {
                     object.setLightsRatings(ratingsList);
 
-                }else if(CODE==7){
+                } else if (CODE == 7) {
                     object.setSoundRatings(ratingsList);
 
-                }else if(CODE==8){
+                } else if (CODE == 8) {
                     object.setSignlanguageRatings(ratingsList);
 
                 }
@@ -250,31 +247,31 @@ public class RatingFragment extends Fragment {
     }
 
     private void checkType() {
-        if(CODE== WHEELCHAIR_CODE){
+        if (CODE == WHEELCHAIR_CODE) {
             tvServiceType.setText(R.string.Wheelchair);
             ivService.setImageDrawable(getContext().getResources().getDrawable(R.drawable.wheelchair_icon_2));
-        }else if(CODE==RAMP_CODE){
+        } else if (CODE == RAMP_CODE) {
             tvServiceType.setText(R.string.Ramp);
             ivService.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ramp_icon_2));
-        }else if(CODE==PARKING_CODE){
+        } else if (CODE == PARKING_CODE) {
             tvServiceType.setText(R.string.Parking);
             ivService.setImageDrawable(getContext().getResources().getDrawable(R.drawable.parking_icon_2));
-        }else if(CODE==ELEVATOR_CODE){
+        } else if (CODE == ELEVATOR_CODE) {
             tvServiceType.setText(R.string.Elevator);
             ivService.setImageDrawable(getContext().getResources().getDrawable(R.drawable.elevator_icon_2));
-        }else if(CODE==DOG_CODE){
+        } else if (CODE == DOG_CODE) {
             tvServiceType.setText(R.string.Dog);
             ivService.setImageDrawable(getContext().getResources().getDrawable(R.drawable.dog_icon_2));
-        }else if(CODE==BRAILLE_CODE){
+        } else if (CODE == BRAILLE_CODE) {
             tvServiceType.setText(R.string.Braille);
             ivService.setImageDrawable(getContext().getResources().getDrawable(R.drawable.braille_icon_2));
-        }else if(CODE==LIGHT_CODE){
+        } else if (CODE == LIGHT_CODE) {
             tvServiceType.setText(R.string.Lights);
             ivService.setImageDrawable(getContext().getResources().getDrawable(R.drawable.light_icon_2));
-        }else if(CODE==SOUND_CODE){
+        } else if (CODE == SOUND_CODE) {
             tvServiceType.setText(R.string.Sound);
             ivService.setImageDrawable(getContext().getResources().getDrawable(R.drawable.sound_icon_2));
-        }else if(CODE==SIGNLANGUAGE_CODE){
+        } else if (CODE == SIGNLANGUAGE_CODE) {
             tvServiceType.setText(R.string.Sign_Language);
             ivService.setImageDrawable(getContext().getResources().getDrawable(R.drawable.signlanguage_icon_2));
         }

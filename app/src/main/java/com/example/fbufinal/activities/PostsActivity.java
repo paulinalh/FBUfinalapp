@@ -52,27 +52,26 @@ import java.util.List;
 public class PostsActivity extends AppCompatActivity {
     //Activity that shows all the posts each service of each place has
     // Queries all posts from back 4 app database, as an array of pointers
+    private final int  WEELCHAIR_CODE = 0;
+    private final int RAMP_CODE = 1;
+    private final int PARKING_CODE = 2;
+    private final int ELEVATOR_CODE = 3;
+    private final int DOG_CODE = 4;
+    private final int BRAILLE_CODE = 5;
+    private final int LIGHT_CODE = 6;
+    private final int SOUND_CODE = 7;
+    private final int SIGNLANGUAGE_CODE = 8;
+    private final String TAG = "PostsActivity";
+    public final FragmentManager fragmentManager = getSupportFragmentManager();
     protected PostsAdapter adapter;
     protected List<Post> allPosts;
     protected View post;
-    public String TAG = "PostsActivity";
-    public final FragmentManager fragmentManager = getSupportFragmentManager();
     Fragment currentFragment = null;
     Fragment previousFragment = null;
-    int WEELCHAIR_CODE = 0;
-    int RAMP_CODE = 1;
-    int PARKING_CODE = 2;
-    int ELEVATOR_CODE = 3;
-    int DOG_CODE = 4;
-    int BRAILLE_CODE = 5;
-    int LIGHT_CODE = 6;
-    int SOUND_CODE = 7;
-    int SIGNLANGUAGE_CODE = 8;
-    int CODE;
-    String objectId, placeName;
-
+    private int CODE;
+    private String objectId;
     Fragment ratingFragment = new RatingFragment();
-    public ImageView ivScrim, imageActivity;
+    private ImageView ivScrim;
 
 
     @Override
@@ -86,12 +85,12 @@ public class PostsActivity extends AppCompatActivity {
 
 
         objectId = i.getStringExtra("objectId");
-        placeName = i.getStringExtra("namePlace");
+        String placeName = i.getStringExtra("namePlace");
         CODE = i.getIntExtra("code", 11);
         setTitle(placeName);
 
         ivScrim = findViewById(R.id.ivScrim);
-        imageActivity = findViewById(R.id.ivServiceOnPosts);
+        ImageView imageActivity = findViewById(R.id.ivServiceOnPosts);
 
         PostsFragment.setPlace(placeToRate, CODE);
         CreatePostFragment.setPlace(placeToRate, CODE);

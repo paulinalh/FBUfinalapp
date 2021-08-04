@@ -9,30 +9,29 @@ import java.util.List;
 
 @ParseClassName("PlaceServices")
 public class PlaceServicesRating extends ParseObject {
-    public static final String KEY_OBJECTID="objectId";
-    public static final String KEY_PLACEID= "placeId";
-    public static final String KEY_WHEELCHAIR="wheelchairRatings";
-    public static final String KEY_RAMP="rampRatings";
-    public static final String KEY_PARKING="parkingRatings";
-    public static final String KEY_ELEVATOR="elevatorRatings";
-    public static final String KEY_DOG="dogRatings";
-    public static final String KEY_BRAILLE="brailleRatings";
-    public static final String KEY_LIGHTS="lightsRatings";
-    public static final String KEY_SOUND="soundRatings";
-    public static final String KEY_SIGNLANGUAGE="signlanguageRatings";
-    public static final String KEY_IMAGE="imageofPlace";
-    public static final String KEY_NAME="nameofPlace";
-    public static final String KEY_ALL_SERVICES="allServices";
-
-    public static final String KEY_WHEELCHAIR_POSTS="WheelchairPosts";
-    public static final String KEY_RAMP_POSTS="RampPosts";
-    public static final String KEY_PARKING_POSTS="ParkingPosts";
-    public static final String KEY_ELEVATOR_POSTS="ElevatorPosts";
-    public static final String KEY_DOG_POSTS="DogPosts";
-    public static final String KEY_BRAILLE_POSTS="BraillePosts";
-    public static final String KEY_LIGHTS_POSTS="LightsPosts";
-    public static final String KEY_SOUND_POSTS="SoundPosts";
-    public static final String KEY_SIGNLANGUAGE_POSTS="SignLanguagePosts";
+    private static final String KEY_OBJECTID="objectId";
+    private static final String KEY_PLACEID= "placeId";
+    private static final String KEY_WHEELCHAIR="wheelchairRatings";
+    private static final String KEY_RAMP="rampRatings";
+    private static final String KEY_PARKING="parkingRatings";
+    private static final String KEY_ELEVATOR="elevatorRatings";
+    private static final String KEY_DOG="dogRatings";
+    private static final String KEY_BRAILLE="brailleRatings";
+    private static final String KEY_LIGHTS="lightsRatings";
+    private static final String KEY_SOUND="soundRatings";
+    private static final String KEY_SIGNLANGUAGE="signlanguageRatings";
+    private static final String KEY_IMAGE="imageofPlace";
+    private static final String KEY_NAME="nameofPlace";
+    private static final String KEY_ALL_SERVICES="allServices";
+    private static final String KEY_WHEELCHAIR_POSTS="WheelchairPosts";
+    private static final String KEY_RAMP_POSTS="RampPosts";
+    private static final String KEY_PARKING_POSTS="ParkingPosts";
+    private static final String KEY_ELEVATOR_POSTS="ElevatorPosts";
+    private static final String KEY_DOG_POSTS="DogPosts";
+    private static final String KEY_BRAILLE_POSTS="BraillePosts";
+    private static final String KEY_LIGHTS_POSTS="LightsPosts";
+    private static final String KEY_SOUND_POSTS="SoundPosts";
+    private static final String KEY_SIGNLANGUAGE_POSTS="SignLanguagePosts";
 
     public String getRatingPlaceId(){
         return getString(KEY_PLACEID);

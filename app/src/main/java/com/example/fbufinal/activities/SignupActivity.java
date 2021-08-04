@@ -23,10 +23,10 @@ import java.util.Collections;
 import java.util.List;
 
 public class SignupActivity extends AppCompatActivity {
-    EditText etUsername;
-    EditText etPassword;
-    Button btnSignup;
-    int[] userNeedsArr;
+    private EditText etUsername;
+    private EditText etPassword;
+    private Button btnSignup;
+    private int[] userNeedsArr;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

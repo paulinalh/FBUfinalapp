@@ -15,17 +15,18 @@ import com.example.fbufinal.R;
 
 public class UserNeedsActivity extends AppCompatActivity {
     //Activity that lets the user choose their needs after sign up
-    ImageView ivWheelchair, ivRamp, ivParking, ivElevator, ivDog, ivBraille, ivLight, ivSound, ivSignlanguage, ivNext;
-    int[] userNeedsArr = {0, 0, 0, 0, 0, 0, 0, 0, 0};
-    int WEELCHAIR_CODE = 0;
-    int RAMP_CODE = 1;
-    int PARKING_CODE = 2;
-    int ELEVATOR_CODE = 3;
-    int DOG_CODE = 4;
-    int BRAILLE_CODE = 5;
-    int LIGHT_CODE = 6;
-    int SOUND_CODE = 7;
-    int SIGNLANGUAGE_CODE = 8;
+    private final int WEELCHAIR_CODE = 0;
+    private final int RAMP_CODE = 1;
+    private final int PARKING_CODE = 2;
+    private final int ELEVATOR_CODE = 3;
+    private final int DOG_CODE = 4;
+    private final int BRAILLE_CODE = 5;
+    private final int LIGHT_CODE = 6;
+    private final int SOUND_CODE = 7;
+    private final int SIGNLANGUAGE_CODE = 8;
+    private ImageView ivWheelchair, ivRamp, ivParking, ivElevator, ivDog, ivBraille, ivLight, ivSound, ivSignlanguage, ivNext;
+    private final int[] userNeedsArr = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+
 
 
     @Override

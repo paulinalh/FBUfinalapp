@@ -36,20 +36,19 @@ import okhttp3.Headers;
 
 //Reads Json File and shows quick details
 public class QuickDetailsFragment extends Fragment {
-    public static final String KEY = BuildConfig.API_KEY;
-    public static final String DETAILS_API_URL = "https://maps.googleapis.com/maps/api/place/details/json?place_id=";
-    private static final String TAG = "detailsFragment";
-    int fragment=0;
-    static String placeId;
-    static String imagePath;
-    ImageView ivDetailsImage, ivClose;
-    TextView tvTitle;
-    String title;
-    RelativeLayout ivReviewOption, ivMapOption, ivDetailsOption;
-    int rating;
-    RatingBar rbQuickPlace;
-    protected List<Place> placeDetailsList;
+    private static final String KEY = BuildConfig.API_KEY;
     private static final String FIELDS_FOR_URL = "&fields=name,rating,formatted_phone_number,opening_hours,formatted_address,price_level";
+    private static final String DETAILS_API_URL = "https://maps.googleapis.com/maps/api/place/details/json?place_id=";
+    private static final String TAG = "detailsFragment";
+    private int fragment = 0;
+    private static String placeId, imagePath;
+    private ImageView ivDetailsImage, ivClose;
+    private TextView tvTitle;
+    private String title;
+    private RelativeLayout ivReviewOption, ivMapOption, ivDetailsOption;
+    private int rating;
+    private RatingBar rbQuickPlace;
+    protected List<Place> placeDetailsList;
 
     public QuickDetailsFragment() {
         // Required empty public constructor
@@ -100,12 +99,11 @@ public class QuickDetailsFragment extends Fragment {
         getJson();
 
 
-
         ivReviewOption.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getContext(), PlaceDetailsActivity.class);
-                fragment =3;
+                fragment = 3;
                 i.putExtra("searchPlaceId", placeId);
                 i.putExtra("searchPlaceName", title);
                 i.putExtra("fragment", fragment);
@@ -117,7 +115,7 @@ public class QuickDetailsFragment extends Fragment {
         ivMapOption.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragment=2;
+                fragment = 2;
                 Intent i = new Intent(getContext(), PlaceDetailsActivity.class);
                 i.putExtra("searchPlaceId", placeId);
                 i.putExtra("searchPlaceName", title);
@@ -131,7 +129,7 @@ public class QuickDetailsFragment extends Fragment {
         ivDetailsOption.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragment=0;
+                fragment = 0;
                 Intent i = new Intent(getContext(), PlaceDetailsActivity.class);
                 i.putExtra("searchPlaceId", placeId);
                 i.putExtra("searchPlaceName", title);

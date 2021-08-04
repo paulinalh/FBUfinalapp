@@ -22,8 +22,8 @@ import java.util.List;
 
 public class ProfileNeedsAdapter extends RecyclerView.Adapter<ProfileNeedsAdapter.ViewHolder> {
     //Adapts the user needs on profile as a horizontal recycler view
-    private Context context;
-    List<Integer> userNeedsList;
+    private final Context context;
+    private final List<Integer> userNeedsList;
 
     public ProfileNeedsAdapter(Context context, List<Integer> needs) {
         this.context = context;

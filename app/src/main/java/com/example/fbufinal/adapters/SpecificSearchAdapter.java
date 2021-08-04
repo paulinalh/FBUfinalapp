@@ -23,8 +23,8 @@ import java.util.List;
 
 public class SpecificSearchAdapter extends RecyclerView.Adapter<SpecificSearchAdapter.ViewHolder> {
     //Adapts to vertical Recycler view all the places that correspond to the specific search
-    private Context context;
-    private List<PlaceServicesRating> specificSearchList;
+    private final Context context;
+    private final List<PlaceServicesRating> specificSearchList;
 
     public SpecificSearchAdapter(Context context, List<PlaceServicesRating> specificSearchList) {
         this.context = context;

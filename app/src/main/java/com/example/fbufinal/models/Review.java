@@ -6,11 +6,11 @@ import com.parse.ParseUser;
 
 @ParseClassName("Review")
 public class Review extends ParseObject {
-    public static final String USER_ID_KEY = "userId";
+    private static final String USER_ID_KEY = "userId";
+    private static final String TEXT_REVIEW_KEY = "text";
+    private static final String USERNAME_KEY = "username";
+    private static final String PLACE_ID="placeId";
     public static final String USER_KEY = "user";
-    public static final String TEXT_REVIEW_KEY = "text";
-    public static final String USERNAME_KEY = "username";
-    public static final String PLACE_ID="placeId";
 
     public String getUserId() {
         return getString(USER_ID_KEY);

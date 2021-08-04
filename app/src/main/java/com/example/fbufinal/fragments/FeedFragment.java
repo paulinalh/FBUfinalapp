@@ -53,21 +53,20 @@ import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
 //Queries places from the Google Places API Json fila and show them in a recycler view
 public class FeedFragment extends Fragment implements PlacesAdapter.IPlaceRecyclerView {
-
     private static final int RC_CAMERA_AND_LOCATION = 345;
     public static final String PLACES_API_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=";
     public static final String API_KEY = "AIzaSyDdVbIsNC0NVYooAS-NazR92E6pH5IBtzw";
     public static final String RADIUS = "1500";
     public Fragment lastFragment = new Fragment();
-    Fragment currentFragment = new Fragment();
-    Fragment quickDetails = new QuickDetailsFragment();
+    private final Fragment currentFragment = new Fragment();
+    private final Fragment quickDetails = new QuickDetailsFragment();
     protected PlacesAdapter placesAdapter;
     protected List<Place> places;
     protected View place;
-    public String TAG = "FeedFragment";
-    public String currentLatitude;
-    public String currentLongitude;
-    public double longitude, latitude;
+    private final String TAG = "FeedFragment";
+    private String currentLatitude;
+    private String currentLongitude;
+    private double longitude, latitude;
     //Initialize location client
     FusedLocationProviderClient client;
 

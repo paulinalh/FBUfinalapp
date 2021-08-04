@@ -58,15 +58,12 @@ public class CreatePostFragment extends Fragment {
     public static final String TAG = "MainActivity";
     public static final int PICK_IMAGE = 100;
     public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 42;
+    private final String photoFileName = "photo.jpg";
+    private static PlaceServicesRating place;
+    private static int CODE;
     private EditText etDescription;
-    private Button btnCaptureImage;
     private ImageView ivPostImage;
-    private Button btnSubmit;
     private File photoFile;
-    public String photoFileName = "photo.jpg";
-    static PlaceServicesRating place;
-    static int CODE;
-    String KEY;
 
     public CreatePostFragment() {
         // Required empty public constructor
@@ -140,9 +137,9 @@ public class CreatePostFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
         etDescription = view.findViewById(R.id.etDescription);
-        btnCaptureImage = view.findViewById(R.id.btnCaptureImage);
+        Button btnCaptureImage = view.findViewById(R.id.btnCaptureImage);
         ivPostImage = view.findViewById(R.id.ivPostImage);
-        btnSubmit = view.findViewById(R.id.btnSubmit);
+        Button btnSubmit = view.findViewById(R.id.btnSubmit);
 
         btnCaptureImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -261,7 +258,6 @@ public class CreatePostFragment extends Fragment {
 
     private void getKey(Post post) {
         if (CODE == 0) {
-            KEY = "WheelchairPosts";
             List<Post> list = new ArrayList<>();
             list = place.getWheelchairPosts();
             list.add(post);
@@ -274,7 +270,6 @@ public class CreatePostFragment extends Fragment {
                 }
             });
         } else if (CODE == 1) {
-            KEY = "RampPosts";
             List<Post> list = new ArrayList<>();
             list = place.getRampPosts();
             list.add(post);
@@ -287,7 +282,6 @@ public class CreatePostFragment extends Fragment {
                 }
             });
         } else if (CODE == 2) {
-            KEY = "ParkingPosts";
             List<Post> list = new ArrayList<>();
             list = place.getParkingPosts();
             list.add(post);
@@ -300,7 +294,6 @@ public class CreatePostFragment extends Fragment {
                 }
             });
         } else if (CODE == 3) {
-            KEY = "ElevatorPosts";
             List<Post> list = new ArrayList<>();
             list = place.getElevatorPosts();
             list.add(post);
@@ -313,7 +306,6 @@ public class CreatePostFragment extends Fragment {
                 }
             });
         } else if (CODE == 4) {
-            KEY = "DogPosts";
             List<Post> list = new ArrayList<>();
             list = place.getDogPosts();
             list.add(post);
@@ -326,7 +318,6 @@ public class CreatePostFragment extends Fragment {
                 }
             });
         } else if (CODE == 5) {
-            KEY = "BraillePosts";
             List<Post> list = new ArrayList<>();
             list = place.getBraillePosts();
             list.add(post);
@@ -339,7 +330,6 @@ public class CreatePostFragment extends Fragment {
                 }
             });
         } else if (CODE == 6) {
-            KEY = "LightsPosts";
             List<Post> list = new ArrayList<>();
             list = place.getLightsPosts();
             list.add(post);
@@ -352,7 +342,6 @@ public class CreatePostFragment extends Fragment {
                 }
             });
         } else if (CODE == 7) {
-            KEY = "SoundPosts";
             List<Post> list = new ArrayList<>();
             list = place.getSoundPosts();
             list.add(post);
@@ -365,7 +354,6 @@ public class CreatePostFragment extends Fragment {
                 }
             });
         } else if (CODE == 8) {
-            KEY = "SignLanguagePosts";
             List<Post> list = new ArrayList<>();
             list = place.getSignPosts();
             list.add(post);

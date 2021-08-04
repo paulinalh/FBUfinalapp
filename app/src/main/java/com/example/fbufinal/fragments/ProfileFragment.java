@@ -65,18 +65,18 @@ import static android.app.Activity.RESULT_OK;
 
 //Shows profile image, recycler view of user needs, user name and lets the user change picture and save it
 public class ProfileFragment extends Fragment {
-    public static final int PICK_IMAGE = 100;
-    public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 42;
+    private static final int PICK_IMAGE = 100;
+    private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 42;
     private static final String TAG = "ProfileFragment";
-    ImageView ivProfileImage;
-    TextView tvUsername;
-    ParseUser user = ParseUser.getCurrentUser();
-    ParseFile image;
+    private ImageView ivProfileImage;
+    private TextView tvUsername;
+    private ParseUser user = ParseUser.getCurrentUser();
+    private ParseFile image;
     private File photoFile;
     public String photoFileName = "photo.jpg";
-    List<Integer> userNeedsList;
+    private List<Integer> userNeedsList;
     protected ProfileNeedsAdapter profileNeedsAdapter;
-    Button btnLogout;
+    private Button btnLogout;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

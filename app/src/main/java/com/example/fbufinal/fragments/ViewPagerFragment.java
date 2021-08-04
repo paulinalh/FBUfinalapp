@@ -19,12 +19,10 @@ import com.google.android.material.tabs.TabLayout;
 
 //View pager for the Place details activity
 public class ViewPagerFragment extends Fragment {
-
-    ViewPager viewPager;
-    TabLayout tabLayout;
+    private static int fragment;
+    private ViewPager viewPager;
+    private TabLayout tabLayout;
     static String imagePath, placeName;
-    static int fragment;
-
 
     public ViewPagerFragment() {
         // Required empty public constructor

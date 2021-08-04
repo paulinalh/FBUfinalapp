@@ -28,7 +28,6 @@ import java.util.Objects;
 //Show Google autocomplete widget
 public class SearchFragment extends Fragment {
 
-
     private static final String TAG = "SearchFragment";
 
     public SearchFragment() {
@@ -39,11 +38,7 @@ public class SearchFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
     }
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

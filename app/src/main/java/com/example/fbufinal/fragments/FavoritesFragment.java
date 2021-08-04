@@ -32,8 +32,7 @@ import java.util.concurrent.TimeUnit;
 //Shows all favorite places saved by the user
 public class FavoritesFragment extends Fragment {
     private static final String TAG = "FavoritesFragment";
-    List<Favorite> favorites;
-    FavoritePlacesAdapter favAdapter;
+    private FavoritePlacesAdapter favAdapter;
 
     public FavoritesFragment() {
         // Required empty public constructor
@@ -70,7 +69,7 @@ public class FavoritesFragment extends Fragment {
 
         RecyclerView rvPlaces = view.findViewById(R.id.rvFavorites);
 
-        favorites = new ArrayList<>();
+        List<Favorite> favorites = new ArrayList<>();
         favAdapter = new FavoritePlacesAdapter(getContext(), favorites);
         rvPlaces.setAdapter(favAdapter);
         rvPlaces.setLayoutManager(new LinearLayoutManager(getContext()));

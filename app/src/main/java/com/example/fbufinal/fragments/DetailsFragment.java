@@ -40,9 +40,9 @@ public class DetailsFragment extends Fragment {
     private static final String TAG = "detailsFragment";
     static String placeId;
     static String imagePath;
-    TextView tvAddress, tvPhone, tvPrice, tvRating, tvMonday, tvTuesday, tvWednesday, tvThursday, tvFriday, tvSaturday, tvSunday;
-    String title, formatted_phone_number, formatted_address, price_level;
-    JSONArray opening_hours;
+    private TextView tvAddress, tvPhone, tvRating, tvMonday, tvTuesday, tvWednesday, tvThursday, tvFriday, tvSaturday, tvSunday;
+    private String title, formatted_phone_number, formatted_address;
+    private JSONArray opening_hours;
     int rating;
     double latitude, longitude;
     protected List<Place> placeDetailsList;
@@ -84,21 +84,16 @@ public class DetailsFragment extends Fragment {
 
 
         //Views of details fragment
-        //tvTitle = (TextView) view.findViewById(R.id.tvTitle);
-        tvAddress = (TextView) view.findViewById(R.id.tvAddress);
-        tvPhone = (TextView) view.findViewById(R.id.tvPhone);
-        tvPrice = (TextView) view.findViewById(R.id.tvPrice);
-        tvRating = (TextView) view.findViewById(R.id.tvRating);
-        //ivDetailsImage = (ImageView) view.findViewById(R.id.ivDetailsImage);
-        tvMonday = (TextView) view.findViewById(R.id.tvMonday);
-        tvTuesday = (TextView) view.findViewById(R.id.tvTuesday);
-        tvWednesday = (TextView) view.findViewById(R.id.tvWednesday);
-        tvThursday = (TextView) view.findViewById(R.id.tvThursday);
-        tvFriday = (TextView) view.findViewById(R.id.tvFriday);
-        tvSaturday = (TextView) view.findViewById(R.id.tvSaturday);
-        tvSunday = (TextView) view.findViewById(R.id.tvSunday);
-        //queryObject2();
-
+        tvAddress = view.findViewById(R.id.tvAddress);
+        tvPhone = view.findViewById(R.id.tvPhone);
+        tvRating = view.findViewById(R.id.tvRating);
+        tvMonday = view.findViewById(R.id.tvMonday);
+        tvTuesday = view.findViewById(R.id.tvTuesday);
+        tvWednesday = view.findViewById(R.id.tvWednesday);
+        tvThursday = view.findViewById(R.id.tvThursday);
+        tvFriday = view.findViewById(R.id.tvFriday);
+        tvSaturday = view.findViewById(R.id.tvSaturday);
+        tvSunday = view.findViewById(R.id.tvSunday);
 
         return view;
 

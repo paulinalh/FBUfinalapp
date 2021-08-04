@@ -45,20 +45,19 @@ public class PlaceDetailsActivity extends AppCompatActivity {
     //Activity that shows the details of the selected or searched place.
     // This activity contains a the place image, name and viewPager fragment where the
     // details, services, map and review fragments are displayed.
-    private String imagePath;
-    String placeName;
-    String placeId;
-    ParseUser currentUser = ParseUser.getCurrentUser();
-    int fragment;
     public static final String KEY = BuildConfig.API_KEY;
     public static final String DETAILS_API_URL = "https://maps.googleapis.com/maps/api/place/details/json?place_id=";
     private static final String FIELDS_FOR_URL = "&fields=name,rating,formatted_phone_number,photos,opening_hours,formatted_address,price_level,geometry";
     private static final String TAG = "PlaceDetailsActivity";
-    String imageURL;
-    List<String> favList;
-    boolean alreadyFav;
-    String favPlaceId;
+    private final ParseUser currentUser = ParseUser.getCurrentUser();
     final FragmentManager fragmentManager = getSupportFragmentManager();
+    private String imagePath;
+    private String placeName;
+    private String placeId;
+    private String imageURL;
+    private boolean alreadyFav;
+    private String favPlaceId;
+    private int fragment;
 
 
     @Override
@@ -71,13 +70,14 @@ public class PlaceDetailsActivity extends AppCompatActivity {
         this.placeName = i.getStringExtra("searchPlaceName");
         this.fragment = i.getIntExtra("fragment", 0);
 
+        //depending on the option selected on quick details fragment, the viewpager the corresponding fragment
         ViewPagerFragment.setFragment(fragment);
         Fragment currentFragment = null;
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         currentFragment = new ViewPagerFragment();
         fragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer, currentFragment)
-                .addToBackStack("details").commit();
+                .addToBackStack("viewPager").commit();
 
         //Get image of place to display on activity
         getImagePath();

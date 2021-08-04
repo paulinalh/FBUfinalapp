@@ -32,14 +32,12 @@ import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHolder> {
 //Adapts all review form the place in a vertical Recycler view
-    private List<Review> mReviews;
-    private Context mContext;
-    private String mPlaceId;
+    private final List<Review> mReviews;
+    private final Context mContext;
 
 
     public ReviewsAdapter(Context context, String placeId, List<Review> reviews) {
         this.mReviews = reviews;
-        this.mPlaceId = placeId;
         this.mContext = context;
     }
 

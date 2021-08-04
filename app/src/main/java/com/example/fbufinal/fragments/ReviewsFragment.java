@@ -36,18 +36,15 @@ import java.util.concurrent.TimeUnit;
 
 //Fragment wher the user can send a review and see other user reviews
 public class ReviewsFragment extends Fragment {
-    static final String USER_ID_KEY = "userId";
-    static final String BODY_KEY = "text";
     private static final String TAG = "ReviewsFragment";
-    static final int MAX_CHAT_MESSAGES_TO_SHOW = 50;
-    static String placeId;
-    static String imagePath;
+    private static String placeId;
+    private static String imagePath;
     protected List<Review> allReviews;
-    EditText etMessage;
-    ImageButton ibSend;
+    private EditText etMessage;
+    private ImageButton ibSend;
     private List<Review> mReviews;
-    RecyclerView rvReviews;
-    ReviewsAdapter adapter;
+    private RecyclerView rvReviews;
+    private ReviewsAdapter adapter;
     boolean mFirstLoad;
 
     public ReviewsFragment() {
@@ -56,7 +53,7 @@ public class ReviewsFragment extends Fragment {
 
 
     public static void setId(String id) {
-        placeId=id;
+        placeId = id;
     }
 
 
@@ -82,7 +79,7 @@ public class ReviewsFragment extends Fragment {
         rvReviews = view.findViewById(R.id.rvReviews);
         allReviews = new ArrayList<>();
 
-        adapter = new ReviewsAdapter(getContext(), placeId,allReviews);
+        adapter = new ReviewsAdapter(getContext(), placeId, allReviews);
 
         rvReviews.setAdapter(adapter);
 
@@ -166,17 +163,18 @@ public class ReviewsFragment extends Fragment {
 
 
     }
+
     // Query messages from Parse so we can load them into the chat adapter
     void refreshReviews() {
         ParseQuery<Review> query = ParseQuery.getQuery(Review.class);
         // Configure limit and sort order
         query.setLimit(50);
         query.include(Review.USER_KEY);
-        query.whereEqualTo("placeId",placeId);
+        query.whereEqualTo("placeId", placeId);
         query.findInBackground(new FindCallback<Review>() {
             public void done(List<Review> reviews, ParseException e) {
                 if (e == null) {
-                    allReviews=reviews;
+                    allReviews = reviews;
                     adapter.addAll(reviews);
 
                 } else {
@@ -189,8 +187,6 @@ public class ReviewsFragment extends Fragment {
     }
 
 
-
-
     @Override
     public void onResume() {
         super.onResume();
@@ -201,11 +197,11 @@ public class ReviewsFragment extends Fragment {
 
         super.onPause();
     }
+
     public static void setDetails(String id, String path) {
         placeId = id;
         imagePath = path;
     }
-
 
 
 }

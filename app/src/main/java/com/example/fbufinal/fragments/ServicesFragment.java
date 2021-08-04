@@ -33,24 +33,25 @@ import java.util.Objects;
 
 //Shows services in fragment of Place Details. Show the rating and darkens image when the service is available
 public class ServicesFragment extends Fragment {
+    private static final int WEELCHAIR_CODE = 0;
+    private static final int RAMP_CODE = 1;
+    private static final int PARKING_CODE = 2;
+    private static final int ELEVATOR_CODE = 3;
+    private static final int DOG_CODE = 4;
+    private static final int BRAILLE_CODE = 5;
+    private static final int LIGHT_CODE = 6;
+    private static final int SOUND_CODE = 7;
+    private static final int SIGNLANGUAGE_CODE = 8;
     private static final String TAG = "Services fragment";
-    static String placeId, placeName, image;
-    PlaceServicesRating placeToRate;
-    String objectId;
-    TextView tvWheelchair, tvRamp, tvParking, tvElevator, tvDog, tvBraille, tvLights, tvSound, tvSignlanguage;
-    ImageView ivWheelchair, ivRamp, ivParking, ivElevator, ivDog, ivBraille, ivLights, ivSound, ivSignlanguage, ivTextNeeds;
-    RatingBar rbWheelchair, rbRamp, rbParking, rbElevator, rbDog, rbBraille, rbLights, rbSound, rbSignlanguage;
-    LinearLayout lyWheelchair, lyRamp, lyParking, lyElevator, lyDog, lyBraille, lyLights, lySound, lySignlanguage;
-    List<Integer> availableServicesList = new ArrayList<>();
-    int WEELCHAIR_CODE = 0;
-    int RAMP_CODE = 1;
-    int PARKING_CODE = 2;
-    int ELEVATOR_CODE = 3;
-    int DOG_CODE = 4;
-    int BRAILLE_CODE = 5;
-    int LIGHT_CODE = 6;
-    int SOUND_CODE = 7;
-    int SIGNLANGUAGE_CODE = 8;
+    private static String placeId, placeName, image;
+    private PlaceServicesRating placeToRate;
+    private String objectId;
+    private TextView tvWheelchair, tvRamp, tvParking, tvElevator, tvDog, tvBraille, tvLights, tvSound, tvSignlanguage;
+    private ImageView ivWheelchair, ivRamp, ivParking, ivElevator, ivDog, ivBraille, ivLights, ivSound, ivSignlanguage, ivTextNeeds;
+    private RatingBar rbWheelchair, rbRamp, rbParking, rbElevator, rbDog, rbBraille, rbLights, rbSound, rbSignlanguage;
+    private LinearLayout lyWheelchair, lyRamp, lyParking, lyElevator, lyDog, lyBraille, lyLights, lySound, lySignlanguage;
+    private List<Integer> availableServicesList = new ArrayList<>();
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -447,7 +448,7 @@ public class ServicesFragment extends Fragment {
 
         PlaceServicesRating newObject = new PlaceServicesRating();
 
-        if(placeId!=null) {
+        if (placeId != null) {
             newObject.setRatingPlaceId(placeId);
         }
         newObject.setWheelchairRatings(emptyList);
@@ -460,7 +461,7 @@ public class ServicesFragment extends Fragment {
         newObject.setSoundRatings(emptyList);
         newObject.setSignlanguageRatings(emptyList);
         newObject.setNameofPlace22(placeName);
-        if(image!=null){
+        if (image != null) {
             newObject.setImageofPlace22(image);
 
         }
