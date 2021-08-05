@@ -8,8 +8,8 @@ import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.fbufinal.BuildConfig;
 import com.example.fbufinal.fragments.DetailsFragment;
+import com.example.fbufinal.fragments.ExtraDetailsListFragment;
 import com.example.fbufinal.fragments.ReviewsFragment;
-import com.example.fbufinal.fragments.ServicesFragment;
 import com.example.fbufinal.fragments.ViewPagerFragment;
 import com.example.fbufinal.models.Favorite;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -23,7 +23,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -120,8 +119,6 @@ public class PlaceDetailsActivity extends AppCompatActivity {
                     fab.setImageDrawable(getDrawable(R.drawable.ufi_heart));
                     deleteFavorite();
                 }
-
-
             }
         });
 
@@ -198,12 +195,12 @@ public class PlaceDetailsActivity extends AppCompatActivity {
                         Toast.makeText(this, "Delete Successful", Toast.LENGTH_SHORT).show();
                     } else {
                         //Something went wrong while deleting the Object
-                        Toast.makeText(this, "Error: " + e2.getMessage(), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(this, "Error: " + e2.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
             } else {
                 //Something went wrong while retrieving the Object
-                Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

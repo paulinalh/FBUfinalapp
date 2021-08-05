@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.DetailsFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
 
         <ImageView
             android:id="@+id/ivMedal"
@@ -17,17 +18,17 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="15dp"
             android:background="@drawable/needs_meet"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cvDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/ivMedal"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="16dp"
             android:layout_marginRight="15dp"
-            android:layout_below="@id/ivMedal"
             android:foreground="?android:attr/selectableItemBackground"
             app:cardBackgroundColor="@color/gray"
             app:cardCornerRadius="40dp">
@@ -237,8 +238,6 @@
                     tools:text="sunday" />
 
 
-
-
             </RelativeLayout>
 
         </androidx.cardview.widget.CardView>
@@ -246,4 +245,6 @@
 
     </RelativeLayout>
 
+
 </androidx.core.widget.NestedScrollView>
+

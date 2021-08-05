@@ -28,8 +28,7 @@
                 android:layout_height="300dp"
                 android:scaleType="centerCrop"
                 app:layout_collapseMode="parallax"
-                app:layout_collapseParallaxMultiplier="0.9"
-                />
+                app:layout_collapseParallaxMultiplier="0.9" />
 
             <ImageView
                 android:layout_width="match_parent"
@@ -53,6 +52,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
+        android:contentDescription="Create Post"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|end"
         app:srcCompat="@drawable/ic_action_add" />
@@ -62,6 +62,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
+        android:contentDescription="Give a rating"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|center"
         app:srcCompat="@android:drawable/btn_star_big_off" />
@@ -72,6 +73,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
         app:layout_anchor="@id/app_bar"
+        android:contentDescription="See all Posts"
         app:layout_anchorGravity="bottom|start"
         app:srcCompat="@android:drawable/arrow_down_float" />
 
@@ -81,13 +83,13 @@
         android:layout_height="match_parent"
         android:alpha="0.7"
         android:src="@drawable/background_fragment"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <FrameLayout
         android:id="@+id/child_fragment_container"
-        android:layout_marginTop="200dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="200dp">
 
     </FrameLayout>
 

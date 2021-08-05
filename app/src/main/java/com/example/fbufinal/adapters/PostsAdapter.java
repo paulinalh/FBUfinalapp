@@ -96,14 +96,11 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             ivHeart = itemView.findViewById(R.id.ivHeart);
             ivTrash = itemView.findViewById(R.id.ivTrash);
             tvLikes = itemView.findViewById(R.id.tvLikes);
-
-
         }
 
 
         public void bind(Post post) throws ParseException {
             // Bind the post data to the view elements
-
             tvDescription.setText(post.fetchIfNeeded().getString("textPost"));
             likes = post.fetchIfNeeded().getInt("likes");
             tvLikes.setText("" + likes);

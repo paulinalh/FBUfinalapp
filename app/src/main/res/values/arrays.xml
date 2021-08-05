@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="dessert_names">
-    <item>Cupcake</item>
-    <item>Donut</item>
-    <item>Eclair</item>
-    <item>Froyo</item>
-    <item>Gingerbread</item>
-    <item>Honeycomb</item>
-    <item>Ice-cream Sandwich</item>
-    <item>Jelly Bean</item>
-    <item>Kitkat</item>
-    <item>Lollipop</item>
-    <item>Marshmallow</item>
-    <item>Nougat</item>
-</string-array>
+        <item>Cupcake</item>
+        <item>Donut</item>
+        <item>Eclair</item>
+        <item>Froyo</item>
+        <item>Gingerbread</item>
+        <item>Honeycomb</item>
+        <item>Ice-cream Sandwich</item>
+        <item>Jelly Bean</item>
+        <item>Kitkat</item>
+        <item>Lollipop</item>
+        <item>Marshmallow</item>
+        <item>Nougat</item>
+    </string-array>
 
     <string-array name="dessert_descriptions">
         <item>A small cake designed to serve one person, which may be baked in a small thin paper or aluminum cup. As with larger cakes, icing and other cake decorations, such as candy, may be applied.</item>
@@ -28,5 +28,15 @@
         <item>A type of confectionery consisting of a sweetmeat of hard candy or water-ice mounted on a stick and intended for sucking or licking. Different informal terms are used in different places, including lolly, sucker, sticky-pop, etc.</item>
         <item>A sugar-based confection that, in its modern form, typically consists of sugar, water and gelatin which is whipped to a spongy consistency, molded into small cylindrical pieces, and coated with corn starch.</item>
         <item>A family of confections made with sugar or honey, roasted nuts, whipped egg whites, and sometimes chopped candied fruit. The consistency of nougat is chewy, and it is used in a variety of candy bars and chocolates.</item>
+    </string-array>
+    <!-- Reply Preference -->
+    <string-array name="reply_entries">
+        <item>Reply</item>
+        <item>Reply to all</item>
+    </string-array>
+
+    <string-array name="reply_values">
+        <item>reply</item>
+        <item>reply_all</item>
     </string-array>
 </resources>

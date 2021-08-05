@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentContainer;
 
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
@@ -43,8 +45,8 @@ public class DetailsFragment extends Fragment {
     private TextView tvAddress, tvPhone, tvRating, tvMonday, tvTuesday, tvWednesday, tvThursday, tvFriday, tvSaturday, tvSunday;
     private String title, formatted_phone_number, formatted_address;
     private JSONArray opening_hours;
-    int rating;
-    double latitude, longitude;
+    private int rating;
+    public double latitude, longitude;
     protected List<Place> placeDetailsList;
     static List<Integer> availableServicesList;
     private static final String FIELDS_FOR_URL = "&fields=name,rating,formatted_phone_number,photos,opening_hours,formatted_address,price_level,geometry";
@@ -53,13 +55,6 @@ public class DetailsFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static DetailsFragment newInstance(String placeId) {
-        DetailsFragment fragment = new DetailsFragment();
-        Bundle args = new Bundle();
-        args.putString("GOOGLE_PLACE_ID", placeId);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     public static void setId(String id) {
         placeId = id;
@@ -112,6 +107,7 @@ public class DetailsFragment extends Fragment {
         PlacesAdapter.IPlaceRecyclerView mListener = null;
 
         getJson();
+
 
     }
 

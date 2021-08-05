@@ -54,15 +54,6 @@ public class QuickDetailsFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static QuickDetailsFragment newInstance(String placeId, String imagePath) {
-        QuickDetailsFragment fragment = new QuickDetailsFragment();
-        Bundle args = new Bundle();
-        args.putString("GOOGLE_PLACE_ID", placeId);
-        args.putString("GOOGLE_IMAGE_URL", imagePath);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

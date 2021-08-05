@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.fbufinal.R;
@@ -67,11 +68,17 @@ public class PostsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         RecyclerView rvPosts = view.findViewById(R.id.rvPosts);
+        TextView tvNoPosts= view.findViewById(R.id.tvNoPosts);
 
         allPosts = new ArrayList<>();
         adapter = new PostsAdapter(getContext(), allPosts, place, CODE);
-        queryPosts();
 
+        queryPosts();
+        if(allPosts.isEmpty()){
+            tvNoPosts.setVisibility(View.VISIBLE);
+        }else{
+            tvNoPosts.setVisibility(View.GONE);
+        }
 
         rvPosts.setAdapter(adapter);
         rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));

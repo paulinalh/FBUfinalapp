@@ -71,7 +71,7 @@ public class SearchFragment extends Fragment {
                 i.putExtra("searchPlaceId",searchPlace.getId());
                 i.putExtra("searchPlaceName",searchPlace.getName());
                 startActivity(i);
-                ServicesFragment.setPlace(searchPlace.getId(), searchPlace.getName());
+                //ServicesFragment.setPlace(searchPlace.getId(), searchPlace.getName())) ;
 
             }
 

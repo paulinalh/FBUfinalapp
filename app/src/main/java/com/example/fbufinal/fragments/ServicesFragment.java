@@ -56,20 +56,19 @@ public class ServicesFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        queryObject();
-
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        refreshPlaceData();
+        //refreshPlaceData();
+        queryObject();
 
     }
 
     private void refreshPlaceData() {
 
-        ParseQuery<PlaceServicesRating> query = new ParseQuery<PlaceServicesRating>(PlaceServicesRating.class);
+        ParseQuery<PlaceServicesRating> query = new ParseQuery<>(PlaceServicesRating.class);
         if (placeToRate != null) {
             query.getInBackground(placeToRate.getObjectId(), (object, e) -> {
                 if (e == null) {
@@ -252,11 +251,11 @@ public class ServicesFragment extends Fragment {
 
     }
 
-    public static void setPlace(String id, String name) {
+    public static void setPlace(String id, String name, String img) {
         //String img
         placeId = id;
         placeName = name;
-        //image = img;
+        image = img;
     }
 
     private void queryObject() {
@@ -287,19 +286,20 @@ public class ServicesFragment extends Fragment {
 
                     }
 
+
+
                 }
-            } else {
+
+
+            } else{
                 Toast.makeText(getContext(), "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
 
-            }
-            if (this.objectId == null) {
+            } if(this.objectId == null) {
                 createObject();
             }
 
         });
-        /*if (this.objectId == null) {
-                createObject();
-        }*/
+
 
 
     }
@@ -476,12 +476,13 @@ public class ServicesFragment extends Fragment {
         newObject.setSoundPosts(new ArrayList<>());
         newObject.setSignPosts(new ArrayList<>());
 
-
         // Saves the new object.
         // Notice that the SaveCallback is totally optional!
         newObject.saveInBackground(e -> {
             if (e == null) {
                 //Save was done
+                this.objectId = newObject.getObjectId();
+
                 queryObject();
 
             } else {
