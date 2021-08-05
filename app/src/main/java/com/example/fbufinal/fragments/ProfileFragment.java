@@ -29,7 +29,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.fbufinal.R;
 import com.example.fbufinal.activities.LoginActivity;
+import com.example.fbufinal.adapters.PostsAdapter;
 import com.example.fbufinal.adapters.ProfileNeedsAdapter;
+import com.example.fbufinal.models.PlaceServicesRating;
+import com.example.fbufinal.models.Post;
 import com.google.android.material.snackbar.Snackbar;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -53,9 +56,11 @@ public class ProfileFragment extends Fragment {
     private TextView tvUsername;
     private ParseUser user = ParseUser.getCurrentUser();
     private ParseFile image;
+    protected PostsAdapter adapter;
     private File photoFile;
     public String photoFileName = "photo.jpg";
     private List<Integer> userNeedsList;
+    protected List<Post> allPosts;
     protected ProfileNeedsAdapter profileNeedsAdapter;
     private Button btnLogout;
 
@@ -106,6 +111,24 @@ public class ProfileFragment extends Fragment {
         rvProfileNeeds.setAdapter(profileNeedsAdapter);
         LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         rvProfileNeeds.setLayoutManager(horizontalLayoutManager);
+
+        RecyclerView rvPosts = view.findViewById(R.id.rvPosts);
+        TextView tvNoPosts= view.findViewById(R.id.tvNoPosts);
+
+        allPosts = new ArrayList<>();
+        adapter = new PostsAdapter(getContext(), allPosts, null, 10);
+
+
+        if(allPosts.isEmpty()){
+            tvNoPosts.setVisibility(View.VISIBLE);
+        }else{
+            tvNoPosts.setVisibility(View.GONE);
+        }
+
+        rvPosts.setAdapter(adapter);
+        rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
+
+
 
 
         ivProfileImage.setOnClickListener(new View.OnClickListener() {

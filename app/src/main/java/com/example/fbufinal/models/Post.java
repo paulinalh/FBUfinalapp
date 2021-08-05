@@ -11,7 +11,7 @@ public class Post extends ParseObject {
     private static final String KEY_TEXT = "textPost";
     private static final String KEY_IMAGE = "imagePost";
     private static final String KEY_LIKES = "likes";
-
+    private static final String KEY_PLACE = "likes";
 
     public void setUsernamePost(ParseUser username) {
         put(KEY_USERNAME, username);
@@ -31,5 +31,13 @@ public class Post extends ParseObject {
 
     public void setLikesPost(int likes) {
         put(KEY_LIKES, likes);
+    }
+
+    public ParseObject getPlacePost() {
+        return getParseObject(KEY_PLACE);
+    }
+
+    public void setPlacePost(PlaceServicesRating place) {
+        put(KEY_PLACE, place);
     }
 }

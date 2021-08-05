@@ -460,7 +460,9 @@ public class ServicesFragment extends Fragment {
         newObject.setLightsRatings(emptyList);
         newObject.setSoundRatings(emptyList);
         newObject.setSignlanguageRatings(emptyList);
-        newObject.setNameofPlace22(placeName);
+        if(placeName!=null){
+            newObject.setNameofPlace22(placeName);
+        }
         if (image != null) {
             newObject.setImageofPlace22(image);
 
