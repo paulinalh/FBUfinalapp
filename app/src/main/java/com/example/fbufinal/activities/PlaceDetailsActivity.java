@@ -127,7 +127,7 @@ public class PlaceDetailsActivity extends AppCompatActivity {
 
         DetailsFragment.setId(placeId);
         ReviewsFragment.setId(placeId);
-        //ServicesFragment.setPlace(placeId, placeName, imageURL);
+        //ServicesFragment.setPlace(placeId, placeName);
 
     }
 

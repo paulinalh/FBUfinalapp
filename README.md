@@ -119,21 +119,21 @@
  | title     | String     | name of the place     |
  | image     | File     | images of the place     |
  | address     | String     | address of the place     |
- | description     | String     | small description of what the place offers     |
+ | id     | String     | Google Places id for the place     |
  | services     | Array     | main services of the place     |
- | inclusiveServices     | Array     | all the inclusive services the place offers     |
+ | inclusiveServices     | Array     | all the inclusive services the place offers  |
  | createdAt | DateTime |date and time when the place post was created|
  |updatedAt | DateTime | date and time when the place post was updated | 
  
- Comment
+ Review
  
  | Property | Type | Description |
  | -------- | -------- | -------- |
- | commentText | String | paragraph of the opinion of the user |
- |user | pointer to User | user that made the comment |
- | rating | int | rating of the place given by user |
- | createdAt | DateTime |date and time when the comment was created|
- |updatedAt | DateTime | date and time when the comment was updated | 
+ | text | String | paragraph of the opinion of the user |
+ |user | pointer to User | user that made the review |
+ | rating | int | rating of the service given by user |
+ | createdAt | DateTime |date and time when the review was created|
+ |updatedAt | DateTime | date and time when the review was updated | 
  
  User
  | Property | Type | Description |
@@ -142,8 +142,32 @@
  | username | String | unique username |
  |password | String | password to login |
  |picture | File | profile picture |
- |email | String | mail registered to the account |
- |needs | Array | list of accesibility or inclusive services the user needs in each place|
+ |createdAt | String | mail registered to the account |
+ |needs | Array | list of accessibility or inclusive services the user needs in each place|
+ | createdAt | DateTime |date and time when the review was created|
+  |updatedAt | DateTime | date and time when the review was updated | 
+  
+ 
+  Favorite
+  | Property | Type | Description |
+  | -------- | -------- | -------- |
+  | placeId | String | id of the place |
+  | imageUrl | String | google place's image url for the place |
+  |name | String | name of place |
+  | createdAt | DateTime |date and time when the favorite was created|
+   |updatedAt | DateTime | date and time when the favorite was updated | 
+   
+  
+Post
+| Property | Type | Description |
+| -------- | -------- | -------- |
+| text | String | review of the user |
+| user | ParseUser | unique username |
+|likes | int | every like registered by users |
+|image | ParseFile | image the user uploads |
+| createdAt | DateTime |date and time when the post was created|
+ |updatedAt | DateTime | date and time when the post was updated | 
+ 
  
  ### Networking
  * Login Screen
@@ -154,7 +178,7 @@
      * (Read/GET) query new places as recommendations
  * Search Screen
      * (Create/POST) make new search
- * Search feed screen
+ * Specific search feed screen
      * (Read/GET) Query all posts that have the specific inclusive services the user needs
  * Place details fragment
      * (Read/GET) Place information and details
