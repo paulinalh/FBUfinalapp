@@ -34,6 +34,8 @@ public class UserNeedsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_needs);
 
+        setTitle("FBU");
+
         ivWheelchair = findViewById(R.id.ivWheelchair);
         ivRamp = findViewById(R.id.ivRamp);
         ivParking = findViewById(R.id.ivParking);

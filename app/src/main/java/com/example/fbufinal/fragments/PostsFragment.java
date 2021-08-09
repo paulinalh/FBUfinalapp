@@ -22,23 +22,26 @@ import com.example.fbufinal.models.PlaceServicesRating;
 import com.example.fbufinal.models.Post;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 //Show posts from that specific place querying parse, and refreshed using pulling up
 public class PostsFragment extends Fragment {
     private final String TAG = "Posts fragment";
     private static PlaceServicesRating place;
     private static int CODE;
-    protected PostsAdapter adapter;
-    protected List<Post> allPosts;
+    protected static PostsAdapter adapter;
+    protected static List<Post> allPosts;
     protected View post;
-    private SwipeRefreshLayout swipeContainer;
+    private static SwipeRefreshLayout swipeContainer;
 
 
     public PostsFragment() {
@@ -85,7 +88,7 @@ public class PostsFragment extends Fragment {
 
 
         //Refresh
-        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
+        swipeContainer = view.findViewById(R.id.swipeContainer);
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -99,15 +102,16 @@ public class PostsFragment extends Fragment {
                 android.R.color.holo_red_light);
     }
 
-    public void fetchTimelineAsync(int page) {
+    public static void fetchTimelineAsync(int page) {
+
         adapter.clear();
-        queryPosts();
+        queryPlace();
         swipeContainer.setRefreshing(false);
 
     }
 
 
-    private void queryPosts() {
+    public static void queryPosts() {
 
 
         List<Post> posts = new ArrayList<>();
@@ -135,6 +139,26 @@ public class PostsFragment extends Fragment {
         allPosts = posts;
         adapter.addAll(posts);
         adapter.notifyDataSetChanged();
+
+    }
+
+    public static void queryPlace() {
+
+        ParseQuery<PlaceServicesRating> query = ParseQuery.getQuery(PlaceServicesRating.class);
+
+        // Finds only the comments that has placeId
+        query.whereEqualTo("placeId", ServicesFragment.placeId);
+        query.findInBackground((objects, e) -> {
+            if (e == null) {
+                for (ParseObject result : objects) {
+                    Log.d("Object found Details ", result.getObjectId());
+                    place = (PlaceServicesRating) result;
+                }
+            }
+
+        });
+
+        queryPosts();
 
     }
 

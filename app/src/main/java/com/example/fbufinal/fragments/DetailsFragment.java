@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,10 +43,12 @@ public class DetailsFragment extends Fragment {
     private static final String TAG = "detailsFragment";
     static String placeId;
     static String imagePath;
-    private TextView tvAddress, tvPhone, tvRating, tvMonday, tvTuesday, tvWednesday, tvThursday, tvFriday, tvSaturday, tvSunday;
+    private TextView tvAddress, tvPhone, tvPrice, tvMonday, tvTuesday, tvWednesday, tvThursday, tvFriday, tvSaturday, tvSunday;
+    private RatingBar rbRating;
     private String title, formatted_phone_number, formatted_address;
     private JSONArray opening_hours;
-    private int rating;
+    private int price_level = 0;
+    private float rating;
     public double latitude, longitude;
     protected List<Place> placeDetailsList;
     static List<Integer> availableServicesList;
@@ -81,7 +84,7 @@ public class DetailsFragment extends Fragment {
         //Views of details fragment
         tvAddress = view.findViewById(R.id.tvAddress);
         tvPhone = view.findViewById(R.id.tvPhone);
-        tvRating = view.findViewById(R.id.tvRating);
+        rbRating = view.findViewById(R.id.tvRating);
         tvMonday = view.findViewById(R.id.tvMonday);
         tvTuesday = view.findViewById(R.id.tvTuesday);
         tvWednesday = view.findViewById(R.id.tvWednesday);
@@ -89,6 +92,7 @@ public class DetailsFragment extends Fragment {
         tvFriday = view.findViewById(R.id.tvFriday);
         tvSaturday = view.findViewById(R.id.tvSaturday);
         tvSunday = view.findViewById(R.id.tvSunday);
+        tvPrice = view.findViewById(R.id.tvPrice);
 
         return view;
 
@@ -127,11 +131,31 @@ public class DetailsFragment extends Fragment {
                     Log.i(TAG, "Result: " + result.toString());
                     title = result.getString("name");
                     //placeId = jsonObject.getString("place_id");
-                    rating = result.getInt("rating");
-                    formatted_phone_number = result.getString("formatted_phone_number");
-                    opening_hours = result.getJSONObject("opening_hours").getJSONArray("weekday_text");
-                    formatted_address = result.getString("formatted_address");
-                    //price_level = jsonObject.getString("price_level");
+                    try {
+                        double tempRating = result.getDouble("rating");
+                        rating = (float) tempRating;
+                        rbRating.setRating(rating);
+
+                    } catch (Exception ignored) {
+
+                    }
+
+                    try {
+                        formatted_phone_number = result.getString("formatted_phone_number");
+                        tvPhone.setText(formatted_phone_number);
+                    } catch (Exception ignored) {
+
+                    }
+
+                    try {
+                        formatted_address = result.getString("formatted_address");
+                        tvAddress.setText(formatted_address);
+
+
+                    } catch (Exception ignored) {
+
+                    }
+
                     latitude = result.getJSONObject("geometry").getJSONObject("location").getDouble("lat");
                     longitude = result.getJSONObject("geometry").getJSONObject("location").getDouble("lng");
                     imagePath = result.getJSONArray("photos").getJSONObject(0).getString("photo_reference");
@@ -139,20 +163,42 @@ public class DetailsFragment extends Fragment {
                     MapFragment.setLatLng(latitude, longitude, title);
                     //PlaceDetailsActivity.setImage2(imagePath);
 
-
                     Log.i(TAG, "hours: " + opening_hours);
 
-                    //tvTitle.setText(title);
-                    tvAddress.setText(formatted_address);
-                    tvMonday.setText(opening_hours.getString(0));
-                    tvTuesday.setText(opening_hours.getString(1));
-                    tvWednesday.setText(opening_hours.getString(2));
-                    tvThursday.setText(opening_hours.getString(3));
-                    tvFriday.setText(opening_hours.getString(4));
-                    tvSaturday.setText(opening_hours.getString(5));
-                    tvSunday.setText(opening_hours.getString(6));
-                    tvPhone.setText(formatted_phone_number);
-                    tvRating.setText("" + rating);
+
+                    try {
+                        opening_hours = result.getJSONObject("opening_hours").getJSONArray("weekday_text");
+                        tvMonday.setText(opening_hours.getString(0));
+                        tvTuesday.setText(opening_hours.getString(1));
+                        tvWednesday.setText(opening_hours.getString(2));
+                        tvThursday.setText(opening_hours.getString(3));
+                        tvFriday.setText(opening_hours.getString(4));
+                        tvSaturday.setText(opening_hours.getString(5));
+                        tvSunday.setText(opening_hours.getString(6));
+                    } catch (Exception ignored) {
+
+                    }
+
+
+                    price_level = result.getInt("price_level");
+                    //Google places price level
+                    String priceInWords = null;
+                    if (price_level == 0) {
+                        priceInWords = "Free";
+                    } else if (price_level == 1) {
+                        priceInWords = "Inexpensive";
+
+                    } else if (price_level == 2) {
+                        priceInWords = "Moderate";
+
+                    } else if (price_level == 3) {
+                        priceInWords = "Expensive";
+
+                    } else if (price_level == 4) {
+                        priceInWords = "Very expensive";
+
+                    }
+                    tvPrice.setText("" + price_level + "/5" + "  -   " + priceInWords);
 
                 } catch (JSONException e) {
                     Log.e(TAG, "Hit Json exception", e);

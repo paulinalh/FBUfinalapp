@@ -103,6 +103,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        setTitle("FBU");
+
         BottomNavigationView bottomNavigation = (BottomNavigationView) findViewById(R.id.bottomNavigation);
         bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 

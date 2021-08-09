@@ -65,13 +65,13 @@ public class SearchFragment extends Fragment {
             public void onPlaceSelected(@NonNull @NotNull com.google.android.libraries.places.api.model. Place searchPlace) {
 
 
+
                 // Get info about the selected place.
                 Log.i(TAG, "Place: " + searchPlace.getName() + ", " + searchPlace.getId());
                 Intent i = new Intent(getContext(), PlaceDetailsActivity.class);
                 i.putExtra("searchPlaceId",searchPlace.getId());
                 i.putExtra("searchPlaceName",searchPlace.getName());
                 startActivity(i);
-                //ServicesFragment.setPlace(searchPlace.getId(), searchPlace.getName())) ;
 
             }
 

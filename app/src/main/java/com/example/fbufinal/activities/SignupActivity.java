@@ -33,6 +33,8 @@ public class SignupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
+        setTitle("FBU");
+
         Intent i = getIntent();
         this.userNeedsArr = i.getIntArrayExtra("userNeedsArray");
 

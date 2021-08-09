@@ -43,7 +43,6 @@
         tools:srcCompat="@tools:sample/avatars" />
 
 
-
     <ImageView
         android:id="@+id/ivTrash"
         android:layout_width="20dp"
@@ -52,7 +51,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginEnd="30dp"
         android:layout_toStartOf="@+id/ivPicture"
-        android:visibility="visible"
+        android:visibility="gone"
         app:srcCompat="@drawable/trash" />
 
     <TextView

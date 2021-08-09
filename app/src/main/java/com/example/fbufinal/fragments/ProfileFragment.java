@@ -112,24 +112,6 @@ public class ProfileFragment extends Fragment {
         LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         rvProfileNeeds.setLayoutManager(horizontalLayoutManager);
 
-        RecyclerView rvPosts = view.findViewById(R.id.rvPosts);
-        TextView tvNoPosts= view.findViewById(R.id.tvNoPosts);
-
-        allPosts = new ArrayList<>();
-        adapter = new PostsAdapter(getContext(), allPosts, null, 10);
-
-
-        if(allPosts.isEmpty()){
-            tvNoPosts.setVisibility(View.VISIBLE);
-        }else{
-            tvNoPosts.setVisibility(View.GONE);
-        }
-
-        rvPosts.setAdapter(adapter);
-        rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
-
-
-
 
         ivProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,6 +133,7 @@ public class ProfileFragment extends Fragment {
 
 
     }
+
 
     public void onLogoutButton() {
 

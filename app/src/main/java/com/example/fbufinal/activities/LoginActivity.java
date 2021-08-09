@@ -19,6 +19,7 @@ import com.parse.ParseUser;
 
 public class LoginActivity extends AppCompatActivity {
 
+
     public static final String TAG = "LoginActivity";
     private EditText etUsername;
     private EditText etPassword;
@@ -29,6 +30,7 @@ public class LoginActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        setTitle("FBU");
 
         if (ParseUser.getCurrentUser() != null) {
             goMainActivity();

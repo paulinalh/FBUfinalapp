@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.fbufinal.R;
+import com.example.fbufinal.fragments.PostsFragment;
 import com.example.fbufinal.models.PlaceServicesRating;
 import com.example.fbufinal.models.Post;
 import com.parse.ParseException;
@@ -101,6 +102,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
 
         public void bind(Post post) throws ParseException {
             // Bind the post data to the view elements
+            likedByUser = false;
             tvDescription.setText(post.fetchIfNeeded().getString("textPost"));
             likes = post.fetchIfNeeded().getInt("likes");
             tvLikes.setText("" + likes);
@@ -181,6 +183,8 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
                         }
 
                         Log.d("TEST", "onDoubleTap");
+                        PostsFragment.fetchTimelineAsync(0);
+
                         return super.onDoubleTap(e);
                     }
 
@@ -230,6 +234,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
                         place.setSignPosts(posts);
                     }
                     place.saveInBackground();
+                    PostsFragment.fetchTimelineAsync(0);
 
                 }
             });

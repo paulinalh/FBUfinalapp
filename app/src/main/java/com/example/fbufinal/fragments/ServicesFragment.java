@@ -43,7 +43,7 @@ public class ServicesFragment extends Fragment {
     private static final int SOUND_CODE = 7;
     private static final int SIGNLANGUAGE_CODE = 8;
     private static final String TAG = "Services fragment";
-    private static String placeId, placeName, image;
+    public static String placeId, placeName, image;
     private PlaceServicesRating placeToRate;
     private String objectId;
     private TextView tvWheelchair, tvRamp, tvParking, tvElevator, tvDog, tvBraille, tvLights, tvSound, tvSignlanguage;
@@ -258,7 +258,7 @@ public class ServicesFragment extends Fragment {
         image = img;
     }
 
-    private void queryObject() {
+    public void queryObject() {
 
         ParseQuery<PlaceServicesRating> query = ParseQuery.getQuery(PlaceServicesRating.class);
 
