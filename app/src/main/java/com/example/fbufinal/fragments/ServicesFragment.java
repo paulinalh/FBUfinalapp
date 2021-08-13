@@ -56,6 +56,7 @@ public class ServicesFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -273,6 +274,10 @@ public class ServicesFragment extends Fragment {
                     //objectId=placeToRate.getObjectId();
                     availableServicesList = checkAvailableServices();
                     placeToRate.setAllServices(availableServicesList);
+                    if (image != null) {
+                        placeToRate.setImageofPlace22(image);
+
+                    }
                     try {
                         placeToRate.save();
                     } catch (ParseException parseException) {
